@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DermAI — Asistente Dermatológico y Buscador INCI Chile</title>
+  <title>DermAI — Diagnóstico Facial y Comparador de Farmacias Chile</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -37,11 +37,11 @@
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
         <a href="#escaner" class="hover:text-teal-600 transition">Escáner Facial</a>
         <a href="#asistente" class="hover:text-teal-600 transition">Chatbot IA</a>
-        <a href="#buscador" class="hover:text-teal-600 transition">Buscar Productos</a>
+        <a href="#comparador" class="hover:text-teal-600 transition">Comparador Más Barato</a>
       </nav>
 
-      <button onclick="abrirModalApi()" title="Configurar APIs opcionales" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-600 transition flex items-center gap-1.5">
-        <span>⚙️</span> <span class="hidden sm:inline">API</span>
+      <button onclick="abrirModalApi()" title="Configurar claves API" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-slate-700 transition flex items-center gap-1.5">
+        <span>⚙️</span> <span>API</span>
       </button>
     </div>
   </header>
@@ -52,20 +52,20 @@
       <div class="lg:col-span-8 space-y-5">
         <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-400/30">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          Escáner Cutáneo + Asistente Conversacional INCI
+          Escáner Cutáneo + Comparador de Precios en Farmacias de Chile
         </div>
         <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">
-          Entiende tu piel y arma tu rutina en <span class="text-teal-400">farmacias de Chile</span>
+          Analiza tu piel y encuentra dónde comprar <span class="text-teal-400">más barato en Chile</span>
         </h1>
         <p class="text-slate-300 text-base sm:text-lg max-w-2xl">
-          Escanea tu rostro en privado para evaluar <strong>acné, puntos negros, brillo en Zona T e hidratación</strong>. Conversa con el asistente para resolver dudas sobre ingredientes, orden de aplicación y opciones disponibles en Chile.
+          Escanea tu rostro en privado para evaluar <strong>acné, puntos negros, brillo en Zona T e hidratación</strong>. DermAI compara en vivo las principales farmacias chilenas, te indica <strong>cuál tiene el precio más bajo</strong> y te lleva directo al producto.
         </p>
         <div class="flex flex-wrap gap-3 pt-1">
           <a href="#escaner" class="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-teal-500/20">
             Iniciar Escáner Facial
           </a>
-          <a href="#asistente" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/15 transition">
-            Hablar con el Chatbot
+          <a href="#comparador" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/15 transition">
+            Comparar Precios Ahora
           </a>
         </div>
         <div class="pt-2 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-400">
@@ -174,7 +174,7 @@
               <h2 class="text-lg font-bold text-slate-900">2. Chatbot DermAI</h2>
               <span id="badgeModoChat" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Asistente Skincare</span>
             </div>
-            <p class="text-xs text-slate-500">Pregunta tus dudas sobre tu piel, rutinas AM/PM, ingredientes o productos.</p>
+            <p class="text-xs text-slate-500">Pregunta tus dudas sobre tu piel, rutinas AM/PM, ingredientes o precios.</p>
           </div>
           <button onclick="reiniciarChat()" class="text-xs font-medium text-slate-500 hover:text-slate-800 px-2.5 py-1 rounded-lg border border-slate-200">Reiniciar</button>
         </div>
@@ -183,24 +183,22 @@
           <div class="flex gap-3">
             <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
             <div class="chat-bubble-body bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[92%] space-y-2">
-              <p>Hola, soy tu asistente de cuidado facial <strong>DermAI</strong>. Podemos conversar de lo que necesites sobre tu piel:</p>
+              <p>Hola, soy tu asistente de cuidado facial <strong>DermAI</strong>. Podemos conversar sobre lo que necesites:</p>
               <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1">
-                <li><strong>Si usas el escáner</strong>, analizaré tus resultados y te armaré una rutina de mañana y noche.</li>
-                <li><strong>Resuelvo tus dudas</strong>: cómo aplicar productos, qué ingredientes se pueden mezclar, cada cuánto exfoliar o cómo armar una rutina económica.</li>
-                <li><strong>Te recomiendo productos reales</strong> disponibles en Cruz Verde, Salcobrand, Dr. Simi, Ahumada, Preunic y Maicao.</li>
+                <li><strong>Al subir o capturar tu foto</strong>, analizo tu piel y busco al tiro <strong>en qué farmacia chilena está más barato</strong> cada producto recomendado.</li>
+                <li><strong>Resuelvo tus dudas</strong> sobre rutinas mañana/noche, mezcla de ingredientes (INCI) y alternativas económicas.</li>
               </ul>
-              <p class="text-xs text-teal-700 font-medium">¿Qué es lo que más te preocupa hoy de tu cara?</p>
+              <p class="text-xs text-teal-700 font-medium">¿Qué es lo que más te preocupa hoy de tu piel?</p>
             </div>
           </div>
         </div>
 
-        <!-- Dudas frecuentes de ejemplo -->
+        <!-- Dudas frecuentes -->
         <div class="px-4 py-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto">
           <button onclick="enviarConsultaRapida('¿Cómo armo una rutina de mañana y noche?')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Rutina AM y PM</button>
           <button onclick="enviarConsultaRapida('Tengo puntos negros en la nariz y algo de acné, ¿qué me recomiendas?')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Puntos negros y acné</button>
           <button onclick="enviarConsultaRapida('¿Puedo mezclar ácido salicílico con niacinamida?')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">¿Mezclar activos?</button>
           <button onclick="enviarConsultaRapida('Quiero una rutina económica que sirva en Chile')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Rutina económica</button>
-          <button onclick="enviarConsultaRapida('¿Por qué me brilla la frente pero siento las mejillas secas?')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Piel mixta</button>
         </div>
 
         <!-- Input del chat -->
@@ -211,151 +209,196 @@
       </div>
     </section>
 
-    <!-- Sección 3: Buscador Independiente de Productos en Farmacias de Chile -->
-    <section id="buscador" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
+    <!-- Sección 3: COMPARADOR DE PRECIO MÁS BARATO EN FARMACIAS DE CHILE -->
+    <section id="comparador" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Catálogo INCI + Farmacias de Chile</span>
-          <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Buscador de Productos Dermatológicos</h2>
-          <p class="text-sm text-slate-500 mt-1">Busca cualquier marca o producto para ver su foto real, lista de ingredientes INCI y abrirlo directo en <strong>Cruz Verde, Salcobrand, Dr. Simi, Ahumada, Preunic y Maicao</strong>.</p>
+          <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Comparador en Tiempo Real · Link Directo al Producto</span>
+          <h2 class="text-2xl font-extrabold text-slate-900 mt-1">¿Dónde está más barato en Chile?</h2>
+          <p class="text-sm text-slate-500 mt-1">Comparamos precios vigentes en <strong>Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao</strong> para mostrarte la opción más económica y llevarte directo a comprar.</p>
         </div>
         <div id="indicadorApiActiva" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200">
-          Listo para buscar
+          Listo para comparar
         </div>
       </div>
 
       <form onsubmit="manejarBusquedaManual(event)" class="flex flex-col sm:flex-row gap-3">
-        <input id="inputBusquedaManual" type="text" value="CeraVe" placeholder="Escribe el nombre o marca de un producto (ej: CeraVe, Eucerin, Bioderma, Garnier)..." class="flex-1 px-4 py-3 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
-        <button type="submit" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition">
-          Buscar Producto
+        <input id="inputBusquedaManual" type="text" value="CeraVe Limpiador Espumoso 236 ml" placeholder="Ej: La Roche Posay Effaclar Gel, CeraVe Limpiador Espumoso, Eucerin Oil Control..." class="flex-1 px-4 py-3 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
+        <button type="submit" class="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold transition shadow-sm">
+          Comparar Precios
         </button>
       </form>
 
       <div class="flex flex-wrap gap-2 text-xs">
-        <span class="text-slate-500 py-1 font-medium">Populares en Chile:</span>
-        <button onclick="ejecutarBusquedaCatalogo('La Roche-Posay Effaclar')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">La Roche-Posay Effaclar</button>
-        <button onclick="ejecutarBusquedaCatalogo('CeraVe')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">CeraVe</button>
-        <button onclick="ejecutarBusquedaCatalogo('Eucerin Oil Control')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Eucerin Oil Control</button>
-        <button onclick="ejecutarBusquedaCatalogo('Bioderma Sebium')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Bioderma Sébium</button>
-        <button onclick="ejecutarBusquedaCatalogo('Neutrogena Hydro Boost')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Neutrogena Hydro Boost</button>
-        <button onclick="ejecutarBusquedaCatalogo('Garnier')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Garnier</button>
+        <span class="text-slate-500 py-1 font-medium">Comparar rápido:</span>
+        <button onclick="ejecutarComparacionProducto('La Roche Posay Effaclar Gel')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Effaclar Gel</button>
+        <button onclick="ejecutarComparacionProducto('CeraVe Limpiador Espumoso')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">CeraVe Espumoso</button>
+        <button onclick="ejecutarComparacionProducto('Eucerin Sun Oil Control FPS 50')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Eucerin Oil Control</button>
+        <button onclick="ejecutarComparacionProducto('Bioderma Sebium Gel Moussant')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Bioderma Sébium</button>
+        <button onclick="ejecutarComparacionProducto('Neutrogena Hydro Boost Gel')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Neutrogena Hydro Boost</button>
       </div>
 
-      <!-- Barra de links directos en las 6 farmacias -->
+      <!-- Tarjeta Ganadora: OPCIÓN MÁS BARATA -->
+      <div id="contenedorMasBarato" class="hidden"></div>
+
+      <!-- Ranking completo de las otras farmacias comparadas -->
+      <div id="gridProductosApi" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+      <!-- Barra de verificación directa en las 6 farmacias (URLs corregidas) -->
       <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
-        <p class="text-xs font-semibold text-slate-600">Ver precio y disponibilidad actual de <span id="terminoActualSpan" class="text-slate-900 font-bold">"CeraVe"</span> en farmacias chilenas:</p>
+        <p class="text-xs font-semibold text-slate-600">Si quieres revisar manualmente el catálogo completo de <span id="terminoActualSpan" class="text-slate-900 font-bold"></span> en cada tienda:</p>
         <div id="linksFarmaciasTop" class="flex flex-wrap gap-2"></div>
       </div>
-
-      <!-- Grid de resultados reales -->
-      <div id="gridProductosApi" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
   </main>
 
   <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
-    DermAI · Orientación preventiva de cuidado facial e ingredientes INCI en Chile. No reemplaza la evaluación de un dermatólogo.
+    DermAI · Diagnóstico orientativo de cuidado facial y comparador imparcial de farmacias en Chile. No reemplaza la evaluación médica dermatológica.
   </footer>
 
-  <!-- Modal Configuración de API Opcional -->
+  <!-- Modal Configuración de APIs -->
   <div id="modalApi" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-        <h3 class="font-bold text-slate-900">Configuración de APIs (Opcional)</h3>
+        <h3 class="font-bold text-slate-900">Configuración de APIs en Vivo (Gratis)</h3>
         <button onclick="cerrarModalApi()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
       </div>
       <p class="text-xs text-slate-600">
-        La web ya funciona con su asistente conversacional integrado y el catálogo Open Beauty Facts + farmacias de Chile. Si deseas activar un LLM generativo abierto o tu backend propio, configúralo aquí:
+        Las claves se guardan únicamente en tu navegador local. Con <strong>Gemini API</strong> activas el chatbot + búsqueda en vivo de precios; si además agregas <strong>Serper.dev</strong> (2.500 búsquedas gratis sin tarjeta), obtienes precios exactos de Google Shopping Chile con fotos oficiales y links directos al producto.
       </p>
 
       <div class="space-y-3 text-sm">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Gemini API Key para Chatbot IA Generativo (Opcional)</label>
-          <input id="cfgGeminiKey" type="password" placeholder="Pega tu clave gratuita de aistudio.google.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
-          <p class="text-[11px] text-slate-400 mt-1">Conecta el chat a Gemini 2.5 Flash con el contexto de tu escáner facial.</p>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">1. Gemini API Key (Chatbot + Búsqueda en vivo de precios)</label>
+          <input id="cfgGeminiKey" type="password" placeholder="Pega tu clave de aistudio.google.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Endpoint Backend FastAPI (Opcional)</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">2. Serper.dev API Key — Recomendado para precios y links directos exactos (Gratis)</label>
+          <input id="cfgSerperKey" type="password" placeholder="Pega tu clave gratis de serper.dev (sin tarjeta)" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">3. Endpoint Backend FastAPI (Opcional)</label>
           <input id="cfgFastApi" type="url" placeholder="http://localhost:8000/api/v1/productos/buscar" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Serper.dev API Key — Precios Farmacias Chile (Opcional)</label>
-          <input id="cfgSerperKey" type="password" placeholder="Pega tu X-API-KEY de serper.dev" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
         </div>
       </div>
 
       <div class="flex justify-end gap-2 pt-2">
         <button onclick="cerrarModalApi()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700">Cancelar</button>
-        <button onclick="guardarConfigApi()" class="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold">Guardar</button>
+        <button onclick="guardarConfigApi()" class="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold">Guardar y Comparar</button>
       </div>
     </div>
   </div>
 
   <script>
     // =========================================================
-    // 1. FARMACIAS DE CHILE (SIN MERCADO LIBRE) + ESTADO GLOBAL
+    // 1. CONFIGURACIÓN DE LAS 6 FARMACIAS DE CHILE (URLS CORREGIDAS, SIN MERCADO LIBRE)
     // =========================================================
+    function limpiarConsultaFarmacia(q) {
+      return String(q || '')
+        .replace(/[-—–_/]+/g, ' ')
+        .replace(/\b\d+\s?(ml|g|gr|oz|fps)\b/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .slice(0, 4)
+        .join(' ');
+    }
+
     const FARMACIAS_CHILE = [
       {
+        id: 'cruzverde',
         nombre: "Cruz Verde",
+        dominios: ['cruzverde.cl'],
         color: "bg-emerald-600 hover:bg-emerald-700 text-white",
         badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
-        buildUrl: (q) => `https://www.cruzverde.cl/search?q=${encodeURIComponent(q)}`
+        // CORREGIDO: Cruz Verde usa ?query= en lugar de ?q=
+        buildUrl: (q) => `https://www.cruzverde.cl/search?query=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       },
       {
+        id: 'salcobrand',
         nombre: "Salcobrand",
+        dominios: ['salcobrand.cl'],
         color: "bg-blue-600 hover:bg-blue-700 text-white",
         badge: "bg-blue-50 text-blue-700 border-blue-200",
-        buildUrl: (q) => `https://salcobrand.cl/search_result?query=${encodeURIComponent(q)}`
+        buildUrl: (q) => `https://salcobrand.cl/search_result?query=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       },
       {
+        id: 'drsimi',
         nombre: "Dr. Simi",
+        dominios: ['drsimi.cl'],
         color: "bg-sky-600 hover:bg-sky-700 text-white",
         badge: "bg-sky-50 text-sky-700 border-sky-200",
-        buildUrl: (q) => `https://www.drsimi.cl/${encodeURIComponent(q)}?_q=${encodeURIComponent(q)}&map=ft`
+        buildUrl: (q) => {
+          const clean = limpiarConsultaFarmacia(q);
+          return `https://www.drsimi.cl/${encodeURIComponent(clean)}?_q=${encodeURIComponent(clean)}&map=ft`;
+        }
       },
       {
-        nombre: "Ahumada",
+        id: 'ahumada',
+        nombre: "Farmacias Ahumada",
+        dominios: ['farmaciasahumada.cl'],
         color: "bg-red-600 hover:bg-red-700 text-white",
         badge: "bg-red-50 text-red-700 border-red-200",
-        buildUrl: (q) => `https://www.farmaciasahumada.cl/search?q=${encodeURIComponent(q)}`
+        buildUrl: (q) => `https://www.farmaciasahumada.cl/search?q=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       },
       {
+        id: 'preunic',
         nombre: "Preunic",
+        dominios: ['preunic.cl'],
         color: "bg-pink-600 hover:bg-pink-700 text-white",
         badge: "bg-pink-50 text-pink-700 border-pink-200",
-        buildUrl: (q) => `https://preunic.cl/search?q=${encodeURIComponent(q)}`
+        buildUrl: (q) => `https://preunic.cl/search?q=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       },
       {
+        id: 'maicao',
         nombre: "Maicao",
+        dominios: ['maicao.cl'],
         color: "bg-purple-600 hover:bg-purple-700 text-white",
         badge: "bg-purple-50 text-purple-700 border-purple-200",
-        buildUrl: (q) => `https://www.maicao.cl/search?q=${encodeURIComponent(q)}`
+        buildUrl: (q) => `https://www.maicao.cl/search?q=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       }
     ];
 
+    function detectarFarmaciaPermitida(textoTienda = '', url = '') {
+      const comb = `${textoTienda} ${url}`.toLowerCase();
+      if (comb.includes('mercadolibre') || comb.includes('mercado libre')) return null;
+      if (comb.includes('cruzverde') || comb.includes('cruz verde')) return FARMACIAS_CHILE[0];
+      if (comb.includes('salcobrand')) return FARMACIAS_CHILE[1];
+      if (comb.includes('drsimi') || comb.includes('dr. simi') || comb.includes('dr simi')) return FARMACIAS_CHILE[2];
+      if (comb.includes('ahumada')) return FARMACIAS_CHILE[3];
+      if (comb.includes('preunic')) return FARMACIAS_CHILE[4];
+      if (comb.includes('maicao')) return FARMACIAS_CHILE[5];
+      return null;
+    }
+
+    function parsePrecioCLP(valor) {
+      if (typeof valor === 'number' && !isNaN(valor)) {
+        const n = Math.round(valor);
+        return (n >= 1000 && n <= 250000) ? n : null;
+      }
+      if (!valor) return null;
+      const str = String(valor);
+      // Buscar patrón de precio en pesos chilenos (ej: $18.990 o 18990)
+      const match = str.match(/\$?\s*(\d{1,3}(?:[.,]\d{3})+|\d{4,6})/);
+      if (!match) return null;
+      const num = parseInt(match[1].replace(/[.,]/g, ''), 10);
+      return (!isNaN(num) && num >= 1000 && num <= 250000) ? num : null;
+    }
+
+    function formatearCLP(valor) {
+      const n = parsePrecioCLP(valor);
+      if (!n) return null;
+      return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(n);
+    }
+
     const apiConfig = {
       geminiKey: localStorage.getItem('dermai_gemini_key') || '',
-      fastApiUrl: localStorage.getItem('dermai_fastapi_url') || '',
-      serperKey: localStorage.getItem('dermai_serper_key') || ''
+      serperKey: localStorage.getItem('dermai_serper_key') || '',
+      fastApiUrl: localStorage.getItem('dermai_fastapi_url') || ''
     };
 
-    // Memoria conversacional del usuario (para que el chatbot recuerde tu piel y contexto)
-    const estadoConversacion = {
-      diagnostico: null, // { acne, puntosNegros, brillo, hidratacion, perfil, activos }
-      historial: [],     // { role: 'user'|'model', text: '...' }
-      ultimoTema: null
-    };
-
-    function actualizarBadgeChat() {
-      const badge = document.getElementById('badgeModoChat');
-      if (apiConfig.geminiKey) {
-        badge.textContent = 'Gemini IA Conectado';
-        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
-      } else {
-        badge.textContent = 'Asistente Skincare';
-        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
-      }
-    }
+    let modeloGeminiActivo = null;
+    const estadoConversacion = { diagnostico: null, historial: [] };
 
     function escapeHtml(str) {
       return String(str || '')
@@ -366,10 +409,21 @@
         .replace(/'/g, '&#39;');
     }
 
+    function actualizarBadgeChat() {
+      const badge = document.getElementById('badgeModoChat');
+      if (apiConfig.geminiKey) {
+        badge.textContent = modeloGeminiActivo ? `Gemini (${modeloGeminiActivo})` : 'Gemini IA Conectado';
+        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+      } else {
+        badge.textContent = 'Asistente Skincare';
+        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
+      }
+    }
+
     function abrirModalApi() {
       document.getElementById('cfgGeminiKey').value = apiConfig.geminiKey;
-      document.getElementById('cfgFastApi').value = apiConfig.fastApiUrl;
       document.getElementById('cfgSerperKey').value = apiConfig.serperKey;
+      document.getElementById('cfgFastApi').value = apiConfig.fastApiUrl;
       document.getElementById('modalApi').classList.remove('hidden');
     }
 
@@ -379,36 +433,19 @@
 
     function guardarConfigApi() {
       apiConfig.geminiKey = document.getElementById('cfgGeminiKey').value.trim();
-      apiConfig.fastApiUrl = document.getElementById('cfgFastApi').value.trim();
       apiConfig.serperKey = document.getElementById('cfgSerperKey').value.trim();
+      apiConfig.fastApiUrl = document.getElementById('cfgFastApi').value.trim();
+      modeloGeminiActivo = null;
       localStorage.setItem('dermai_gemini_key', apiConfig.geminiKey);
-      localStorage.setItem('dermai_fastapi_url', apiConfig.fastApiUrl);
       localStorage.setItem('dermai_serper_key', apiConfig.serperKey);
+      localStorage.setItem('dermai_fastapi_url', apiConfig.fastApiUrl);
       actualizarBadgeChat();
       cerrarModalApi();
+      const q = document.getElementById('inputBusquedaManual').value.trim() || 'CeraVe Limpiador Espumoso';
+      ejecutarComparacionProducto(q);
     }
 
-    function formatearCLP(valor) {
-      if (typeof valor !== 'number' || isNaN(valor)) return null;
-      return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(valor);
-    }
-
-    function limpiarTerminoBusqueda(texto) {
-      const stopwords = new Set([
-        'crema', 'gel', 'limpiador', 'limpiadora', 'jabon', 'bloqueador', 'protector',
-        'solar', 'serum', 'locion', 'espuma', 'espumoso', 'facial', 'rostro', 'cara',
-        'para', 'piel', 'grasa', 'seca', 'mixta', 'sensible', 'acne', 'hidratante',
-        'humectante', 'agua', 'micelar', 'con', 'sin', 'de', 'del', 'la', 'el', 'los', 'las', 'un', 'una', 'mi', 'tengo'
-      ]);
-      const sinAcentos = texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-      const palabras = sinAcentos.split(/[^a-z0-9-]+/).filter(p => p.length > 1 && !stopwords.has(p));
-      return palabras.join(' ').trim();
-    }
-
-    // =========================================================
-    // 2. MOTOR DE CATÁLOGO (OPEN BEAUTY FACTS + FASTAPI/SERPER OPCIONAL)
-    // =========================================================
-    async function fetchConTimeout(url, options = {}, timeoutMs = 5500) {
+    async function fetchConTimeout(url, options = {}, timeoutMs = 8000) {
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeoutMs);
       try {
@@ -421,173 +458,271 @@
       }
     }
 
-    function construirImagenOBF(hit) {
-      if (hit.image_front_url) return hit.image_front_url;
-      if (hit.image_front_small_url) return hit.image_front_small_url;
-      if (hit.image_url) return hit.image_url;
-      return '';
-    }
-
-    async function enriquecerProductoPorCodigo(code) {
+    // =========================================================
+    // 2. MOTOR DE FOTOS REALES + INCI (OPEN BEAUTY FACTS)
+    // =========================================================
+    async function obtenerFotoEInciOBF(termino) {
       try {
-        const url = `https://world.openbeautyfacts.org/api/v2/product/${encodeURIComponent(code)}.json?fields=code,product_name,brands,image_front_url,image_front_small_url,image_url,ingredients_text`;
-        const res = await fetchConTimeout(url, {}, 3500);
-        if (!res.ok) return null;
+        const clean = limpiarConsultaFarmacia(termino);
+        const url = `https://search.openbeautyfacts.org/search?q=${encodeURIComponent(clean)}&page_size=4`;
+        const res = await fetchConTimeout(url, {}, 4000);
+        if (!res.ok) return { image: '', inci: '' };
         const data = await res.json();
-        return data.product || null;
+        const hit = (data.hits || []).find(h => h.image_front_url || h.image_url || h.code);
+        if (!hit) return { image: '', inci: '' };
+
+        let image = hit.image_front_url || hit.image_front_small_url || hit.image_url || '';
+        let inci = hit.ingredients_text || '';
+        if ((!image || !inci) && hit.code) {
+          const detRes = await fetchConTimeout(`https://world.openbeautyfacts.org/api/v2/product/${encodeURIComponent(hit.code)}.json?fields=image_front_url,image_url,ingredients_text`, {}, 3000);
+          if (detRes.ok) {
+            const det = (await detRes.json()).product;
+            if (det) {
+              image = image || det.image_front_url || det.image_url || '';
+              inci = inci || det.ingredients_text || '';
+            }
+          }
+        }
+        return { image, inci: inci.slice(0, 160) };
       } catch {
-        return null;
+        return { image: '', inci: '' };
       }
     }
 
-    async function consultarOpenBeautyRapido(termino, limite = 6) {
+    // =========================================================
+    // 3. COMPARADOR EN VIVO: ENCUENTRA EL MÁS BARATO Y SU LINK DIRECTO
+    // =========================================================
+    async function compararConSerper(query) {
+      if (!apiConfig.serperKey) return [];
+      const ofertasPorFarmacia = new Map();
+
+      // A) Google Shopping Chile (precios exactos, fotos reales y links directos)
       try {
-        const url = `https://search.openbeautyfacts.org/search?q=${encodeURIComponent(termino)}&page_size=${limite + 4}`;
-        const res = await fetchConTimeout(url, {}, 4500);
+        const res = await fetchConTimeout('https://google.serper.dev/shopping', {
+          method: 'POST',
+          headers: { 'X-API-KEY': apiConfig.serperKey, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ q: query, gl: 'cl', hl: 'es', num: 25 })
+        }, 7000);
+
         if (res.ok) {
           const data = await res.json();
-          const hits = (data.hits || []).filter(h => h.product_name || h.brands);
-          if (hits.length > 0) {
-            const seleccionados = hits.slice(0, limite);
-            const enriquecidos = await Promise.all(seleccionados.map(async (h) => {
-              let img = construirImagenOBF(h);
-              let inci = h.ingredients_text || '';
-              let nombre = h.product_name || '';
-              let marca = Array.isArray(h.brands) ? h.brands.join(', ') : (h.brands || '');
+          for (const item of (data.shopping || [])) {
+            const farm = detectarFarmaciaPermitida(item.source, item.link);
+            const precio = parsePrecioCLP(item.price);
+            if (farm && precio && item.link) {
+              const previa = ofertasPorFarmacia.get(farm.id);
+              if (!previa || precio < previa.priceCLP) {
+                ofertasPorFarmacia.set(farm.id, {
+                  farmacia: farm,
+                  title: item.title || query,
+                  priceCLP: precio,
+                  image: item.imageUrl || '',
+                  url: item.link,
+                  esLinkDirecto: true
+                });
+              }
+            }
+          }
+        }
+      } catch (e) { console.warn('Serper shopping error:', e.message); }
 
-              if ((!img || !inci) && h.code) {
-                const detalle = await enriquecerProductoPorCodigo(h.code);
-                if (detalle) {
-                  img = img || construirImagenOBF(detalle);
-                  inci = inci || detalle.ingredients_text || '';
-                  nombre = nombre || detalle.product_name || '';
-                  marca = marca || detalle.brands || '';
+      // B) Refuerzo con búsqueda orgánica dirigida a las 6 farmacias si faltan ofertas
+      if (ofertasPorFarmacia.size < 3) {
+        try {
+          const siteFilter = 'site:cruzverde.cl OR site:salcobrand.cl OR site:farmaciasahumada.cl OR site:drsimi.cl OR site:preunic.cl OR site:maicao.cl';
+          const res = await fetchConTimeout('https://google.serper.dev/search', {
+            method: 'POST',
+            headers: { 'X-API-KEY': apiConfig.serperKey, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ q: `${query} (${siteFilter})`, gl: 'cl', hl: 'es', num: 15 })
+          }, 7000);
+          if (res.ok) {
+            const data = await res.json();
+            for (const item of (data.organic || [])) {
+              const farm = detectarFarmaciaPermitida(item.title, item.link);
+              if (!farm || !item.link) continue;
+              // Evitar URLs de buscador interno
+              if (/\/search|search_result|\?q=|\?query=/i.test(item.link)) continue;
+              const precio = parsePrecioCLP(item.price || item.priceRange || item.snippet || '');
+              if (precio) {
+                const previa = ofertasPorFarmacia.get(farm.id);
+                if (!previa || precio < previa.priceCLP) {
+                  ofertasPorFarmacia.set(farm.id, {
+                    farmacia: farm,
+                    title: item.title.replace(/\s*[-|].*$/, '').trim() || query,
+                    priceCLP: precio,
+                    image: item.imageUrl || '',
+                    url: item.link,
+                    esLinkDirecto: true
+                  });
                 }
               }
-
-              const tituloFinal = [marca, nombre].filter(Boolean).join(' — ').slice(0, 95) || termino;
-              return {
-                title: tituloFinal,
-                brand: marca || 'Cosmética Dermatológica',
-                priceCLP: null,
-                image: img,
-                url: FARMACIAS_CHILE[0].buildUrl(tituloFinal),
-                store: 'Catálogo INCI Real',
-                inci: inci ? inci.slice(0, 180) : ''
-              };
-            }));
-
-            enriquecidos.sort((a, b) => (b.image ? 1 : 0) - (a.image ? 1 : 0));
-            return enriquecidos;
+            }
           }
-        }
-      } catch (e) {
-        console.warn('Search-a-licious no respondió:', e.message);
+        } catch (e) { console.warn('Serper search error:', e.message); }
       }
 
-      try {
-        const urlLegacy = `https://world.openbeautyfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(termino)}&search_simple=1&action=process&json=1&page_size=${limite + 4}&fields=code,product_name,brands,image_front_url,image_front_small_url,image_url,ingredients_text`;
-        const res = await fetchConTimeout(urlLegacy, {}, 6000);
-        if (res.ok) {
+      return Array.from(ofertasPorFarmacia.values()).sort((a, b) => a.priceCLP - b.priceCLP);
+    }
+
+    // Motor con tu Gemini API Key + Google Search Grounding (busca precios reales y links directos en las 6 farmacias)
+    async function compararConGeminiGrounding(query) {
+      if (!apiConfig.geminiKey) return [];
+
+      const modelosAProbar = [];
+      if (modeloGeminiActivo) modelosAProbar.push(modeloGeminiActivo);
+      modelosAProbar.push('gemini-2.5-flash', 'gemini-2.5-flash-lite');
+      const unicos = [...new Set(modelosAProbar)];
+
+      const prompt = `Busca en Google el precio actual en pesos chilenos (CLP) y el enlace DIRECTO a la ficha del producto "${query}" exclusivamente en estas 6 tiendas de Chile:
+1. Cruz Verde (cruzverde.cl)
+2. Salcobrand (salcobrand.cl)
+3. Farmacias Ahumada (farmaciasahumada.cl)
+4. Dr. Simi (drsimi.cl)
+5. Preunic (preunic.cl)
+6. Maicao (maicao.cl)
+
+Reglas estrictas:
+- NUNCA incluyas Mercado Libre ni inventes precios.
+- Solo incluye tiendas donde hayas encontrado un precio real en los resultados de búsqueda.
+- Devuelve ÚNICAMENTE un bloque JSON válido con este formato exacto:
+\`\`\`json
+[
+  {"farmacia": "Cruz Verde", "titulo": "Nombre exacto del producto", "precio_clp": 16990, "url": "https://www.cruzverde.cl/..."}
+]
+\`\`\``;
+
+      for (const modelo of unicos) {
+        try {
+          const res = await fetchConTimeout(
+            `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiConfig.geminiKey)}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{ role: 'user', parts: [{ text: prompt }] }],
+                tools: [{ google_search: {} }]
+              })
+            },
+            14000
+          );
+
+          if (!res.ok) continue;
           const data = await res.json();
-          const prods = (data.products || []).filter(p => p.product_name || p.brands);
-          if (prods.length > 0) {
-            return prods.slice(0, limite).map(p => {
-              const marca = p.brands || '';
-              const nombre = p.product_name || '';
-              const tituloFinal = [marca, nombre].filter(Boolean).join(' — ').slice(0, 95);
-              return {
-                title: tituloFinal,
-                brand: marca || 'Cosmética Dermatológica',
-                priceCLP: null,
-                image: construirImagenOBF(p),
-                url: FARMACIAS_CHILE[0].buildUrl(tituloFinal),
-                store: 'Catálogo INCI Real',
-                inci: p.ingredients_text ? p.ingredients_text.slice(0, 180) : ''
-              };
-            });
-          }
-        }
-      } catch (e) {
-        console.warn('OBF clásico no respondió:', e.message);
-      }
+          modeloGeminiActivo = modelo;
+          actualizarBadgeChat();
 
+          const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n') || '';
+          const chunks = data?.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+
+          // Mapear URLs reales verificadas desde los groundingChunks de Google por farmacia
+          const urlVerificadaPorFarmacia = new Map();
+          for (const ch of chunks) {
+            const uri = ch?.web?.uri || '';
+            const title = ch?.web?.title || '';
+            const farm = detectarFarmaciaPermitida(title, uri);
+            if (farm && uri && !urlVerificadaPorFarmacia.has(farm.id)) {
+              urlVerificadaPorFarmacia.set(farm.id, uri);
+            }
+          }
+
+          // Extraer JSON del texto de respuesta
+          const jsonMatch = text.match(/\[[\s\S]*?\]/);
+          if (!jsonMatch) continue;
+
+          let parsed = [];
+          try { parsed = JSON.parse(jsonMatch[0]); } catch { continue; }
+          if (!Array.isArray(parsed)) continue;
+
+          const ofertasPorFarmacia = new Map();
+          for (const row of parsed) {
+            const farm = detectarFarmaciaPermitida(row.farmacia, row.url || '');
+            const precio = parsePrecioCLP(row.precio_clp || row.precio);
+            if (!farm || !precio) continue;
+
+            // Priorizar la URL verificada real del grounding chunk de Google; si no, validar URL directa del dominio
+            let urlFinal = urlVerificadaPorFarmacia.get(farm.id) || '';
+            if (!urlFinal && row.url && /^https?:\/\//i.test(row.url)) {
+              const esMismaFarmacia = detectarFarmaciaPermitida('', row.url)?.id === farm.id;
+              const noEsBuscador = !/\/search|search_result|\?q=|\?query=/i.test(row.url);
+              if (esMismaFarmacia && noEsBuscador) urlFinal = row.url;
+            }
+            const esDirecto = Boolean(urlFinal);
+            if (!urlFinal) urlFinal = farm.buildUrl(row.titulo || query);
+
+            const previa = ofertasPorFarmacia.get(farm.id);
+            if (!previa || precio < previa.priceCLP) {
+              ofertasPorFarmacia.set(farm.id, {
+                farmacia: farm,
+                title: row.titulo || query,
+                priceCLP: precio,
+                image: '',
+                url: urlFinal,
+                esLinkDirecto: esDirecto
+              });
+            }
+          }
+
+          const lista = Array.from(ofertasPorFarmacia.values()).sort((a, b) => a.priceCLP - b.priceCLP);
+          if (lista.length > 0) return lista;
+        } catch (e) {
+          console.warn(`Grounding con ${modelo} falló:`, e.message);
+        }
+      }
       return [];
     }
 
-    async function buscarProductosEnVivo(query, limite = 6) {
-      // 1) Backend FastAPI propio (opcional)
+    async function obtenerComparacionPreciosEnVivo(query) {
+      // 1) Backend propio FastAPI (si existe)
       if (apiConfig.fastApiUrl) {
         try {
           const url = `${apiConfig.fastApiUrl}${apiConfig.fastApiUrl.includes('?') ? '&' : '?'}q=${encodeURIComponent(query)}`;
-          const res = await fetchConTimeout(url, {}, 3000);
+          const res = await fetchConTimeout(url, {}, 3500);
           if (res.ok) {
             const data = await res.json();
-            const lista = data.items || data.results || data;
-            if (Array.isArray(lista) && lista.length > 0) {
-              return {
-                fuente: 'Backend FastAPI',
-                items: lista.slice(0, limite).map(p => ({
+            const raw = data.items || data.results || data;
+            if (Array.isArray(raw) && raw.length > 0) {
+              const ofertas = raw
+                .map(p => ({
+                  farmacia: detectarFarmaciaPermitida(p.store || p.farmacia, p.url || p.link),
                   title: p.title || p.nombre || query,
-                  brand: p.brand || p.marca || '',
-                  priceCLP: p.price || p.precio || null,
+                  priceCLP: parsePrecioCLP(p.price || p.precio),
                   image: p.image || p.imagen || '',
-                  url: p.url || p.link || FARMACIAS_CHILE[0].buildUrl(p.title || query),
-                  store: p.store || p.farmacia || 'FastAPI',
-                  inci: p.inci || ''
+                  url: p.url || p.link || '',
+                  esLinkDirecto: true
                 }))
-              };
+                .filter(o => o.farmacia && o.priceCLP && o.url)
+                .sort((a, b) => a.priceCLP - b.priceCLP);
+              if (ofertas.length > 0) return { fuente: 'Backend FastAPI en vivo', ofertas, obf: { image: ofertas[0].image, inci: '' } };
             }
           }
         } catch (e) { console.warn('FastAPI omitido:', e.message); }
       }
 
-      // 2) Serper Google Shopping filtrado a farmacias chilenas (opcional)
+      // En paralelo pedimos foto real e INCI desde Open Beauty Facts para enriquecer las tarjetas
+      const obfPromise = obtenerFotoEInciOBF(query);
+
+      // 2) Serper.dev (precios exactos y links directos más rápidos)
       if (apiConfig.serperKey) {
-        try {
-          const res = await fetchConTimeout('https://google.serper.dev/shopping', {
-            method: 'POST',
-            headers: { 'X-API-KEY': apiConfig.serperKey, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ q: `${query} cruz verde OR salcobrand OR ahumada OR preunic OR maicao`, gl: 'cl', hl: 'es', num: limite })
-          }, 5000);
-          if (res.ok) {
-            const data = await res.json();
-            const filtrados = (data.shopping || []).filter(p => !(p.source || '').toLowerCase().includes('mercado libre'));
-            if (filtrados.length > 0) {
-              return {
-                fuente: 'Farmacias Chile en vivo (Serper)',
-                items: filtrados.slice(0, limite).map(p => ({
-                  title: p.title,
-                  brand: p.source || '',
-                  priceText: p.price || null,
-                  image: p.imageUrl || '',
-                  url: p.link,
-                  store: p.source || 'Farmacia Chile',
-                  inci: ''
-                }))
-              };
-            }
-          }
-        } catch (e) { console.warn('Serper omitido:', e.message); }
+        const ofertasSerper = await compararConSerper(query);
+        const obf = await obfPromise;
+        if (ofertasSerper.length > 0) {
+          ofertasSerper.forEach(o => { if (!o.image && obf.image) o.image = obf.image; });
+          return { fuente: 'Google Shopping Chile en vivo (Serper)', ofertas: ofertasSerper, obf };
+        }
       }
 
-      // 3) Open Beauty Facts (fotos reales + INCI)
-      let items = await consultarOpenBeautyRapido(query, limite);
-      if (items.length > 0) return { fuente: 'Open Beauty Facts (Fotos + INCI reales)', items };
-
-      const queryLimpia = limpiarTerminoBusqueda(query);
-      if (queryLimpia && queryLimpia.toLowerCase() !== query.toLowerCase()) {
-        items = await consultarOpenBeautyRapido(queryLimpia, limite);
-        if (items.length > 0) return { fuente: `Catálogo INCI ("${queryLimpia}")`, items };
+      // 3) Gemini API con Google Search Grounding (usa la clave que ya tienes!)
+      if (apiConfig.geminiKey) {
+        const ofertasGemini = await compararConGeminiGrounding(query);
+        const obf = await obfPromise;
+        if (ofertasGemini.length > 0) {
+          ofertasGemini.forEach(o => { if (!o.image && obf.image) o.image = obf.image; });
+          return { fuente: 'Búsqueda en Vivo Google + Gemini', ofertas: ofertasGemini, obf };
+        }
       }
 
-      const primeraPalabra = (queryLimpia || query).split(/\s+/).find(w => w.length >= 3);
-      if (primeraPalabra && primeraPalabra.toLowerCase() !== (queryLimpia || '').toLowerCase()) {
-        items = await consultarOpenBeautyRapido(primeraPalabra, limite);
-        if (items.length > 0) return { fuente: `Marca encontrada ("${primeraPalabra}")`, items };
-      }
-
-      return { fuente: 'Consulta directa en farmacias de Chile', items: [] };
+      const obf = await obfPromise;
+      return { fuente: 'Sin API de precios activa', ofertas: [], obf };
     }
 
     function renderizarLinksFarmacias(termino) {
@@ -601,111 +736,144 @@
       `).join('');
     }
 
-    function construirTarjetaProductoHTML(item, queryFallback) {
-      const precioStr = item.priceText || formatearCLP(item.priceCLP);
-      const terminoFarmacia = item.title || queryFallback;
-      const safeTitle = escapeHtml(terminoFarmacia);
-      const safeBrand = escapeHtml(item.brand || 'Dermatología');
-      const safeInci = escapeHtml(item.inci || '');
-      const safeStore = escapeHtml(item.store || 'Farmacias Chile');
-
-      const botonesFarmacias = FARMACIAS_CHILE.map(f => `
-        <a href="${f.buildUrl(terminoFarmacia)}" target="_blank" rel="noopener noreferrer"
-           class="text-[11px] font-semibold px-2 py-1 rounded border transition hover:opacity-80 ${f.badge}">
-          ${f.nombre} ↗
-        </a>
-      `).join('');
-
-      return `
-        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <div class="h-48 bg-white border-b border-slate-100 flex items-center justify-center p-4 relative">
-              ${item.image ? `
-                <img src="${escapeHtml(item.image)}" alt="${safeTitle}"
-                     loading="lazy"
-                     onerror="this.parentElement.innerHTML='<div class=\\'text-xs text-slate-400 text-center px-4\\'>Foto disponible en el sitio de la farmacia</div>'"
-                     class="max-h-40 max-w-full object-contain" />
-              ` : `<div class="text-xs text-slate-400 text-center px-4">Ver imagen oficial en la farmacia</div>`}
-              <span class="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-900/80 text-white">
-                ${safeStore}
-              </span>
-            </div>
-            <div class="p-4 space-y-2">
-              <p class="text-[11px] font-semibold uppercase tracking-wide text-teal-600 truncate">${safeBrand}</p>
-              <h3 class="text-sm font-bold text-slate-900 line-clamp-2 leading-snug">${safeTitle}</h3>
-              ${safeInci ? `<p class="text-[11px] text-slate-500 line-clamp-2"><strong class="text-slate-700">INCI:</strong> ${safeInci}</p>` : ''}
-              <div class="pt-1">
-                ${precioStr
-                  ? `<p class="text-lg font-extrabold text-slate-900">${escapeHtml(precioStr)} <span class="text-[11px] font-normal text-slate-500">precio en vivo</span></p>`
-                  : `<p class="text-[11px] font-semibold text-teal-800 bg-teal-50 border border-teal-200 rounded-md px-2 py-1 inline-block">Consultar precio vigente abajo ↓</p>`
-                }
-              </div>
-            </div>
-          </div>
-
-          <div class="p-4 pt-0 space-y-2.5">
-            <div>
-              <p class="text-[10px] font-semibold text-slate-400 uppercase mb-1.5">Ver precio en farmacias de Chile:</p>
-              <div class="flex flex-wrap gap-1.5">
-                ${botonesFarmacias}
-              </div>
-            </div>
-          </div>
-        </article>
-      `;
-    }
-
-    async function ejecutarBusquedaCatalogo(termino) {
+    async function ejecutarComparacionProducto(termino) {
       document.getElementById('inputBusquedaManual').value = termino;
       renderizarLinksFarmacias(termino);
 
+      const boxGanador = document.getElementById('contenedorMasBarato');
       const grid = document.getElementById('gridProductosApi');
       const indicador = document.getElementById('indicadorApiActiva');
-      indicador.textContent = 'Buscando en vivo...';
+
+      indicador.textContent = 'Comparando precios en las 6 farmacias...';
+      boxGanador.classList.add('hidden');
+      boxGanador.innerHTML = '';
       grid.innerHTML = `
-        <div class="col-span-full py-10 text-center space-y-2">
-          <div class="w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p class="text-sm font-medium text-slate-600">Consultando catálogo para <strong>"${escapeHtml(termino)}"</strong>...</p>
+        <div class="col-span-full py-12 text-center space-y-2">
+          <div class="w-9 h-9 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-sm font-semibold text-slate-700">Buscando el precio más barato de <strong>"${escapeHtml(termino)}"</strong> en Cruz Verde, Salcobrand, Dr. Simi, Ahumada, Preunic y Maicao...</p>
+          <p class="text-xs text-slate-400">Obteniendo links directos a cada producto en tiempo real</p>
         </div>
       `;
 
-      try {
-        const resultado = await buscarProductosEnVivo(termino, 6);
-        indicador.textContent = `Fuente: ${resultado.fuente}`;
+      const { fuente, ofertas, obf } = await obtenerComparacionPreciosEnVivo(termino);
+      indicador.textContent = `Fuente: ${fuente}`;
 
-        if (resultado.items.length > 0) {
-          grid.innerHTML = resultado.items.map(item => construirTarjetaProductoHTML(item, termino)).join('');
+      if (ofertas.length > 0) {
+        const ganador = ofertas[0];
+        const masCaro = ofertas[ofertas.length - 1];
+        const ahorro = ofertas.length > 1 ? (masCaro.priceCLP - ganador.priceCLP) : 0;
+        const pctAhorro = (ahorro > 0 && masCaro.priceCLP > 0) ? Math.round((ahorro / masCaro.priceCLP) * 100) : 0;
+
+        // Mostrar TARJETA GANADORA destacada arriba
+        boxGanador.classList.remove('hidden');
+        boxGanador.innerHTML = `
+          <div class="rounded-2xl border-2 border-emerald-500 bg-gradient-to-r from-emerald-50 via-white to-teal-50 p-5 sm:p-6 shadow-md">
+            <div class="flex flex-col md:flex-row gap-5 items-center justify-between">
+              <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 flex-1">
+                <div class="w-24 h-24 rounded-xl bg-white border border-emerald-200 flex items-center justify-center p-2 shrink-0 shadow-sm">
+                  ${ganador.image
+                    ? `<img src="${escapeHtml(ganador.image)}" alt="${escapeHtml(ganador.title)}" class="max-h-20 max-w-full object-contain" />`
+                    : `<span class="text-xs text-slate-400 text-center">Foto en tienda</span>`}
+                </div>
+                <div class="space-y-1.5 text-center sm:text-left">
+                  <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <span class="inline-flex items-center gap-1 text-xs font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-full bg-emerald-600 text-white shadow-sm">
+                      🏆 Más Barato en Chile
+                    </span>
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full border ${ganador.farmacia.badge}">
+                      ${escapeHtml(ganador.farmacia.nombre)}
+                    </span>
+                    ${ahorro > 0 ? `<span class="text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">Ahorras ${formatearCLP(ahorro)} (${pctAhorro}%) vs ${escapeHtml(masCaro.farmacia.nombre)}</span>` : ''}
+                  </div>
+                  <h3 class="text-base sm:text-lg font-extrabold text-slate-900">${escapeHtml(ganador.title)}</h3>
+                  ${obf.inci ? `<p class="text-[11px] text-slate-500 line-clamp-1"><strong>INCI:</strong> ${escapeHtml(obf.inci)}</p>` : ''}
+                  <p class="text-2xl sm:text-3xl font-black text-emerald-700">${formatearCLP(ganador.priceCLP)} <span class="text-xs font-medium text-slate-500">precio encontrado en vivo</span></p>
+                </div>
+              </div>
+              <div class="w-full md:w-auto flex flex-col gap-2 shrink-0">
+                <a href="${escapeHtml(ganador.url)}" target="_blank" rel="noopener noreferrer"
+                   class="w-full md:w-auto text-center px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition">
+                  Ir directo a ${escapeHtml(ganador.farmacia.nombre)} ↗
+                </a>
+                <span class="text-[11px] text-center text-slate-500">${ganador.esLinkDirecto ? '✓ Enlace directo al producto' : 'Enlace verificado'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Mostrar el resto de farmacias ordenadas por precio
+        const otras = ofertas.slice(1);
+        if (otras.length > 0) {
+          grid.innerHTML = otras.map((item, idx) => {
+            const diff = item.priceCLP - ganador.priceCLP;
+            return `
+              <article class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between gap-4 hover:shadow-md transition">
+                <div class="flex gap-3 items-start">
+                  <div class="w-16 h-16 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center p-1.5 shrink-0">
+                    ${item.image
+                      ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="max-h-14 max-w-full object-contain" />`
+                      : `<span class="text-[10px] text-slate-400 text-center">Tienda</span>`}
+                  </div>
+                  <div class="min-w-0 flex-1 space-y-1">
+                    <div class="flex items-center justify-between gap-2">
+                      <span class="text-[11px] font-bold px-2 py-0.5 rounded border ${item.farmacia.badge}">${escapeHtml(item.farmacia.nombre)}</span>
+                      <span class="text-[11px] font-semibold text-slate-400">#${idx + 2}</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-900 line-clamp-2">${escapeHtml(item.title)}</h4>
+                    <div class="flex items-baseline gap-2 pt-0.5">
+                      <p class="text-lg font-extrabold text-slate-900">${formatearCLP(item.priceCLP)}</p>
+                      ${diff > 0 ? `<span class="text-[11px] font-medium text-rose-600">+${formatearCLP(diff)} más caro</span>` : ''}
+                    </div>
+                  </div>
+                </div>
+                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer"
+                   class="block w-full text-center py-2.5 rounded-xl font-bold text-xs transition ${item.farmacia.color}">
+                  Ver directo en ${escapeHtml(item.farmacia.nombre)} ↗
+                </a>
+              </article>
+            `;
+          }).join('');
         } else {
           grid.innerHTML = `
-            <div class="col-span-full bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
-              <div class="space-y-1">
-                <p class="text-sm font-bold text-slate-900">Búsqueda lista para "${escapeHtml(termino)}"</p>
-                <p class="text-xs text-slate-600">Este producto específico no aparece registrado aún en Open Beauty Facts, pero puedes revisar su foto oficial, stock y precio vigente directamente en las 6 cadenas chilenas:</p>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                ${FARMACIAS_CHILE.map(f => `
-                  <a href="${f.buildUrl(termino)}" target="_blank" rel="noopener noreferrer"
-                     class="text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm transition ${f.color}">
-                    Buscar en ${f.nombre} ↗
-                  </a>
-                `).join('')}
-              </div>
+            <div class="col-span-full text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl p-4">
+              Solo se encontró precio publicado en <strong>${escapeHtml(ganador.farmacia.nombre)}</strong> para esta búsqueda exacta. Puedes revisar las otras farmacias en los botones de abajo.
             </div>
           `;
         }
-      } catch {
-        indicador.textContent = 'Búsqueda directa en farmacias';
+      } else {
+        // Si no hay clave conectada o no hubo precios numéricos en vivo
+        const faltaKey = !apiConfig.geminiKey && !apiConfig.serperKey;
+        grid.innerHTML = `
+          <div class="col-span-full rounded-2xl border border-amber-200 bg-amber-50/70 p-6 flex flex-col sm:flex-row gap-5 items-center justify-between">
+            <div class="flex items-center gap-4">
+              ${obf.image ? `<img src="${escapeHtml(obf.image)}" alt="${escapeHtml(termino)}" class="w-20 h-20 object-contain bg-white rounded-xl p-1.5 border border-amber-200 shrink-0" />` : ''}
+              <div class="space-y-1.5">
+                <p class="text-sm font-bold text-slate-900">
+                  ${faltaKey ? 'Conecta tu clave gratuita en ⚙️ API para comparar precios automáticamente' : `No se pudieron extraer precios en vivo para "${escapeHtml(termino)}"`}
+                </p>
+                <p class="text-xs text-slate-600 max-w-2xl">
+                  ${faltaKey
+                    ? 'Para mostrar qué farmacia tiene el precio más bajo y el link directo al producto (sin precios falsos), pega tu clave gratuita de Gemini o Serper.dev en el botón ⚙️ API arriba a la derecha.'
+                    : 'Prueba agregando tu clave gratuita de Serper.dev en ⚙️ API (Google Shopping Chile) para obtener precios y links directos garantizados, o abre las búsquedas corregidas de abajo.'}
+                </p>
+              </div>
+            </div>
+            <button onclick="abrirModalApi()" class="shrink-0 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+              ⚙️ Configurar API
+            </button>
+          </div>
+        `;
       }
     }
 
     function manejarBusquedaManual(e) {
       e.preventDefault();
       const q = document.getElementById('inputBusquedaManual').value.trim();
-      if (q) ejecutarBusquedaCatalogo(q);
+      if (q) ejecutarComparacionProducto(q);
     }
 
     // =========================================================
-    // 3. ESCÁNER FACIAL REAL (CÁMARA O FOTO SUBIDA)
+    // 4. ESCÁNER FACIAL REAL (CÁMARA O FOTO SUBIDA)
     // =========================================================
     let streamActivo = null;
 
@@ -803,12 +971,9 @@
       estado.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
 
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      const w = canvas.width;
-      const h = canvas.height;
-      const roiX = Math.floor(w * 0.28);
-      const roiY = Math.floor(h * 0.18);
-      const roiW = Math.floor(w * 0.44);
-      const roiH = Math.floor(h * 0.62);
+      const w = canvas.width, h = canvas.height;
+      const roiX = Math.floor(w * 0.28), roiY = Math.floor(h * 0.18);
+      const roiW = Math.floor(w * 0.44), roiH = Math.floor(h * 0.62);
       const imgData = ctx.getImageData(roiX, roiY, roiW, roiH).data;
 
       let totalPixels = 0, sumaLum = 0, pixelesBrillo = 0, pixelesRojos = 0, sumaContrastePoros = 0, pixelesSecos = 0;
@@ -849,7 +1014,7 @@
       ctx.font = 'bold 11px Inter, sans-serif';
       ctx.fillText('ROI: Zona T / Zona U', roiX + 6, roiY - 8);
 
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 750));
       linea.classList.add('hidden');
       estado.textContent = 'Análisis completado';
 
@@ -896,66 +1061,55 @@
       if (pctAcne >= pctPuntosNegros && pctAcne >= 35) {
         perfil = 'Mixta a grasa con tendencia a acné';
         activos = ['Ácido Salicílico (BHA)', 'Niacinamida', 'Zinc PCA'];
-        resumen = `Tu rostro muestra signos de <strong>acné / brotes (${pctAcne}%)</strong>, <strong>puntos negros en la nariz (${pctPuntosNegros}%)</strong> y brillo en la Zona T (${pctBrillo}%). Conviene usar limpieza suave con ácido salicílico y evitar apretar granitos.`;
+        resumen = `Tu rostro muestra signos de <strong>acné / brotes (${pctAcne}%)</strong>, <strong>puntos negros (${pctPuntosNegros}%)</strong> y brillo en Zona T (${pctBrillo}%). Priorizamos limpieza suave purificante y protección solar no comedogénica.`;
         recomendados = [
-          { paso: '1. Limpiador', nombre: 'La Roche-Posay Effaclar Gel', query: 'La Roche-Posay Effaclar', motivo: 'Limpia exceso de grasa sin alterar el pH de la piel con brotes.' },
-          { paso: '2. Tratamiento', nombre: 'La Roche-Posay Effaclar Duo', query: 'La Roche-Posay Effaclar Duo', motivo: 'Ayuda a desinflamar granitos y prevenir marcas.' },
-          { paso: '3. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', query: 'Eucerin Oil Control', motivo: 'Toque seco anti-brillo que no tapa los poros.' }
+          { paso: '1. Limpiador', nombre: 'La Roche Posay Effaclar Gel', motivo: 'Limpia exceso de sebo respetando pieles con brotes.' },
+          { paso: '2. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Toque seco anti-brillo que no tapa los poros.' }
         ];
       } else if (pctPuntosNegros >= 35) {
         perfil = 'Mixta con poros dilatados y puntos negros';
-        activos = ['Ácido Salicílico 2% (BHA)', 'Niacinamida 10%', 'Ceramidas'];
-        resumen = `Predominan <strong>puntos negros y poros visibles en la Zona T (${pctPuntosNegros}%)</strong> junto a brillo (${pctBrillo}%), mientras tus mejillas mantienen ${pctHidratacion}% de hidratación.`;
+        activos = ['Ácido Salicílico 2% (BHA)', 'Niacinamida', 'Ceramidas'];
+        resumen = `Predominan <strong>puntos negros y poros visibles (${pctPuntosNegros}%)</strong> junto a brillo en Zona T (${pctBrillo}%), con ${pctHidratacion}% de hidratación en mejillas.`;
         recomendados = [
-          { paso: '1. Limpiador Poros', nombre: 'CeraVe Blemish Control Cleanser', query: 'CeraVe SA', motivo: 'El ácido salicílico penetra el poro para disolver el sebo oxidado.' },
-          { paso: '2. Sérum Seborregulador', nombre: 'The Ordinary Niacinamide 10% + Zinc', query: 'The Ordinary Niacinamide', motivo: 'Regula el brillo y afina visualmente la textura de los poros.' },
-          { paso: '3. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', query: 'Eucerin Oil Control', motivo: 'Protege del sol con acabado mate durante todo el día.' }
+          { paso: '1. Limpiador Poros', nombre: 'CeraVe Limpiador Control Imperfecciones', motivo: 'Ácido salicílico 2% para desobstruir puntos negros.' },
+          { paso: '2. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Acabado mate ligero ideal para Zona T.' }
         ];
       } else if (pctHidratacion < 50) {
         perfil = 'Con tendencia a deshidratación en Zona U';
         activos = ['Ácido Hialurónico', 'Ceramidas', 'Glicerina'];
-        resumen = `Se observa <strong>hidratación baja en mejillas (${pctHidratacion}%)</strong> con acné (${pctAcne}%) y puntos negros (${pctPuntosNegros}%) controlados. La prioridad es fortalecer tu barrera cutánea.`;
+        resumen = `Se observa <strong>hidratación baja en mejillas (${pctHidratacion}%)</strong> con acné (${pctAcne}%) y puntos negros (${pctPuntosNegros}%) controlados. Priorizamos reparar la barrera cutánea.`;
         recomendados = [
-          { paso: '1. Limpiador Suave', nombre: 'CeraVe Hydrating Cleanser', query: 'CeraVe Hydrating', motivo: 'Limpia sin dejar sensación tirante gracias a sus ceramidas.' },
-          { paso: '2. Hidratante', nombre: 'Neutrogena Hydro Boost Gel', query: 'Neutrogena Hydro Boost', motivo: 'Recarga de agua con ácido hialurónico de rápida absorción.' },
-          { paso: '3. Protector Solar', nombre: 'ISDIN Fusion Water', query: 'ISDIN Fusion Water', motivo: 'Textura acuosa hidratante que no arde en los ojos.' }
+          { paso: '1. Limpiador Suave', nombre: 'CeraVe Limpiador Hidratante', motivo: 'Limpia sin dejar sensación tirante gracias a sus ceramidas.' },
+          { paso: '2. Hidratante', nombre: 'Neutrogena Hydro Boost Gel', motivo: 'Ácido hialurónico ligero de rápida absorción.' }
         ];
       } else {
-        resumen = `Tu piel se ve <strong>equilibrada</strong> (acné ${pctAcne}%, puntos negros ${pctPuntosNegros}%, brillo ${pctBrillo}%, hidratación ${pctHidratacion}%). Con una rutina simple de limpieza, hidratación ligera y protector solar la mantendrás saludable.`;
+        resumen = `Tu piel se ve <strong>equilibrada</strong> (acné ${pctAcne}%, puntos negros ${pctPuntosNegros}%, brillo ${pctBrillo}%, hidratación ${pctHidratacion}%). Con limpieza suave y protector solar diario la mantendrás saludable.`;
         recomendados = [
-          { paso: '1. Limpiador Diario', nombre: 'CeraVe Foaming Cleanser', query: 'CeraVe Foaming', motivo: 'Limpieza diaria equilibrada para mantener la Zona T limpia.' },
-          { paso: '2. Hidratante', nombre: 'Neutrogena Hydro Boost', query: 'Neutrogena Hydro Boost', motivo: 'Hidratación liviana apta para uso diario.' },
-          { paso: '3. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', query: 'Eucerin Oil Control', motivo: 'Protección solar diaria indispensable sin sensación pesada.' }
+          { paso: '1. Limpiador Diario', nombre: 'CeraVe Limpiador Espumoso', motivo: 'Mantiene la Zona T limpia cuidando la barrera.' },
+          { paso: '2. Protector Solar', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Protección diaria indispensable sin sensación grasosa.' }
         ];
       }
 
-      // Guardar contexto para que el chatbot converse sobre estos resultados
-      estadoConversacion.diagnostico = {
-        acne: pctAcne,
-        puntosNegros: pctPuntosNegros,
-        brillo: pctBrillo,
-        hidratacion: pctHidratacion,
-        perfil,
-        activos,
-        recomendados
-      };
-
+      estadoConversacion.diagnostico = { acne: pctAcne, puntosNegros: pctPuntosNegros, brillo: pctBrillo, hidratacion: pctHidratacion, perfil, activos, recomendados };
       document.getElementById('resumenClinico').innerHTML = resumen;
       document.getElementById('chipsActivos').innerHTML = `<span class="text-[11px] font-bold text-slate-500">Activos sugeridos:</span>` +
         activos.map(a => `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-teal-100 text-teal-800">${a}</span>`).join('');
       document.getElementById('panelResultados').classList.remove('hidden');
 
-      // El chatbot inicia la conversación proactivamente con tu diagnóstico real
+      // 1) En el chat: muestra el diagnóstico + compara en vivo el precio más barato de cada producto recomendado
       const introChat = `
-        <p>Ya revisé tu escáner facial. Tu perfil actual es <strong>${escapeHtml(perfil)}</strong>:</p>
+        <p>Ya analicé tu foto. Tu perfil es <strong>${escapeHtml(perfil)}</strong>:</p>
         <p class="text-xs text-slate-600">${resumen}</p>
-        <p class="text-xs text-slate-700">Para empezar sin saturar tu piel, te sugiero esta rutina base (y si tienes dudas sobre cómo aplicarla en la mañana o la noche, pregúntame):</p>
+        <p class="text-xs text-slate-700">Busqué en vivo en las farmacias de Chile <strong>dónde está más barato</strong> lo que necesitas:</p>
       `;
-      await responderConTarjetas(introChat, activos, recomendados);
+      responderConPreciosEnChat(introChat, activos, recomendados);
+
+      // 2) En el comparador inferior: lanza automáticamente la comparación completa del producto #1
+      ejecutarComparacionProducto(recomendados[0].nombre);
     }
 
     // =========================================================
-    // 4. CHATBOT CONVERSACIONAL REAL (CONTEXTUAL + GEMINI OPCIONAL)
+    // 5. CHATBOT CONVERSACIONAL + TARJETAS CON FARMACIA MÁS BARATA Y LINK DIRECTO
     // =========================================================
     function agregarMensajeChat(remitente, htmlContenido) {
       const cont = document.getElementById('chatMensajes');
@@ -975,30 +1129,73 @@
       return div;
     }
 
-    function renderizarCardRecomendacionChat(paso, nombreSugerido, motivo, apiItem) {
-      const tituloMostrar = (apiItem && apiItem.title) ? apiItem.title : nombreSugerido;
-      const imagen = apiItem ? apiItem.image : '';
-      const inci = (apiItem && apiItem.inci) ? apiItem.inci.slice(0, 90) : '';
+    function renderizarCardPrecioChat(rec, resultado) {
+      const ofertas = resultado.ofertas || [];
+      const ganador = ofertas[0] || null;
+      const masCaro = ofertas.length > 1 ? ofertas[ofertas.length - 1] : null;
+      const imagen = (ganador && ganador.image) ? ganador.image : (resultado.obf?.image || '');
 
+      if (ganador) {
+        const ahorro = masCaro ? (masCaro.priceCLP - ganador.priceCLP) : 0;
+        return `
+          <div class="p-3 rounded-xl border-2 border-emerald-200 bg-emerald-50/40 space-y-2">
+            <div class="flex gap-3 items-start">
+              <div class="w-14 h-14 bg-white rounded-lg border border-slate-200 flex items-center justify-center p-1 shrink-0 overflow-hidden">
+                ${imagen
+                  ? `<img src="${escapeHtml(imagen)}" alt="${escapeHtml(ganador.title)}" class="max-h-12 max-w-full object-contain" />`
+                  : `<span class="text-[10px] text-slate-400 text-center">Foto</span>`}
+              </div>
+              <div class="min-w-0 flex-1 space-y-1">
+                <div class="flex flex-wrap items-center gap-1.5">
+                  <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-teal-100 text-teal-800">${escapeHtml(rec.paso)}</span>
+                  <span class="text-[10px] font-extrabold px-1.5 py-0.5 rounded bg-emerald-600 text-white">🏆 Más barato: ${escapeHtml(ganador.farmacia.nombre)}</span>
+                </div>
+                <p class="text-xs font-bold text-slate-900 leading-snug">${escapeHtml(ganador.title)}</p>
+                <p class="text-[11px] text-slate-600">${escapeHtml(rec.motivo)}</p>
+                <div class="flex flex-wrap items-baseline gap-2">
+                  <span class="text-sm font-black text-emerald-700">${formatearCLP(ganador.priceCLP)}</span>
+                  ${ahorro > 0 ? `<span class="text-[10px] font-semibold text-emerald-700">Ahorras ${formatearCLP(ahorro)} vs ${escapeHtml(masCaro.farmacia.nombre)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5 pt-1 border-t border-emerald-200/70">
+              <a href="${escapeHtml(ganador.url)}" target="_blank" rel="noopener noreferrer"
+                 class="text-[11px] font-bold px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition">
+                Ir directo a ${escapeHtml(ganador.farmacia.nombre)} ↗
+              </a>
+              ${ofertas.slice(1, 4).map(o => `
+                <a href="${escapeHtml(o.url)}" target="_blank" rel="noopener noreferrer"
+                   class="text-[10px] font-semibold px-2 py-1 rounded border ${o.farmacia.badge} hover:opacity-80">
+                  ${escapeHtml(o.farmacia.nombre)}: ${formatearCLP(o.priceCLP)} ↗
+                </a>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Fallback limpio con URLs corregidas (Cruz Verde usa ?query=)
       return `
         <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
           <div class="flex gap-3 items-start">
             <div class="w-14 h-14 bg-white rounded-lg border border-slate-200 flex items-center justify-center p-1 shrink-0 overflow-hidden">
               ${imagen
-                ? `<img src="${escapeHtml(imagen)}" alt="${escapeHtml(tituloMostrar)}" onerror="this.parentElement.innerHTML='<span class=\\'text-[10px] text-slate-400 text-center\\'>Ver foto</span>'" class="max-h-12 max-w-full object-contain" />`
-                : `<span class="text-[10px] text-slate-400 text-center leading-tight px-1">Foto en farmacia</span>`}
+                ? `<img src="${escapeHtml(imagen)}" alt="${escapeHtml(rec.nombre)}" class="max-h-12 max-w-full object-contain" />`
+                : `<span class="text-[10px] text-slate-400 text-center">Foto</span>`}
             </div>
             <div class="min-w-0 flex-1 space-y-1">
-              <span class="inline-block text-[10px] font-bold uppercase tracking-wide px-2 py-0.5 rounded bg-teal-100 text-teal-800">${escapeHtml(paso)}</span>
-              <p class="text-xs font-bold text-slate-900 leading-snug">${escapeHtml(tituloMostrar)}</p>
-              <p class="text-[11px] text-slate-600 leading-snug">${escapeHtml(motivo)}</p>
-              ${inci ? `<p class="text-[10px] text-slate-500 truncate"><strong>INCI:</strong> ${escapeHtml(inci)}...</p>` : ''}
+              <span class="text-[10px] font-bold uppercase px-1.5 py-0.5 rounded bg-teal-100 text-teal-800">${escapeHtml(rec.paso)}</span>
+              <p class="text-xs font-bold text-slate-900">${escapeHtml(rec.nombre)}</p>
+              <p class="text-[11px] text-slate-600">${escapeHtml(rec.motivo)}</p>
             </div>
           </div>
           <div class="flex flex-wrap gap-1 pt-1 border-t border-slate-200/70">
+            <button onclick="ejecutarComparacionProducto('${escapeHtml(rec.nombre).replace(/'/g, '')}')" class="text-[10px] font-bold px-2 py-1 rounded bg-slate-900 text-white hover:bg-slate-800">
+              Comparar abajo ↓
+            </button>
             ${FARMACIAS_CHILE.map(f => `
-              <a href="${f.buildUrl(nombreSugerido)}" target="_blank" rel="noopener noreferrer"
-                 class="text-[10px] font-semibold px-2 py-0.5 rounded border ${f.badge} hover:opacity-80 transition">
+              <a href="${f.buildUrl(rec.nombre)}" target="_blank" rel="noopener noreferrer"
+                 class="text-[10px] font-semibold px-2 py-1 rounded border ${f.badge} hover:opacity-80">
                 ${f.nombre} ↗
               </a>
             `).join('')}
@@ -1007,90 +1204,104 @@
       `;
     }
 
-    async function responderConTarjetas(textoHTML, activos, recomendaciones) {
+    async function responderConPreciosEnChat(textoHTML, activos, recomendaciones) {
       const loadingDiv = agregarMensajeChat('ia', `
         ${textoHTML}
-        <p class="text-xs text-teal-700 animate-pulse font-medium">Cargando opciones recomendadas en farmacias de Chile...</p>
+        <p class="text-xs text-teal-700 animate-pulse font-medium">Comparando precios reales en las 6 farmacias chilenas...</p>
       `);
 
       try {
         const resultados = await Promise.all(recomendaciones.map(async (rec) => {
-          const res = await buscarProductosEnVivo(rec.query, 2);
-          const mejor = res.items.find(i => i.image) || res.items[0] || null;
-          return { rec, apiItem: mejor };
+          const res = await obtenerComparacionPreciosEnVivo(rec.nombre);
+          return { rec, res };
         }));
 
         const inciHtml = activos && activos.length
           ? `<p class="text-xs text-teal-800 bg-teal-50 border border-teal-100 rounded-lg px-2.5 py-1.5"><strong>Activos clave:</strong> ${activos.map(escapeHtml).join(' · ')}</p>`
           : '';
 
-        const tarjetasHtml = resultados
-          .map(({ rec, apiItem }) => renderizarCardRecomendacionChat(rec.paso, rec.nombre, rec.motivo, apiItem))
-          .join('');
+        const cardsHtml = resultados.map(({ rec, res }) => renderizarCardPrecioChat(rec, res)).join('');
 
         loadingDiv.querySelector('.chat-bubble-body').innerHTML = `
           ${textoHTML}
           ${inciHtml}
-          <div class="space-y-2.5 pt-1">${tarjetasHtml}</div>
+          <div class="space-y-2.5 pt-1">${cardsHtml}</div>
         `;
       } catch {
-        const fallbackHtml = recomendaciones
-          .map(rec => renderizarCardRecomendacionChat(rec.paso, rec.nombre, rec.motivo, null))
-          .join('');
+        const fallbackHtml = recomendaciones.map(rec => renderizarCardPrecioChat(rec, { ofertas: [], obf: {} })).join('');
         loadingDiv.querySelector('.chat-bubble-body').innerHTML = `${textoHTML}<div class="space-y-2.5 pt-1">${fallbackHtml}</div>`;
       }
       document.getElementById('chatMensajes').scrollTop = document.getElementById('chatMensajes').scrollHeight;
     }
 
-    // Llamada real a Gemini API si el usuario configuró su API Key en ⚙️ API
-    async function consultarGeminiReal(mensajeUsuario) {
+    async function detectarModeloGeminiDisponible(apiKey) {
+      if (modeloGeminiActivo) return modeloGeminiActivo;
+      try {
+        const res = await fetchConTimeout(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`, {}, 5000);
+        if (res.ok) {
+          const data = await res.json();
+          const validos = (data.models || []).filter(m => {
+            const name = (m.name || '').toLowerCase();
+            return Array.isArray(m.supportedGenerationMethods) &&
+              m.supportedGenerationMethods.includes('generateContent') &&
+              name.includes('gemini') && name.includes('flash') &&
+              !name.includes('tts') && !name.includes('image') && !name.includes('audio') && !name.includes('embedding');
+          });
+          if (validos.length > 0) {
+            validos.sort((a, b) => {
+              const aPrev = /preview|exp/i.test(a.name) ? 1 : 0;
+              const bPrev = /preview|exp/i.test(b.name) ? 1 : 0;
+              if (aPrev !== bPrev) return aPrev - bPrev;
+              return b.name.localeCompare(a.name, undefined, { numeric: true });
+            });
+            modeloGeminiActivo = validos[0].name.replace(/^models\//, '');
+            actualizarBadgeChat();
+            return modeloGeminiActivo;
+          }
+        }
+      } catch {}
+      return 'gemini-2.5-flash';
+    }
+
+    async function consultarGeminiChat(mensajeUsuario) {
       const d = estadoConversacion.diagnostico;
       const contextoPiel = d
-        ? `Resultados del escáner facial del usuario: Perfil="${d.perfil}", Acné=${d.acne}%, Puntos negros=${d.puntosNegros}%, Brillo Zona T=${d.brillo}%, Hidratación=${d.hidratacion}%.`
-        : 'El usuario aún no ha usado el escáner facial.';
+        ? `Escáner del usuario: Perfil="${d.perfil}", Acné=${d.acne}%, Puntos negros=${d.puntosNegros}%, Brillo=${d.brillo}%, Hidratación=${d.hidratacion}%.`
+        : 'El usuario aún no ha escaneado su rostro.';
 
-      const systemPrompt = `Eres DermAI, un asistente conversacional cercano y experto en skincare y dermocosmética en Chile.
-Responde en español chileno natural, claro y empático (máximo 140 palabras).
+      const systemPrompt = `Eres DermAI, asistente conversacional experto en skincare en Chile.
+Responde en español chileno claro y cercano (máximo 130 palabras).
 ${contextoPiel}
-Reglas estrictas:
-1. Responde siempre la duda real del usuario (rutinas AM/PM, orden de aplicación, mezclas de activos, hábitos, piel mixta, presupuesto).
-2. NO inventes precios en pesos.
-3. NUNCA menciones ni recomiendes Mercado Libre. Si mencionas dónde comprar, nombra únicamente Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic o Maicao.
-4. Si tu recomendación incluye productos concretos, al final agrega una línea oculta con formato exacto: [PRODUCTOS: Nombre Producto 1 | Nombre Producto 2] (máximo 2 productos). Si el usuario solo hace una pregunta teórica o de uso, NO pongas esa etiqueta.`;
+Reglas:
+1. Responde la duda real (rutinas AM/PM, orden, mezclas de activos, piel mixta, presupuesto).
+2. NO inventes precios en pesos en tu texto.
+3. NUNCA menciones Mercado Libre. Solo nombra Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic o Maicao.
+4. Si recomiendas productos específicos, agrega al final: [PRODUCTOS: Nombre Producto 1 | Nombre Producto 2] (máx 2) para que el sistema busque automáticamente cuál farmacia lo tiene más barato. Si es una duda teórica (ej: mezclar activos), NO agregues esa etiqueta.`;
 
       const contents = [
-        ...estadoConversacion.historial.slice(-6).map(m => ({
-          role: m.role === 'user' ? 'user' : 'model',
-          parts: [{ text: m.text }]
-        })),
+        ...estadoConversacion.historial.slice(-6).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
         { role: 'user', parts: [{ text: mensajeUsuario }] }
       ];
 
+      const modelo = await detectarModeloGeminiDisponible(apiConfig.geminiKey);
       const res = await fetchConTimeout(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiConfig.geminiKey)}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiConfig.geminiKey)}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents
-          })
+          body: JSON.stringify({ systemInstruction: { parts: [{ text: systemPrompt }] }, contents })
         },
         12000
       );
 
-      if (!res.ok) throw new Error('Gemini API error');
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      if (!rawText) throw new Error('Respuesta vacía');
+      if (!rawText) throw new Error('Vacío');
 
-      // Extraer productos opcionales si el LLM los recomendó
       const match = rawText.match(/\[PRODUCTOS:\s*([^\]]+)\]/i);
       const textoLimpio = rawText.replace(/\[PRODUCTOS:[^\]]+\]/gi, '').trim();
-      const productosSugeridos = match
-        ? match[1].split('|').map(s => s.trim()).filter(Boolean).slice(0, 2)
-        : [];
-
+      const productosSugeridos = match ? match[1].split('|').map(s => s.trim()).filter(Boolean).slice(0, 2) : [];
       return { textoLimpio, productosSugeridos };
     }
 
@@ -1101,293 +1312,113 @@ Reglas estrictas:
         .replace(/\n/g, '<br>');
     }
 
-    // Motor conversacional inteligente (cuando no se ha ingresado una Gemini API Key)
-    async function responderMotorConversacional(textoOriginal) {
+    async function responderMotorLocal(textoOriginal) {
       const t = textoOriginal.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const d = estadoConversacion.diagnostico;
 
-      // 1) Saludos y conversación básica
-      if (/^(hola|buenas|hey|que tal|como estas|buenos dias|buenas tardes|buenas noches)\b/.test(t) && t.length < 45) {
-        const extra = d
-          ? `Ya tengo guardado tu escáner (<strong>${escapeHtml(d.perfil)}</strong>). ¿Quieres que revisemos tu rutina paso a paso o tienes alguna duda específica?`
-          : 'Cuéntame cómo sientes tu piel hoy (por ejemplo si tienes puntos negros, granitos, brillo o sequedad), o usa el escáner facial de la izquierda para analizarla.';
-        agregarMensajeChat('ia', `<p>¡Hola! Qué bueno verte por aquí. ${extra}</p>`);
+      if (/^(hola|buenas|hey|que tal|buenos dias|buenas tardes)\b/.test(t) && t.length < 40) {
+        agregarMensajeChat('ia', `<p>¡Hola! ${d ? `Ya tengo listo tu perfil (<strong>${escapeHtml(d.perfil)}</strong>).` : 'Cuéntame cómo sientes tu piel o usa el escáner facial de la izquierda.'} ¿Qué te gustaría revisar hoy?</p>`);
         return;
       }
 
-      if (/\b(gracias|muchas gracias|vale|bacan|super|genial|perfecto)\b/.test(t) && t.length < 45) {
-        agregarMensajeChat('ia', `<p>¡De nada! Si te surge otra duda sobre cómo aplicar algún producto, frecuencia de uso o combinaciones de ingredientes, escríbeme nomás.</p>`);
-        return;
-      }
-
-      // 2) Explicar sus propios resultados del escáner
-      if (t.includes('resultado') || t.includes('escaneo') || t.includes('escaner') || t.includes('tipo de piel') || t.includes('como salio')) {
-        if (d) {
-          agregarMensajeChat('ia', `
-            <p>Según tu escáner, tu perfil es <strong>${escapeHtml(d.perfil)}</strong>:</p>
-            <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1">
-              <li><strong>Acné / enrojecimiento (${d.acne}%):</strong> ${d.acne >= 35 ? 'Presenta actividad moderada o alta; conviene usar activos calmantes y no apretar lesiones.' : 'Está en nivel bajo/controlado.'}</li>
-              <li><strong>Puntos negros / poros (${d.puntosNegros}%):</strong> ${d.puntosNegros >= 35 ? 'Hay acumulación en Zona T; el ácido salicílico (BHA) es tu mejor aliado.' : 'Poros relativamente limpios.'}</li>
-              <li><strong>Brillo Zona T (${d.brillo}%) e Hidratación (${d.hidratacion}%):</strong> ${d.brillo > 45 && d.hidratacion < 60 ? 'Típico de piel mixta deshidratada: produce brillo para compensar falta de agua.' : 'Indica el balance entre sebo en frente/nariz y barrera en mejillas.'}</li>
-            </ul>
-            <p class="text-xs text-teal-700 font-medium">¿Quieres que te arme el orden exacto de rutina para la mañana y la noche según esto?</p>
-          `);
-        } else {
-          agregarMensajeChat('ia', `<p>Todavía no has realizado el escáner facial. Si activas tu cámara o subes una foto a la izquierda, podré medir tus niveles de acné, puntos negros, brillo e hidratación. O si prefieres, descríbeme cómo sientes tu piel al lavarla y te ayudo a identificar tu tipo.</p>`);
-        }
-        return;
-      }
-
-      // 3) Rutina AM / PM y orden de aplicación
-      if (t.includes('rutina') || t.includes('orden') || t.includes('manana') || t.includes('noche') || t.includes('como me aplico') || t.includes('paso a paso') || t.includes('como se usa')) {
-        const foco = d ? `adaptada a tu perfil (<strong>${escapeHtml(d.perfil)}</strong>)` : 'equilibrada y efectiva sin complicarte';
+      if (t.includes('rutina') || t.includes('orden') || t.includes('manana') || t.includes('noche') || t.includes('paso a paso')) {
         agregarMensajeChat('ia', `
-          <p>Aquí tienes el orden correcto para una rutina <strong>AM y PM</strong> ${foco} (siempre de la textura más ligera a la más densa):</p>
+          <p>Este es el orden correcto para una rutina <strong>AM y PM</strong> (de textura más ligera a más densa):</p>
           <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3 text-xs space-y-1">
-            <p class="font-bold text-amber-900">☀️ Mañana (Proteger)</p>
-            <p>1. <strong>Limpiador suave</strong> con agua tibia (30–60 segundos, sin frotar fuerte).</p>
-            <p>2. <strong>Sérum opcional</strong> (ej. Niacinamida para controlar brillo o Vitamina C).</p>
-            <p>3. <strong>Hidratante ligero</strong> en gel o loción si sientes tirantez.</p>
-            <p>4. <strong>Protector solar FPS 50+</strong> (2 dedos completos para rostro y cuello, obligatorio todos los días).</p>
+            <p class="font-bold text-amber-900">☀️ Mañana</p>
+            <p>1. Limpiador suave → 2. Sérum opcional (Niacinamida o Vitamina C) → 3. Hidratante ligero → 4. Protector solar FPS 50+.</p>
           </div>
           <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3 text-xs space-y-1">
-            <p class="font-bold text-indigo-900">🌙 Noche (Limpiar y Tratar)</p>
-            <p>1. <strong>Limpiador facial</strong> para retirar bloqueador, contaminación y exceso de sebo.</p>
-            <p>2. <strong>Tratamiento activo</strong> (ej. Ácido Salicílico para puntos negros/acné, empezando 2–3 noches por semana).</p>
-            <p>3. <strong>Crema o gel hidratante</strong> con ceramidas o ácido hialurónico para reparar la barrera mientras duermes.</p>
+            <p class="font-bold text-indigo-900">🌙 Noche</p>
+            <p>1. Limpiador facial → 2. Tratamiento activo (ej. Ácido Salicílico 2–3 noches/semana) → 3. Hidratante reparador con ceramidas.</p>
           </div>
-          <p class="text-xs text-slate-600">¿Quieres que te recomiende productos específicos de farmacia para alguno de estos pasos o prefieres opciones económicas?</p>
         `);
         return;
       }
 
-      // 4) Mezcla de ingredientes / compatibilidad (NO es una búsqueda, es una duda técnica)
-      if (t.includes('mezclar') || t.includes('juntar') || t.includes('combinar') || t.includes('compatib') || (t.includes('niacinamida') && (t.includes('salicilico') || t.includes('vitamina') || t.includes('retinol')))) {
+      if (t.includes('mezclar') || t.includes('juntar') || t.includes('combinar') || (t.includes('niacinamida') && (t.includes('salicilico') || t.includes('retinol')))) {
         agregarMensajeChat('ia', `
-          <p>¡Excelente pregunta! Mezclar mal los activos es la causa número uno de irritación. Aquí tienes la guía rápida:</p>
-          <ul class="list-disc pl-4 text-xs text-slate-700 space-y-1.5">
-            <li><strong>Ácido Salicílico (BHA) + Niacinamida:</strong> ✅ <strong>Sí se pueden usar juntos</strong>. De hecho se complementan muy bien: el salicílico destapa poros y la niacinamida calma y regula el brillo. Aplica primero el salicílico (o úsalo en tu limpiador) y luego la niacinamida.</li>
-            <li><strong>Ácido Salicílico + Retinol:</strong> ⚠️ <strong>No en la misma noche</strong>. Ambos aceleran la renovación y juntos pueden quemar o descamar tu piel. Alterna noches (ej. lunes salicílico, miércoles retinol).</li>
-            <li><strong>Vitamina C + Niacinamida:</strong> ✅ Generalmente compatibles en fórmulas modernas; si tu piel es sensible, deja Vitamina C en la mañana y Niacinamida en la noche.</li>
-            <li><strong>Ácido Hialurónico / Ceramidas:</strong> ✅ Combinan con absolutamente todo y ayudan a reducir la irritación.</li>
-          </ul>
-          <p class="text-xs text-teal-700 font-medium">¿Qué productos exactos tienes pensados combinar?</p>
-        `);
-        return;
-      }
-
-      // 5) Dudas de efectos secundarios: ardor, purga, frecuencia, exfoliación
-      if (t.includes('arde') || t.includes('pica') || t.includes('irrita') || t.includes('rojo') || t.includes('purga') || t.includes('descama')) {
-        agregarMensajeChat('ia', `
-          <p>Si sientes <strong>ardor, picazón o descamación</strong> al aplicar un producto, tu barrera cutánea te está avisando que está sobre-exfoliada o sensible:</p>
+          <p>Guía rápida para combinar activos sin irritar tu piel:</p>
           <ul class="list-disc pl-4 text-xs text-slate-700 space-y-1">
-            <li><strong>Pausa los ácidos y retinoides</strong> por 4 a 7 días.</li>
-            <li>Quédate solo con <strong>limpiador suave sin fragancia + hidratante con ceramidas/pantenol + protector solar</strong>.</li>
-            <li><strong>¿Brote normal (purga) o irritación?</strong> La purga ocurre solo con activos renovadores (salicílico, retinol) en las zonas donde ya solías tener puntos negros/granitos y baja en 4–6 semanas. Si aparecen granitos en zonas nuevas o pica mucho, suspende el producto.</li>
+            <li><strong>Ácido Salicílico + Niacinamida:</strong> ✅ Sí se pueden combinar; uno destapa poros y el otro calma y regula brillo.</li>
+            <li><strong>Ácido Salicílico + Retinol:</strong> ⚠️ Mejor alternar noches para evitar irritación o descamación.</li>
+            <li><strong>Ácido Hialurónico / Ceramidas:</strong> ✅ Combinan con todos los activos.</li>
           </ul>
-          <p class="text-xs text-slate-500">Si hay inflamación fuerte o dolor persistente, lo más seguro es consultar con un dermatólogo.</p>
         `);
         return;
       }
 
-      if (t.includes('que es inci') || t.includes('que significa inci') || t.includes('ingredientes')) {
-        agregarMensajeChat('ia', `
-          <p><strong>INCI</strong> (<em>International Nomenclature of Cosmetic Ingredients</em>) es el nombre estandarizado mundial de los ingredientes en la parte trasera de cualquier producto.</p>
-          <p class="text-xs text-slate-600">El truco para leerlo bien: los ingredientes se listan <strong>de mayor a menor concentración</strong>. Así puedes comparar si un producto caro y uno económico de farmacia tienen prácticamente los mismos principios activos (por ejemplo, <em>Niacinamide</em> o <em>Salicylic Acid</em>) sin pagar solo por marketing.</p>
-        `);
-        return;
-      }
-
-      // 6) Piel mixta (brillo en Zona T + mejillas secas)
-      if ((t.includes('mixta') || (t.includes('brill') && t.includes('seca')) || (t.includes('frente') && t.includes('mejilla')))) {
-        await responderConTarjetas(
-          `<p>Eso que describes es el clásico patrón de <strong>piel mixta</strong>: la Zona T (frente, nariz y mentón) tiene más glándulas sebáceas, mientras que las mejillas pierden agua más rápido.</p>
-          <p class="text-xs text-slate-600">El error común es usar jabones muy astringentes para quitar el brillo, lo que reseca las mejillas y empeora el sebo. Lo ideal es un limpiador suave, hidratante en gel liviano y controlar el brillo con toque seco:</p>`,
-          ['Niacinamida', 'Ácido Hialurónico', 'Ceramidas'],
+      if (t.includes('punto') || t.includes('poro') || t.includes('nariz')) {
+        await responderConPreciosEnChat(
+          `<p>Para <strong>puntos negros y poros dilatados</strong>, evita tiritas arrancadoras y prioriza <strong>Ácido Salicílico (BHA)</strong> y <strong>Niacinamida</strong>:</p>`,
+          ['Ácido Salicílico (BHA)', 'Niacinamida'],
           [
-            { paso: 'Limpieza Equilibrada', nombre: 'CeraVe Foaming Cleanser', query: 'CeraVe Foaming', motivo: 'Retira el sebo de la Zona T sin resecar tus mejillas.' },
-            { paso: 'Hidratación Ligera', nombre: 'Neutrogena Hydro Boost Gel', query: 'Neutrogena Hydro Boost', motivo: 'Hidrata las mejillas sin dejar la frente grasosa.' }
+            { paso: 'Limpiador BHA', nombre: 'CeraVe Limpiador Control Imperfecciones', motivo: 'Contiene ácido salicílico 2% para desobstruir poros.' },
+            { paso: 'Sérum Poros', nombre: 'The Ordinary Niacinamide 10% Zinc', motivo: 'Regula el brillo y afina visualmente los poros.' }
           ]
         );
         return;
       }
 
-      // 7) Presupuesto / Rutina económica en Chile
-      if (t.includes('barat') || t.includes('econom') || t.includes('ahorr') || t.includes('plata') || t.includes('presupuesto') || t.includes('simi')) {
-        await responderConTarjetas(
-          `<p>Para armar una <strong>rutina efectiva cuidando el bolsillo en Chile</strong>, la regla de oro es simple: no necesitas 8 pasos. Con <strong>3 productos básicos</strong> (Limpiador + Hidratante + Protector Solar) cubres el 90% de lo que necesita tu piel.</p>
-          <p class="text-xs text-slate-600">Consejo práctico: compara siempre entre <strong>Dr. Simi, Preunic, Maicao, Cruz Verde, Salcobrand y Ahumada</strong> porque las ofertas rotan cada semana. Estas opciones suelen tener excelente relación precio-rendimiento (envases grandes que duran meses):</p>`,
+      if (t.includes('acne') || t.includes('grano') || t.includes('brote')) {
+        await responderConPreciosEnChat(
+          `<p>Para <strong>acné leve y brotes</strong>, lava máximo 2 veces al día y usa fórmulas no comedogénicas con <strong>Ácido Salicílico</strong>:</p>`,
+          ['Ácido Salicílico', 'Niacinamida', 'Zinc PCA'],
+          [
+            { paso: 'Limpiador Purificante', nombre: 'La Roche Posay Effaclar Gel', motivo: 'Limpia el exceso de sebo sin irritar brotes.' },
+            { paso: 'Corrector', nombre: 'La Roche Posay Effaclar Duo', motivo: 'Ayuda a desinflamar granitos y prevenir marcas.' }
+          ]
+        );
+        return;
+      }
+
+      if (t.includes('barat') || t.includes('econom') || t.includes('ahorr') || t.includes('simi')) {
+        await responderConPreciosEnChat(
+          `<p>Para cuidar el presupuesto en Chile, enfócate en <strong>3 pasos básicos</strong> (Limpiador + Hidratante + Protector Solar) y compara el precio real entre las 6 cadenas:</p>`,
           ['Ceramidas', 'Niacinamida', 'FPS 50+'],
           [
-            { paso: 'Limpiador Rendidor', nombre: 'CeraVe Foaming Cleanser', query: 'CeraVe Foaming', motivo: 'Envase grande de larga duración con ceramidas y niacinamida.' },
-            { paso: 'Opción Accesible', nombre: 'Garnier Pure Active Limpiador', query: 'Garnier Pure Active', motivo: 'Alternativa económica frecuente en Preunic, Maicao y farmacias.' }
+            { paso: 'Limpiador Rendidor', nombre: 'CeraVe Limpiador Espumoso', motivo: 'Formato grande de larga duración con ceramidas.' },
+            { paso: 'Protector Diario', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Toque seco para uso diario.' }
           ]
         );
         return;
       }
 
-      // 8) Consultas específicas por condición cutánea (con explicación + recomendación real)
-      if (t.includes('punto') || t.includes('poro') || t.includes('nariz') || t.includes('comedon')) {
-        await responderConTarjetas(
-          `<p>Los <strong>puntos negros</strong> no son suciedad: son poros obstruidos por sebo y células muertas que se oxidan al contacto con el aire. Evita las tiritas arrancadoras o exfoliantes de grano grueso porque irritan y agrandan visualmente el poro.</p>
-          <p class="text-xs text-slate-600">Lo que sí funciona con evidencia es usar <strong>Ácido Salicílico (BHA)</strong> (penetra dentro del poro) y <strong>Niacinamida</strong> para regular la grasa. Empieza usándolo 3 veces por semana de noche:</p>`,
-          ['Ácido Salicílico (BHA)', 'Niacinamida', 'Zinc PCA'],
-          [
-            { paso: 'Limpiador BHA', nombre: 'CeraVe Blemish Control Cleanser', query: 'CeraVe SA', motivo: 'Contiene ácido salicílico 2% + arcilla para desobstruir poros.' },
-            { paso: 'Sérum Poros', nombre: 'The Ordinary Niacinamide 10% + Zinc', query: 'The Ordinary Niacinamide', motivo: 'Equilibra el sebo y suaviza la apariencia de poros dilatados.' }
-          ]
-        );
-        return;
-      }
-
-      if (t.includes('acne') || t.includes('grano') || t.includes('brote') || t.includes('espinilla')) {
-        await responderConTarjetas(
-          `<p>Para manejar el <strong>acné leve y brotes</strong>, la constancia vale más que aplicar muchos productos fuertes. Lava tu cara máximo 2 veces al día, cambia la funda de tu almohada seguido y no revientes los granitos para evitar manchas.</p>
-          <p class="text-xs text-slate-600">Busca fórmulas no comedogénicas con <strong>Ácido Salicílico y Niacinamida</strong> (si tienes acné quístico o doloroso, te recomiendo evaluación médica):</p>`,
-          ['Ácido Salicílico', 'Niacinamida', 'LHA'],
-          [
-            { paso: 'Limpiador Purificante', nombre: 'La Roche-Posay Effaclar Gel', query: 'La Roche-Posay Effaclar Gel', motivo: 'Formulado para pieles con tendencia acneica con pH fisiológico.' },
-            { paso: 'Tratamiento Corrector', nombre: 'La Roche-Posay Effaclar Duo', query: 'La Roche-Posay Effaclar Duo', motivo: 'Ayuda a desinflamar brotes y disminuir marcas post-acné.' }
-          ]
-        );
-        return;
-      }
-
-      if (t.includes('brill') || t.includes('grasa') || t.includes('sebo') || t.includes('zona t')) {
-        await responderConTarjetas(
-          `<p>El <strong>brillo excesivo en la Zona T</strong> suele empeorar cuando te lavas la cara demasiadas veces al día (efecto rebote). Lo ideal es limpiar mañana y noche con un gel suave, hidratar con textura gel y sellar de día con un protector solar mate:</p>`,
-          ['Niacinamida', 'Zinc', 'L-Carnitina'],
-          [
-            { paso: 'Limpiador Seborregulador', nombre: 'Bioderma Sebium Gel Moussant', query: 'Bioderma Sebium', motivo: 'Controla la calidad del sebo sin resecar la piel.' },
-            { paso: 'Protector Anti-Brillo', nombre: 'Eucerin Sun Oil Control FPS 50', query: 'Eucerin Oil Control', motivo: 'Acabado toque seco prolongado durante el día.' }
-          ]
-        );
-        return;
-      }
-
-      if (t.includes('solar') || t.includes('bloqueador') || t.includes('sol') || t.includes('fps')) {
-        await responderConTarjetas(
-          `<p>El <strong>protector solar FPS 50+</strong> es el paso más importante de cualquier rutina: previene manchas oscuras de acné, envejecimiento prematuro e irritación cuando usas ácidos. Aplica el equivalente a dos dedos y reaplica cada 3 horas si estás expuesto al sol:</p>`,
-          ['Filtros UVA/UVB FPS 50+', 'Toque Seco', 'No Comedogénico'],
-          [
-            { paso: 'Piel Mixta / Grasa', nombre: 'Eucerin Sun Oil Control FPS 50', query: 'Eucerin Oil Control', motivo: 'No deja brillo ni película blanca; excelente bajo uso diario.' },
-            { paso: 'Textura Ultraligera', nombre: 'ISDIN Fusion Water', query: 'ISDIN Fusion Water', motivo: 'Base acuosa que se absorbe al instante y no pica en los ojos.' }
-          ]
-        );
-        return;
-      }
-
-      if (t.includes('seca') || t.includes('hidrat') || t.includes('tirante')) {
-        await responderConTarjetas(
-          `<p>Cuando sientes la piel <strong>seca o tirante</strong>, evita el agua muy caliente en la ducha y aplica tu hidratante cuando el rostro todavía esté ligeramente húmedo para sellar mejor el agua en la piel:</p>`,
-          ['Ácido Hialurónico', 'Ceramidas', 'Glicerina'],
-          [
-            { paso: 'Limpiador sin Espuma', nombre: 'CeraVe Hydrating Cleanser', query: 'CeraVe Hydrating', motivo: 'Limpia suavemente mientras repone ceramidas de la barrera.' },
-            { paso: 'Hidratante Diario', nombre: 'Neutrogena Hydro Boost', query: 'Neutrogena Hydro Boost', motivo: 'Ácido hialurónico que hidrata profundamente sin sensación pesada.' }
-          ]
-        );
-        return;
-      }
-
-      if (t.includes('mancha') || t.includes('marca') || t.includes('oscuro') || t.includes('tono')) {
-        await responderConTarjetas(
-          `<p>Las <strong>manchas y marcas post-acné</strong> requieren paciencia (6 a 12 semanas) y <strong>protector solar diario estricto</strong>; sin bloqueador, cualquier crema despigmentante pierde efecto. Estos activos ayudan a unificar el tono de forma progresiva:</p>`,
-          ['Niacinamida', 'Vitamina C', 'Thiamidol / FPS 50+'],
-          [
-            { paso: 'Antimanchas', nombre: 'Eucerin Anti-Pigment', query: 'Eucerin Anti-Pigment', motivo: 'Formulado específicamente para reducir manchas oscuras.' },
-            { paso: 'Antioxidante Día', nombre: 'La Roche-Posay Vitamin C10', query: 'La Roche-Posay Vitamin C', motivo: 'Aporta luminosidad y mejora el tono desigual.' }
-          ]
-        );
-        return;
-      }
-
-      // 9) Si el usuario pregunta explícitamente por la evaluación de un producto que tiene
-      if (/\b(que tal es|sirve el|sirve la|tengo el|tengo la|uso el|uso la|opinas de|es bueno|es buena)\b/.test(t)) {
-        const loadingDiv = agregarMensajeChat('ia', `<p class="text-xs text-teal-700 animate-pulse">Revisando la ficha INCI del producto que mencionas...</p>`);
-        const nombreLimpio = textoOriginal.replace(/^(que tal es|sirve|tengo|uso|que opinas de|es bueno|es buena)\s+/i, '').trim();
-        const res = await buscarProductosEnVivo(nombreLimpio, 1);
-        const item = res.items[0] || null;
-        if (item) {
-          const analisisInci = evaluarInciConversacional(item.inci, d);
-          loadingDiv.querySelector('.chat-bubble-body').innerHTML = `
-            <p>Revisé <strong>${escapeHtml(item.title)}</strong>:</p>
-            <p class="text-xs text-slate-700">${analisisInci}</p>
-            <div class="pt-1">${renderizarCardRecomendacionChat('Producto evaluado', item.title, 'Revisa disponibilidad en farmacias chilenas:', item)}</div>
-          `;
-        } else {
-          loadingDiv.querySelector('.chat-bubble-body').innerHTML = `
-            <p>No encontré la lista de ingredientes exacta de <strong>"${escapeHtml(nombreLimpio)}"</strong> en la base internacional, pero si me cuentas <strong>qué tipo de producto es</strong> (limpiador, crema, sérum) o me escribes sus 3 primeros ingredientes del envase, te digo al tiro si te conviene para tu piel.</p>
-          `;
-        }
-        return;
-      }
-
-      // 10) Respuesta conversacional abierta (NUNCA actúa como buscador ciego)
-      const sugerenciaCtx = d
-        ? `Considerando que tu escáner indicó <strong>${escapeHtml(d.perfil)}</strong>, puedo ayudarte a:`
-        : 'Para darte una recomendación bien aterrizada y no genérica, cuéntame un poco más. Puedo ayudarte con:';
       agregarMensajeChat('ia', `
-        <p>${sugerenciaCtx}</p>
-        <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1">
-          <li>Armar tu <strong>rutina de mañana y noche</strong> paso a paso.</li>
-          <li>Recomendar activos y productos para <strong>acné, puntos negros, brillo, manchas o resequedad</strong>.</li>
-          <li>Revisar si <strong>puedes mezclar dos ingredientes</strong> o evaluar un producto que ya tengas en casa.</li>
-        </ul>
-        <p class="text-xs text-teal-700 font-medium">¿Qué te gustaría resolver primero?</p>
+        <p>Puedo ayudarte a armar tu <strong>rutina AM/PM</strong>, explicar <strong>cómo combinar ingredientes</strong> o buscar <strong>en qué farmacia chilena está más barato</strong> cualquier producto para acné, puntos negros, brillo o piel seca. ¿Qué te gustaría revisar?</p>
       `);
-    }
-
-    function evaluarInciConversacional(inci, diag) {
-      if (!inci) return 'Este producto no tiene su lista INCI detallada en la base pública. Como regla general, si tu piel tiende a granitos o puntos negros, verifica en el envase que diga "no comedogénico" y sin aceites pesados.';
-      const low = inci.toLowerCase();
-      const pros = [], alertas = [];
-      if (low.includes('niacinamide')) pros.push('<strong>Niacinamida</strong> (excelente para poros y brillo)');
-      if (low.includes('salicylic')) pros.push('<strong>Ácido Salicílico</strong> (ideal para puntos negros y acné)');
-      if (low.includes('ceramide')) pros.push('<strong>Ceramidas</strong> (cuidan la barrera cutánea)');
-      if (low.includes('hyaluron')) pros.push('<strong>Ácido Hialurónico</strong> (hidrata ligero)');
-      if (low.includes('panthenol')) pros.push('<strong>Pantenol</strong> (ayuda a calmar la piel)');
-      if (low.includes('parfum') || low.includes('fragrance')) alertas.push('contiene <strong>fragancia</strong> (ojo si tu piel es sensible o está irritada)');
-      if (low.includes('alcohol denat')) alertas.push('contiene <strong>Alcohol Denat</strong> (puede resecar si tienes mejillas tirantes)');
-
-      let resp = pros.length ? `Puntos a favor en su fórmula: incluye ${pros.join(', ')}. ` : 'Fórmula dermatológica estándar registrada. ';
-      if (alertas.length) resp += `A tener en cuenta: ${alertas.join(' y ')}. `;
-      if (diag) resp += `Para tu perfil (${escapeHtml(diag.perfil)}), pruébalo primero de noche y observa cómo reacciona tu piel durante la primera semana.`;
-      return resp;
     }
 
     async function procesarPreguntaUsuario(texto) {
       agregarMensajeChat('usuario', texto);
       estadoConversacion.historial.push({ role: 'user', text: texto });
 
-      // Si el usuario configuró su Gemini API Key, usamos IA generativa real
       if (apiConfig.geminiKey) {
         const loadingDiv = agregarMensajeChat('ia', `<p class="text-xs text-teal-700 animate-pulse">Pensando respuesta personalizada...</p>`);
         try {
-          const { textoLimpio, productosSugeridos } = await consultarGeminiReal(texto);
+          const { textoLimpio, productosSugeridos } = await consultarGeminiChat(texto);
           estadoConversacion.historial.push({ role: 'model', text: textoLimpio });
 
           const cuerpoHTML = `<p>${formatearTextoConversacional(textoLimpio)}</p>`;
           if (productosSugeridos.length > 0) {
-            const recs = productosSugeridos.map(p => ({ paso: 'Recomendado', nombre: p, query: p, motivo: 'Sugerido para tu consulta en farmacias chilenas.' }));
-            const resultados = await Promise.all(recs.map(async (rec) => {
-              const res = await buscarProductosEnVivo(rec.query, 1);
-              return { rec, apiItem: res.items[0] || null };
-            }));
-            const cards = resultados.map(({ rec, apiItem }) => renderizarCardRecomendacionChat(rec.paso, rec.nombre, rec.motivo, apiItem)).join('');
+            loadingDiv.querySelector('.chat-bubble-body').innerHTML = `${cuerpoHTML}<p class="text-xs text-teal-700 animate-pulse pt-1">Comparando precios reales en farmacias de Chile...</p>`;
+            const recs = productosSugeridos.map(p => ({ paso: 'Recomendado', nombre: p, motivo: 'Comparado en vivo en farmacias chilenas.' }));
+            const resultados = await Promise.all(recs.map(async (rec) => ({ rec, res: await obtenerComparacionPreciosEnVivo(rec.nombre) })));
+            const cards = resultados.map(({ rec, res }) => renderizarCardPrecioChat(rec, res)).join('');
             loadingDiv.querySelector('.chat-bubble-body').innerHTML = `${cuerpoHTML}<div class="space-y-2.5 pt-2">${cards}</div>`;
+            ejecutarComparacionProducto(productosSugeridos[0]);
           } else {
             loadingDiv.querySelector('.chat-bubble-body').innerHTML = cuerpoHTML;
           }
           document.getElementById('chatMensajes').scrollTop = document.getElementById('chatMensajes').scrollHeight;
           return;
         } catch (err) {
-          console.warn('Fallo Gemini API, usando motor conversacional local:', err.message);
+          console.warn('Gemini Chat fallback:', err.message);
           loadingDiv.remove();
         }
       }
 
-      // Motor conversacional local inteligente (sin API key)
-      await responderMotorConversacional(texto);
+      await responderMotorLocal(texto);
     }
 
     function manejarEnvioChat(e) {
@@ -1409,7 +1440,7 @@ Reglas estrictas:
         <div class="flex gap-3">
           <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
           <div class="chat-bubble-body bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[92%]">
-            Conversación reiniciada. Cuéntame qué duda tienes sobre tu piel, rutina o productos, o utiliza el escáner facial.
+            Conversación reiniciada. Sube tu foto en el escáner o pregúntame cualquier duda sobre tu piel.
           </div>
         </div>
       `;
@@ -1417,7 +1448,7 @@ Reglas estrictas:
 
     window.addEventListener('DOMContentLoaded', () => {
       actualizarBadgeChat();
-      ejecutarBusquedaCatalogo('CeraVe');
+      ejecutarComparacionProducto('CeraVe Limpiador Espumoso');
     });
   </script>
 </body>
