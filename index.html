@@ -58,7 +58,7 @@
           Analiza tu piel y encuentra dónde comprar <span class="text-teal-400">más barato en Chile</span>
         </h1>
         <p class="text-slate-300 text-base sm:text-lg max-w-2xl">
-          Escanea tu rostro en privado para evaluar <strong>acné, puntos negros, brillo en Zona T e hidratación</strong>. DermAI compara en vivo las principales farmacias chilenas, te indica <strong>cuál tiene el precio más bajo</strong> y te lleva directo al producto.
+          Escanea tu rostro en privado para evaluar <strong>acné, puntos negros, brillo en Zona T e hidratación</strong>. DermAI conversa contigo sobre tu rutina, compara en vivo las farmacias chilenas y te lleva directo al producto más económico.
         </p>
         <div class="flex flex-wrap gap-3 pt-1">
           <a href="#escaner" class="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-teal-500/20">
@@ -170,11 +170,11 @@
       <div id="asistente" class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[700px]">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
           <div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
               <h2 class="text-lg font-bold text-slate-900">2. Chatbot DermAI</h2>
-              <span id="badgeModoChat" class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Asistente Skincare</span>
+              <span id="badgeModoChat" onclick="abrirModalApi()" class="cursor-pointer text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">Asistente Skincare</span>
             </div>
-            <p class="text-xs text-slate-500">Pregunta tus dudas sobre tu piel, rutinas AM/PM, ingredientes o precios.</p>
+            <p class="text-xs text-slate-500">Conversa libremente sobre tu piel, productos que ya usas, rutinas o precios.</p>
           </div>
           <button onclick="reiniciarChat()" class="text-xs font-medium text-slate-500 hover:text-slate-800 px-2.5 py-1 rounded-lg border border-slate-200">Reiniciar</button>
         </div>
@@ -183,12 +183,12 @@
           <div class="flex gap-3">
             <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
             <div class="chat-bubble-body bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[92%] space-y-2">
-              <p>Hola, soy tu asistente de cuidado facial <strong>DermAI</strong>. Podemos conversar sobre lo que necesites:</p>
+              <p>Hola, soy tu asistente de cuidado facial <strong>DermAI</strong>. Podemos conversar tranquilamente sobre lo que necesites:</p>
               <ul class="list-disc pl-4 text-xs text-slate-600 space-y-1">
-                <li><strong>Al subir o capturar tu foto</strong>, analizo tu piel y busco al tiro <strong>en qué farmacia chilena está más barato</strong> cada producto recomendado.</li>
-                <li><strong>Resuelvo tus dudas</strong> sobre rutinas mañana/noche, mezcla de ingredientes (INCI) y alternativas económicas.</li>
+                <li><strong>Cuéntame qué productos ya estás usando</strong> (incluidos los que te recetó un dermatólogo) para ver cómo integrarlos a tu rutina.</li>
+                <li><strong>Al subir o capturar tu foto</strong>, analizo tu piel y busco en vivo <strong>en qué farmacia chilena está más barato</strong> cada producto.</li>
               </ul>
-              <p class="text-xs text-teal-700 font-medium">¿Qué es lo que más te preocupa hoy de tu piel?</p>
+              <p class="text-xs text-teal-700 font-medium">¿Qué dudas tienes hoy sobre tu piel o tu rutina?</p>
             </div>
           </div>
         </div>
@@ -203,7 +203,7 @@
 
         <!-- Input del chat -->
         <form onsubmit="manejarEnvioChat(event)" class="p-4 border-t border-slate-200 bg-white flex gap-2">
-          <input id="inputChat" type="text" placeholder="Escribe tu duda sobre tu piel, rutina o ingredientes..." class="flex-1 px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
+          <input id="inputChat" type="text" placeholder="Conversa con DermAI sobre tu piel, productos o dudas..." class="flex-1 px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
           <button type="submit" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition">Enviar</button>
         </form>
       </div>
@@ -223,7 +223,7 @@
       </div>
 
       <form onsubmit="manejarBusquedaManual(event)" class="flex flex-col sm:flex-row gap-3">
-        <input id="inputBusquedaManual" type="text" value="CeraVe Limpiador Espumoso 236 ml" placeholder="Ej: La Roche Posay Effaclar Gel, CeraVe Limpiador Espumoso, Eucerin Oil Control..." class="flex-1 px-4 py-3 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
+        <input id="inputBusquedaManual" type="text" value="CeraVe Limpiador Espumoso 236 ml" placeholder="Ej: Klina One, La Roche Posay Effaclar Gel, CeraVe Limpiador Espumoso..." class="flex-1 px-4 py-3 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
         <button type="submit" class="px-6 py-3 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold transition shadow-sm">
           Comparar Precios
         </button>
@@ -244,9 +244,9 @@
       <!-- Ranking completo de las otras farmacias comparadas -->
       <div id="gridProductosApi" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 
-      <!-- Barra de verificación directa en las 6 farmacias (URLs corregidas) -->
+      <!-- Barra de verificación directa en las 6 farmacias -->
       <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
-        <p class="text-xs font-semibold text-slate-600">Si quieres revisar manualmente el catálogo completo de <span id="terminoActualSpan" class="text-slate-900 font-bold"></span> en cada tienda:</p>
+        <p class="text-xs font-semibold text-slate-600">Revisar manualmente el catálogo completo de <span id="terminoActualSpan" class="text-slate-900 font-bold"></span> en cada tienda:</p>
         <div id="linksFarmaciasTop" class="flex flex-wrap gap-2"></div>
       </div>
     </section>
@@ -264,17 +264,21 @@
         <button onclick="cerrarModalApi()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
       </div>
       <p class="text-xs text-slate-600">
-        Las claves se guardan únicamente en tu navegador local. Con <strong>Gemini API</strong> activas el chatbot + búsqueda en vivo de precios; si además agregas <strong>Serper.dev</strong> (2.500 búsquedas gratis sin tarjeta), obtienes precios exactos de Google Shopping Chile con fotos oficiales y links directos al producto.
+        Las claves se guardan solo en tu navegador local. Pega tu clave gratuita de <strong>Gemini API</strong> para conversación libre real y tu clave de <strong>Serper.dev</strong> para precios exactos y links directos en Chile.
       </p>
 
       <div class="space-y-3 text-sm">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">1. Gemini API Key (Chatbot + Búsqueda en vivo de precios)</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-semibold text-slate-700">1. Gemini API Key (Conversación libre con IA)</label>
+            <button type="button" onclick="probarConexionGemini()" class="text-[11px] font-bold text-teal-700 hover:text-teal-900 underline">Probar conexión</button>
+          </div>
           <input id="cfgGeminiKey" type="password" placeholder="Pega tu clave de aistudio.google.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
+          <p id="estadoPruebaGemini" class="text-[11px] mt-1 text-slate-500"></p>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">2. Serper.dev API Key — Recomendado para precios y links directos exactos (Gratis)</label>
-          <input id="cfgSerperKey" type="password" placeholder="Pega tu clave gratis de serper.dev (sin tarjeta)" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
+          <label class="block text-xs font-semibold text-slate-700 mb-1">2. Serper.dev API Key (Precios y links directos de farmacias Chile)</label>
+          <input id="cfgSerperKey" type="password" placeholder="Pega tu clave gratis de serper.dev" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-700 mb-1">3. Endpoint Backend FastAPI (Opcional)</label>
@@ -284,14 +288,14 @@
 
       <div class="flex justify-end gap-2 pt-2">
         <button onclick="cerrarModalApi()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700">Cancelar</button>
-        <button onclick="guardarConfigApi()" class="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold">Guardar y Comparar</button>
+        <button onclick="guardarConfigApi()" class="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold">Guardar y Probar</button>
       </div>
     </div>
   </div>
 
   <script>
     // =========================================================
-    // 1. CONFIGURACIÓN DE LAS 6 FARMACIAS DE CHILE (URLS CORREGIDAS, SIN MERCADO LIBRE)
+    // 1. CONFIGURACIÓN DE LAS 6 FARMACIAS DE CHILE (SIN MERCADO LIBRE)
     // =========================================================
     function limpiarConsultaFarmacia(q) {
       return String(q || '')
@@ -311,7 +315,6 @@
         dominios: ['cruzverde.cl'],
         color: "bg-emerald-600 hover:bg-emerald-700 text-white",
         badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
-        // CORREGIDO: Cruz Verde usa ?query= en lugar de ?q=
         buildUrl: (q) => `https://www.cruzverde.cl/search?query=${encodeURIComponent(limpiarConsultaFarmacia(q))}`
       },
       {
@@ -377,9 +380,7 @@
         return (n >= 1000 && n <= 250000) ? n : null;
       }
       if (!valor) return null;
-      const str = String(valor);
-      // Buscar patrón de precio en pesos chilenos (ej: $18.990 o 18990)
-      const match = str.match(/\$?\s*(\d{1,3}(?:[.,]\d{3})+|\d{4,6})/);
+      const match = String(valor).match(/\$?\s*(\d{1,3}(?:[.,]\d{3})+|\d{4,6})/);
       if (!match) return null;
       const num = parseInt(match[1].replace(/[.,]/g, ''), 10);
       return (!isNaN(num) && num >= 1000 && num <= 250000) ? num : null;
@@ -398,6 +399,8 @@
     };
 
     let modeloGeminiActivo = null;
+    let endpointBaseActivo = null; // 'generativelanguage' | 'aiplatform'
+    let ultimoErrorGemini = '';
     const estadoConversacion = { diagnostico: null, historial: [] };
 
     function escapeHtml(str) {
@@ -409,14 +412,17 @@
         .replace(/'/g, '&#39;');
     }
 
-    function actualizarBadgeChat() {
+    function actualizarBadgeChat(errorTexto = '') {
       const badge = document.getElementById('badgeModoChat');
-      if (apiConfig.geminiKey) {
-        badge.textContent = modeloGeminiActivo ? `Gemini (${modeloGeminiActivo})` : 'Gemini IA Conectado';
-        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+      if (errorTexto) {
+        badge.textContent = `⚠️ ${errorTexto}`;
+        badge.className = 'cursor-pointer text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-300';
+      } else if (apiConfig.geminiKey) {
+        badge.textContent = modeloGeminiActivo ? `✓ Gemini (${modeloGeminiActivo})` : 'Gemini IA Conectado';
+        badge.className = 'cursor-pointer text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
       } else {
-        badge.textContent = 'Asistente Skincare';
-        badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
+        badge.textContent = 'Modo Local (Configurar ⚙️ API)';
+        badge.className = 'cursor-pointer text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200';
       }
     }
 
@@ -424,6 +430,7 @@
       document.getElementById('cfgGeminiKey').value = apiConfig.geminiKey;
       document.getElementById('cfgSerperKey').value = apiConfig.serperKey;
       document.getElementById('cfgFastApi').value = apiConfig.fastApiUrl;
+      document.getElementById('estadoPruebaGemini').textContent = ultimoErrorGemini ? `Último estado: ${ultimoErrorGemini}` : '';
       document.getElementById('modalApi').classList.remove('hidden');
     }
 
@@ -436,6 +443,8 @@
       apiConfig.serperKey = document.getElementById('cfgSerperKey').value.trim();
       apiConfig.fastApiUrl = document.getElementById('cfgFastApi').value.trim();
       modeloGeminiActivo = null;
+      endpointBaseActivo = null;
+      ultimoErrorGemini = '';
       localStorage.setItem('dermai_gemini_key', apiConfig.geminiKey);
       localStorage.setItem('dermai_serper_key', apiConfig.serperKey);
       localStorage.setItem('dermai_fastapi_url', apiConfig.fastApiUrl);
@@ -445,7 +454,7 @@
       ejecutarComparacionProducto(q);
     }
 
-    async function fetchConTimeout(url, options = {}, timeoutMs = 8000) {
+    async function fetchConTimeout(url, options = {}, timeoutMs = 15000) {
       const controller = new AbortController();
       const id = setTimeout(() => controller.abort(), timeoutMs);
       try {
@@ -459,7 +468,114 @@
     }
 
     // =========================================================
-    // 2. MOTOR DE FOTOS REALES + INCI (OPEN BEAUTY FACTS)
+    // 2. CONEXIÓN ROBUSTA CON GEMINI API (AI STUDIO + VERTEX EXPRESS AQ.)
+    // =========================================================
+    function construirUrlsGemini(modelo, apiKey) {
+      const urls = [];
+      const glUrl = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const vxUrl = `https://aiplatform.googleapis.com/v1/publishers/google/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+      if (endpointBaseActivo === 'aiplatform') {
+        urls.push({ base: 'aiplatform', url: vxUrl });
+        urls.push({ base: 'generativelanguage', url: glUrl });
+      } else if (apiKey.startsWith('AQ.')) {
+        // Las claves AQ. pueden ser de Vertex AI Express o del formato nuevo de AI Studio
+        urls.push({ base: 'generativelanguage', url: glUrl });
+        urls.push({ base: 'aiplatform', url: vxUrl });
+      } else {
+        urls.push({ base: 'generativelanguage', url: glUrl });
+      }
+      return urls;
+    }
+
+    async function invocarGeminiConFallback(apiKey, bodyPayload) {
+      const modelosCandidatos = [];
+      if (modeloGeminiActivo) modelosCandidatos.push(modeloGeminiActivo);
+      modelosCandidatos.push('gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash');
+
+      // También descubrir dinámicamente si hay otro modelo Flash disponible en la cuenta
+      try {
+        if (!modeloGeminiActivo) {
+          const listRes = await fetchConTimeout(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`, {}, 4500);
+          if (listRes.ok) {
+            const listData = await listRes.json();
+            const extra = (listData.models || [])
+              .filter(m => Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
+              .map(m => (m.name || '').replace(/^models\//, ''))
+              .filter(n => /gemini/i.test(n) && /flash/i.test(n) && !/tts|image|audio|embedding|live/i.test(n));
+            extra.forEach(m => { if (!modelosCandidatos.includes(m)) modelosCandidatos.push(m); });
+          }
+        }
+      } catch {}
+
+      const unicos = [...new Set(modelosCandidatos)];
+      let ultimoError = 'No se pudo conectar con Gemini';
+
+      for (const modelo of unicos) {
+        const destinos = construirUrlsGemini(modelo, apiKey);
+        for (const dest of destinos) {
+          try {
+            const res = await fetchConTimeout(dest.url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(bodyPayload)
+            }, 15000);
+
+            if (res.ok) {
+              const data = await res.json();
+              const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n').trim() || '';
+              if (text) {
+                modeloGeminiActivo = modelo;
+                endpointBaseActivo = dest.base;
+                ultimoErrorGemini = '';
+                actualizarBadgeChat();
+                return { data, text, modelo };
+              }
+            } else {
+              let detalle = `HTTP ${res.status}`;
+              try {
+                const errJson = await res.json();
+                if (errJson?.error?.message) detalle = `HTTP ${res.status}: ${errJson.error.message.slice(0, 90)}`;
+              } catch {}
+              ultimoError = detalle;
+              console.warn(`Gemini fallo (${modelo} @ ${dest.base}):`, detalle);
+            }
+          } catch (e) {
+            ultimoError = e.name === 'AbortError' ? 'Tiempo de espera agotado' : e.message;
+          }
+        }
+      }
+
+      ultimoErrorGemini = ultimoError;
+      throw new Error(ultimoError);
+    }
+
+    async function probarConexionGemini() {
+      const keyInput = document.getElementById('cfgGeminiKey').value.trim();
+      const statusEl = document.getElementById('estadoPruebaGemini');
+      if (!keyInput) {
+        statusEl.textContent = 'Pega primero tu clave de Gemini en el campo de arriba.';
+        statusEl.className = 'text-[11px] mt-1 text-amber-700 font-semibold';
+        return;
+      }
+      statusEl.textContent = 'Probando conexión con Gemini...';
+      statusEl.className = 'text-[11px] mt-1 text-teal-700 animate-pulse';
+      modeloGeminiActivo = null;
+      endpointBaseActivo = null;
+      try {
+        const { modelo } = await invocarGeminiConFallback(keyInput, {
+          contents: [{ role: 'user', parts: [{ text: 'Responde únicamente: OK' }] }]
+        });
+        statusEl.textContent = `✓ Conectado correctamente usando ${modelo}.`;
+        statusEl.className = 'text-[11px] mt-1 text-emerald-700 font-semibold';
+      } catch (err) {
+        statusEl.textContent = `✕ Error: ${err.message}`;
+        statusEl.className = 'text-[11px] mt-1 text-rose-600 font-semibold';
+      }
+    }
+
+    // =========================================================
+    // 3. MOTOR DE FOTOS REALES + INCI (OPEN BEAUTY FACTS)
     // =========================================================
     async function obtenerFotoEInciOBF(termino) {
       try {
@@ -490,13 +606,12 @@
     }
 
     // =========================================================
-    // 3. COMPARADOR EN VIVO: ENCUENTRA EL MÁS BARATO Y SU LINK DIRECTO
+    // 4. COMPARADOR EN VIVO: ENCUENTRA EL MÁS BARATO Y SU LINK DIRECTO
     // =========================================================
     async function compararConSerper(query) {
       if (!apiConfig.serperKey) return [];
       const ofertasPorFarmacia = new Map();
 
-      // A) Google Shopping Chile (precios exactos, fotos reales y links directos)
       try {
         const res = await fetchConTimeout('https://google.serper.dev/shopping', {
           method: 'POST',
@@ -526,7 +641,6 @@
         }
       } catch (e) { console.warn('Serper shopping error:', e.message); }
 
-      // B) Refuerzo con búsqueda orgánica dirigida a las 6 farmacias si faltan ofertas
       if (ofertasPorFarmacia.size < 3) {
         try {
           const siteFilter = 'site:cruzverde.cl OR site:salcobrand.cl OR site:farmaciasahumada.cl OR site:drsimi.cl OR site:preunic.cl OR site:maicao.cl';
@@ -540,7 +654,6 @@
             for (const item of (data.organic || [])) {
               const farm = detectarFarmaciaPermitida(item.title, item.link);
               if (!farm || !item.link) continue;
-              // Evitar URLs de buscador interno
               if (/\/search|search_result|\?q=|\?query=/i.test(item.link)) continue;
               const precio = parsePrecioCLP(item.price || item.priceRange || item.snippet || '');
               if (precio) {
@@ -564,15 +677,8 @@
       return Array.from(ofertasPorFarmacia.values()).sort((a, b) => a.priceCLP - b.priceCLP);
     }
 
-    // Motor con tu Gemini API Key + Google Search Grounding (busca precios reales y links directos en las 6 farmacias)
     async function compararConGeminiGrounding(query) {
       if (!apiConfig.geminiKey) return [];
-
-      const modelosAProbar = [];
-      if (modeloGeminiActivo) modelosAProbar.push(modeloGeminiActivo);
-      modelosAProbar.push('gemini-2.5-flash', 'gemini-2.5-flash-lite');
-      const unicos = [...new Set(modelosAProbar)];
-
       const prompt = `Busca en Google el precio actual en pesos chilenos (CLP) y el enlace DIRECTO a la ficha del producto "${query}" exclusivamente en estas 6 tiendas de Chile:
 1. Cruz Verde (cruzverde.cl)
 2. Salcobrand (salcobrand.cl)
@@ -581,98 +687,74 @@
 5. Preunic (preunic.cl)
 6. Maicao (maicao.cl)
 
-Reglas estrictas:
+Reglas:
 - NUNCA incluyas Mercado Libre ni inventes precios.
-- Solo incluye tiendas donde hayas encontrado un precio real en los resultados de búsqueda.
-- Devuelve ÚNICAMENTE un bloque JSON válido con este formato exacto:
+- Solo incluye tiendas donde hayas encontrado un precio real.
+- Devuelve ÚNICAMENTE un bloque JSON válido:
 \`\`\`json
 [
   {"farmacia": "Cruz Verde", "titulo": "Nombre exacto del producto", "precio_clp": 16990, "url": "https://www.cruzverde.cl/..."}
 ]
 \`\`\``;
 
-      for (const modelo of unicos) {
-        try {
-          const res = await fetchConTimeout(
-            `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiConfig.geminiKey)}`,
-            {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                contents: [{ role: 'user', parts: [{ text: prompt }] }],
-                tools: [{ google_search: {} }]
-              })
-            },
-            14000
-          );
+      try {
+        const { data, text } = await invocarGeminiConFallback(apiConfig.geminiKey, {
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          tools: [{ google_search: {} }]
+        });
 
-          if (!res.ok) continue;
-          const data = await res.json();
-          modeloGeminiActivo = modelo;
-          actualizarBadgeChat();
-
-          const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('\n') || '';
-          const chunks = data?.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-
-          // Mapear URLs reales verificadas desde los groundingChunks de Google por farmacia
-          const urlVerificadaPorFarmacia = new Map();
-          for (const ch of chunks) {
-            const uri = ch?.web?.uri || '';
-            const title = ch?.web?.title || '';
-            const farm = detectarFarmaciaPermitida(title, uri);
-            if (farm && uri && !urlVerificadaPorFarmacia.has(farm.id)) {
-              urlVerificadaPorFarmacia.set(farm.id, uri);
-            }
+        const chunks = data?.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+        const urlVerificadaPorFarmacia = new Map();
+        for (const ch of chunks) {
+          const uri = ch?.web?.uri || '';
+          const title = ch?.web?.title || '';
+          const farm = detectarFarmaciaPermitida(title, uri);
+          if (farm && uri && !urlVerificadaPorFarmacia.has(farm.id)) {
+            urlVerificadaPorFarmacia.set(farm.id, uri);
           }
-
-          // Extraer JSON del texto de respuesta
-          const jsonMatch = text.match(/\[[\s\S]*?\]/);
-          if (!jsonMatch) continue;
-
-          let parsed = [];
-          try { parsed = JSON.parse(jsonMatch[0]); } catch { continue; }
-          if (!Array.isArray(parsed)) continue;
-
-          const ofertasPorFarmacia = new Map();
-          for (const row of parsed) {
-            const farm = detectarFarmaciaPermitida(row.farmacia, row.url || '');
-            const precio = parsePrecioCLP(row.precio_clp || row.precio);
-            if (!farm || !precio) continue;
-
-            // Priorizar la URL verificada real del grounding chunk de Google; si no, validar URL directa del dominio
-            let urlFinal = urlVerificadaPorFarmacia.get(farm.id) || '';
-            if (!urlFinal && row.url && /^https?:\/\//i.test(row.url)) {
-              const esMismaFarmacia = detectarFarmaciaPermitida('', row.url)?.id === farm.id;
-              const noEsBuscador = !/\/search|search_result|\?q=|\?query=/i.test(row.url);
-              if (esMismaFarmacia && noEsBuscador) urlFinal = row.url;
-            }
-            const esDirecto = Boolean(urlFinal);
-            if (!urlFinal) urlFinal = farm.buildUrl(row.titulo || query);
-
-            const previa = ofertasPorFarmacia.get(farm.id);
-            if (!previa || precio < previa.priceCLP) {
-              ofertasPorFarmacia.set(farm.id, {
-                farmacia: farm,
-                title: row.titulo || query,
-                priceCLP: precio,
-                image: '',
-                url: urlFinal,
-                esLinkDirecto: esDirecto
-              });
-            }
-          }
-
-          const lista = Array.from(ofertasPorFarmacia.values()).sort((a, b) => a.priceCLP - b.priceCLP);
-          if (lista.length > 0) return lista;
-        } catch (e) {
-          console.warn(`Grounding con ${modelo} falló:`, e.message);
         }
+
+        const jsonMatch = text.match(/\[[\s\S]*?\]/);
+        if (!jsonMatch) return [];
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (!Array.isArray(parsed)) return [];
+
+        const ofertasPorFarmacia = new Map();
+        for (const row of parsed) {
+          const farm = detectarFarmaciaPermitida(row.farmacia, row.url || '');
+          const precio = parsePrecioCLP(row.precio_clp || row.precio);
+          if (!farm || !precio) continue;
+
+          let urlFinal = urlVerificadaPorFarmacia.get(farm.id) || '';
+          if (!urlFinal && row.url && /^https?:\/\//i.test(row.url)) {
+            const esMismaFarmacia = detectarFarmaciaPermitida('', row.url)?.id === farm.id;
+            const noEsBuscador = !/\/search|search_result|\?q=|\?query=/i.test(row.url);
+            if (esMismaFarmacia && noEsBuscador) urlFinal = row.url;
+          }
+          const esDirecto = Boolean(urlFinal);
+          if (!urlFinal) urlFinal = farm.buildUrl(row.titulo || query);
+
+          const previa = ofertasPorFarmacia.get(farm.id);
+          if (!previa || precio < previa.priceCLP) {
+            ofertasPorFarmacia.set(farm.id, {
+              farmacia: farm,
+              title: row.titulo || query,
+              priceCLP: precio,
+              image: '',
+              url: urlFinal,
+              esLinkDirecto: esDirecto
+            });
+          }
+        }
+
+        return Array.from(ofertasPorFarmacia.values()).sort((a, b) => a.priceCLP - b.priceCLP);
+      } catch (e) {
+        console.warn('Grounding falló:', e.message);
+        return [];
       }
-      return [];
     }
 
     async function obtenerComparacionPreciosEnVivo(query) {
-      // 1) Backend propio FastAPI (si existe)
       if (apiConfig.fastApiUrl) {
         try {
           const url = `${apiConfig.fastApiUrl}${apiConfig.fastApiUrl.includes('?') ? '&' : '?'}q=${encodeURIComponent(query)}`;
@@ -698,10 +780,8 @@ Reglas estrictas:
         } catch (e) { console.warn('FastAPI omitido:', e.message); }
       }
 
-      // En paralelo pedimos foto real e INCI desde Open Beauty Facts para enriquecer las tarjetas
       const obfPromise = obtenerFotoEInciOBF(query);
 
-      // 2) Serper.dev (precios exactos y links directos más rápidos)
       if (apiConfig.serperKey) {
         const ofertasSerper = await compararConSerper(query);
         const obf = await obfPromise;
@@ -711,7 +791,6 @@ Reglas estrictas:
         }
       }
 
-      // 3) Gemini API con Google Search Grounding (usa la clave que ya tienes!)
       if (apiConfig.geminiKey) {
         const ofertasGemini = await compararConGeminiGrounding(query);
         const obf = await obfPromise;
@@ -764,7 +843,6 @@ Reglas estrictas:
         const ahorro = ofertas.length > 1 ? (masCaro.priceCLP - ganador.priceCLP) : 0;
         const pctAhorro = (ahorro > 0 && masCaro.priceCLP > 0) ? Math.round((ahorro / masCaro.priceCLP) * 100) : 0;
 
-        // Mostrar TARJETA GANADORA destacada arriba
         boxGanador.classList.remove('hidden');
         boxGanador.innerHTML = `
           <div class="rounded-2xl border-2 border-emerald-500 bg-gradient-to-r from-emerald-50 via-white to-teal-50 p-5 sm:p-6 shadow-md">
@@ -801,7 +879,6 @@ Reglas estrictas:
           </div>
         `;
 
-        // Mostrar el resto de farmacias ordenadas por precio
         const otras = ofertas.slice(1);
         if (otras.length > 0) {
           grid.innerHTML = otras.map((item, idx) => {
@@ -841,7 +918,6 @@ Reglas estrictas:
           `;
         }
       } else {
-        // Si no hay clave conectada o no hubo precios numéricos en vivo
         const faltaKey = !apiConfig.geminiKey && !apiConfig.serperKey;
         grid.innerHTML = `
           <div class="col-span-full rounded-2xl border border-amber-200 bg-amber-50/70 p-6 flex flex-col sm:flex-row gap-5 items-center justify-between">
@@ -853,8 +929,8 @@ Reglas estrictas:
                 </p>
                 <p class="text-xs text-slate-600 max-w-2xl">
                   ${faltaKey
-                    ? 'Para mostrar qué farmacia tiene el precio más bajo y el link directo al producto (sin precios falsos), pega tu clave gratuita de Gemini o Serper.dev en el botón ⚙️ API arriba a la derecha.'
-                    : 'Prueba agregando tu clave gratuita de Serper.dev en ⚙️ API (Google Shopping Chile) para obtener precios y links directos garantizados, o abre las búsquedas corregidas de abajo.'}
+                    ? 'Pega tu clave gratuita de Gemini o Serper.dev en el botón ⚙️ API arriba a la derecha para ver cuál farmacia es más barata y abrir el link directo.'
+                    : 'Prueba revisar las tiendas con los botones de abajo o buscar solo por marca y nombre corto.'}
                 </p>
               </div>
             </div>
@@ -873,7 +949,7 @@ Reglas estrictas:
     }
 
     // =========================================================
-    // 4. ESCÁNER FACIAL REAL (CÁMARA O FOTO SUBIDA)
+    // 5. ESCÁNER FACIAL REAL (CÁMARA O FOTO SUBIDA)
     // =========================================================
     let streamActivo = null;
 
@@ -999,7 +1075,6 @@ Reglas estrictas:
       const pctPuntosNegros = Math.min(92, Math.max(18, Math.round((sumaContrastePoros / totalPixels) * 280) + 20));
       const pctHidratacion = Math.min(92, Math.max(25, 88 - Math.round((pixelesSecos / totalPixels) * 110)));
 
-      // Superposición visual sobre la foto
       ctx.strokeStyle = 'rgba(20, 184, 166, 0.85)';
       ctx.lineWidth = 2;
       ctx.setLineDash([6, 4]);
@@ -1091,25 +1166,28 @@ Reglas estrictas:
       }
 
       estadoConversacion.diagnostico = { acne: pctAcne, puntosNegros: pctPuntosNegros, brillo: pctBrillo, hidratacion: pctHidratacion, perfil, activos, recomendados };
+      // Guardar el escáner en el historial del chat para que la IA recuerde el contexto al conversar
+      estadoConversacion.historial.push(
+        { role: 'user', text: 'Acabo de realizar el escáner facial en DermAI.' },
+        { role: 'model', text: `Analicé tu escáner: perfil ${perfil} (acné ${pctAcne}%, puntos negros ${pctPuntosNegros}%, brillo ${pctBrillo}%, hidratación ${pctHidratacion}%). Te sugerí inicialmente: ${recomendados.map(r => r.nombre).join(' y ')}.` }
+      );
+
       document.getElementById('resumenClinico').innerHTML = resumen;
       document.getElementById('chipsActivos').innerHTML = `<span class="text-[11px] font-bold text-slate-500">Activos sugeridos:</span>` +
         activos.map(a => `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-teal-100 text-teal-800">${a}</span>`).join('');
       document.getElementById('panelResultados').classList.remove('hidden');
 
-      // 1) En el chat: muestra el diagnóstico + compara en vivo el precio más barato de cada producto recomendado
       const introChat = `
         <p>Ya analicé tu foto. Tu perfil es <strong>${escapeHtml(perfil)}</strong>:</p>
         <p class="text-xs text-slate-600">${resumen}</p>
         <p class="text-xs text-slate-700">Busqué en vivo en las farmacias de Chile <strong>dónde está más barato</strong> lo que necesitas:</p>
       `;
       responderConPreciosEnChat(introChat, activos, recomendados);
-
-      // 2) En el comparador inferior: lanza automáticamente la comparación completa del producto #1
       ejecutarComparacionProducto(recomendados[0].nombre);
     }
 
     // =========================================================
-    // 5. CHATBOT CONVERSACIONAL + TARJETAS CON FARMACIA MÁS BARATA Y LINK DIRECTO
+    // 6. CHATBOT CONVERSACIONAL LIBRE (SIN BUG DE TURNOS DUPLICADOS)
     // =========================================================
     function agregarMensajeChat(remitente, htmlContenido) {
       const cont = document.getElementById('chatMensajes');
@@ -1174,7 +1252,6 @@ Reglas estrictas:
         `;
       }
 
-      // Fallback limpio con URLs corregidas (Cruz Verde usa ?query=)
       return `
         <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
           <div class="flex gap-3 items-start">
@@ -1234,70 +1311,47 @@ Reglas estrictas:
       document.getElementById('chatMensajes').scrollTop = document.getElementById('chatMensajes').scrollHeight;
     }
 
-    async function detectarModeloGeminiDisponible(apiKey) {
-      if (modeloGeminiActivo) return modeloGeminiActivo;
-      try {
-        const res = await fetchConTimeout(`https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`, {}, 5000);
-        if (res.ok) {
-          const data = await res.json();
-          const validos = (data.models || []).filter(m => {
-            const name = (m.name || '').toLowerCase();
-            return Array.isArray(m.supportedGenerationMethods) &&
-              m.supportedGenerationMethods.includes('generateContent') &&
-              name.includes('gemini') && name.includes('flash') &&
-              !name.includes('tts') && !name.includes('image') && !name.includes('audio') && !name.includes('embedding');
-          });
-          if (validos.length > 0) {
-            validos.sort((a, b) => {
-              const aPrev = /preview|exp/i.test(a.name) ? 1 : 0;
-              const bPrev = /preview|exp/i.test(b.name) ? 1 : 0;
-              if (aPrev !== bPrev) return aPrev - bPrev;
-              return b.name.localeCompare(a.name, undefined, { numeric: true });
-            });
-            modeloGeminiActivo = validos[0].name.replace(/^models\//, '');
-            actualizarBadgeChat();
-            return modeloGeminiActivo;
-          }
+    // Construye historial limpio estrictamente alternado (user -> model -> ... -> user)
+    function construirContentsAlternados(mensajeActual) {
+      const limpios = [];
+      for (const m of estadoConversacion.historial.slice(-8)) {
+        const role = m.role === 'user' ? 'user' : 'model';
+        if (limpios.length === 0 && role !== 'user') continue;
+        if (limpios.length > 0 && limpios[limpios.length - 1].role === role) {
+          limpios[limpios.length - 1].parts[0].text += `\n${m.text}`;
+        } else {
+          limpios.push({ role, parts: [{ text: m.text }] });
         }
-      } catch {}
-      return 'gemini-2.5-flash';
+      }
+      if (limpios.length > 0 && limpios[limpios.length - 1].role === 'user') {
+        limpios[limpios.length - 1].parts[0].text += `\n${mensajeActual}`;
+      } else {
+        limpios.push({ role: 'user', parts: [{ text: mensajeActual }] });
+      }
+      return limpios;
     }
 
     async function consultarGeminiChat(mensajeUsuario) {
       const d = estadoConversacion.diagnostico;
       const contextoPiel = d
-        ? `Escáner del usuario: Perfil="${d.perfil}", Acné=${d.acne}%, Puntos negros=${d.puntosNegros}%, Brillo=${d.brillo}%, Hidratación=${d.hidratacion}%.`
-        : 'El usuario aún no ha escaneado su rostro.';
+        ? `Resultados del escáner facial actual del usuario: Perfil="${d.perfil}", Acné=${d.acne}%, Puntos negros=${d.puntosNegros}%, Brillo Zona T=${d.brillo}%, Hidratación=${d.hidratacion}%.`
+        : 'El usuario aún no ha usado el escáner facial.';
 
-      const systemPrompt = `Eres DermAI, asistente conversacional experto en skincare en Chile.
-Responde en español chileno claro y cercano (máximo 130 palabras).
+      const systemPrompt = `Eres DermAI, un asistente conversacional cercano, natural y experto en skincare y dermocosmética en Chile.
+Responde en español chileno claro, empático y fluido, adaptándote a cualquier tema que saque el usuario (productos que ya usa, recetas de su dermatólogo, dudas de ingredientes, rutinas AM/PM, hábitos o presupuesto).
 ${contextoPiel}
-Reglas:
-1. Responde la duda real (rutinas AM/PM, orden, mezclas de activos, piel mixta, presupuesto).
-2. NO inventes precios en pesos en tu texto.
-3. NUNCA menciones Mercado Libre. Solo nombra Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic o Maicao.
-4. Si recomiendas productos específicos, agrega al final: [PRODUCTOS: Nombre Producto 1 | Nombre Producto 2] (máx 2) para que el sistema busque automáticamente cuál farmacia lo tiene más barato. Si es una duda teórica (ej: mezclar activos), NO agregues esa etiqueta.`;
+Reglas importantes:
+1. Conversa con naturalidad: responde exactamente lo que te preguntó o comentó el usuario. Si te nombra un producto recetado por su dermatólogo (por ejemplo Klina One u otro), respeta siempre la indicación médica, explica brevemente qué hace ese producto si lo conoces y ayúdale a complementarlo sin sobrecargar su piel.
+2. Mantén respuestas claras y prácticas (entre 60 y 170 palabras), usando negritas o viñetas solo cuando ayuden a leer mejor.
+3. NO inventes precios en pesos en tu texto.
+4. NUNCA menciones ni sugieras Mercado Libre. Las únicas tiendas válidas en Chile son Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao.
+5. Si el usuario pide recomendaciones de productos o quiere buscar/comparar precios de un producto específico (incluso uno que él mencionó), agrega al final en una línea aparte: [PRODUCTOS: Nombre Producto 1 | Nombre Producto 2] (máximo 2 productos). Si es solo una charla o duda teórica donde no hace falta comprar nada nuevo, NO agregues esa etiqueta.`;
 
-      const contents = [
-        ...estadoConversacion.historial.slice(-6).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
-        { role: 'user', parts: [{ text: mensajeUsuario }] }
-      ];
-
-      const modelo = await detectarModeloGeminiDisponible(apiConfig.geminiKey);
-      const res = await fetchConTimeout(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiConfig.geminiKey)}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ systemInstruction: { parts: [{ text: systemPrompt }] }, contents })
-        },
-        12000
-      );
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      if (!rawText) throw new Error('Vacío');
+      const contents = construirContentsAlternados(mensajeUsuario);
+      const { text: rawText } = await invocarGeminiConFallback(apiConfig.geminiKey, {
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents
+      });
 
       const match = rawText.match(/\[PRODUCTOS:\s*([^\]]+)\]/i);
       const textoLimpio = rawText.replace(/\[PRODUCTOS:[^\]]+\]/gi, '').trim();
@@ -1308,53 +1362,74 @@ Reglas:
     function formatearTextoConversacional(texto) {
       return escapeHtml(texto)
         .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/^\*\s+/gm, '• ')
         .replace(/\n\n/g, '</p><p>')
         .replace(/\n/g, '<br>');
     }
 
-    async function responderMotorLocal(textoOriginal) {
+    async function responderMotorLocal(textoOriginal, motivoFallback = '') {
       const t = textoOriginal.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       const d = estadoConversacion.diagnostico;
 
+      const avisoApi = motivoFallback
+        ? `<p class="text-[10px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 mt-2">⚠️ <strong>Modo local:</strong> Gemini API no respondió (${escapeHtml(motivoFallback)}). Haz clic en <button onclick="abrirModalApi()" class="underline font-bold">⚙️ API → Probar conexión</button> para activar conversación libre con IA.</p>`
+        : `<p class="text-[10px] text-slate-500 bg-slate-100 rounded-lg px-2.5 py-1.5 mt-2">💡 Conecta tu clave gratuita de Gemini en <button onclick="abrirModalApi()" class="underline font-bold text-teal-700">⚙️ API</button> para conversar libremente sobre cualquier producto o duda.</p>`;
+
+      // Si el usuario menciona un producto propio o recetado por dermatólogo
+      if (t.includes('dermatolog') || t.includes('estoy usando') || t.includes('se llama') || t.includes('me recet')) {
+        const matchNombre = textoOriginal.match(/(?:se llama|llamado|usando)\s+([a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s\-]{2,35})/i);
+        const nombreProd = matchNombre ? matchNombre[1].trim() : '';
+        if (nombreProd) {
+          await responderConPreciosEnChat(
+            `<p>Excelente que sigas la indicación de tu dermatólogo con <strong>${escapeHtml(nombreProd)}</strong>: su receta siempre tiene prioridad sobre cualquier recomendación general.</p>
+            <p class="text-xs text-slate-600">Mientras usas ese producto, evita sumar demasiados ácidos fuertes al mismo tiempo y mantén un buen protector solar diario. Aproveché de revisar dónde está más barato en farmacias chilenas:</p>${avisoApi}`,
+            [],
+            [{ paso: 'Tu producto', nombre: nombreProd, motivo: 'Comparado en vivo en farmacias de Chile.' }]
+          );
+          ejecutarComparacionProducto(nombreProd);
+          return;
+        }
+      }
+
       if (/^(hola|buenas|hey|que tal|buenos dias|buenas tardes)\b/.test(t) && t.length < 40) {
-        agregarMensajeChat('ia', `<p>¡Hola! ${d ? `Ya tengo listo tu perfil (<strong>${escapeHtml(d.perfil)}</strong>).` : 'Cuéntame cómo sientes tu piel o usa el escáner facial de la izquierda.'} ¿Qué te gustaría revisar hoy?</p>`);
+        agregarMensajeChat('ia', `<p>¡Hola! ${d ? `Ya tengo listo tu perfil (<strong>${escapeHtml(d.perfil)}</strong>).` : 'Cuéntame cómo sientes tu piel o usa el escáner facial de la izquierda.'} ¿En qué te ayudo hoy?</p>${avisoApi}`);
         return;
       }
 
-      if (t.includes('rutina') || t.includes('orden') || t.includes('manana') || t.includes('noche') || t.includes('paso a paso')) {
+      if (t.includes('rutina') || t.includes('orden') || t.includes('manana') || t.includes('noche')) {
         agregarMensajeChat('ia', `
-          <p>Este es el orden correcto para una rutina <strong>AM y PM</strong> (de textura más ligera a más densa):</p>
+          <p>Orden recomendado para tu rutina <strong>AM y PM</strong>:</p>
           <div class="bg-amber-50/70 border border-amber-200 rounded-xl p-3 text-xs space-y-1">
             <p class="font-bold text-amber-900">☀️ Mañana</p>
-            <p>1. Limpiador suave → 2. Sérum opcional (Niacinamida o Vitamina C) → 3. Hidratante ligero → 4. Protector solar FPS 50+.</p>
+            <p>1. Limpiador suave → 2. Sérum opcional → 3. Hidratante ligero → 4. Protector solar FPS 50+.</p>
           </div>
           <div class="bg-indigo-50/70 border border-indigo-200 rounded-xl p-3 text-xs space-y-1">
             <p class="font-bold text-indigo-900">🌙 Noche</p>
-            <p>1. Limpiador facial → 2. Tratamiento activo (ej. Ácido Salicílico 2–3 noches/semana) → 3. Hidratante reparador con ceramidas.</p>
-          </div>
+            <p>1. Limpiador facial → 2. Tratamiento indicado → 3. Hidratante reparador.</p>
+          </div>${avisoApi}
         `);
         return;
       }
 
-      if (t.includes('mezclar') || t.includes('juntar') || t.includes('combinar') || (t.includes('niacinamida') && (t.includes('salicilico') || t.includes('retinol')))) {
+      if (t.includes('mezclar') || t.includes('juntar') || t.includes('combinar')) {
         agregarMensajeChat('ia', `
           <p>Guía rápida para combinar activos sin irritar tu piel:</p>
           <ul class="list-disc pl-4 text-xs text-slate-700 space-y-1">
-            <li><strong>Ácido Salicílico + Niacinamida:</strong> ✅ Sí se pueden combinar; uno destapa poros y el otro calma y regula brillo.</li>
-            <li><strong>Ácido Salicílico + Retinol:</strong> ⚠️ Mejor alternar noches para evitar irritación o descamación.</li>
-            <li><strong>Ácido Hialurónico / Ceramidas:</strong> ✅ Combinan con todos los activos.</li>
-          </ul>
+            <li><strong>Ácido Salicílico + Niacinamida:</strong> ✅ Compatibles; destapa poros y calma el brillo.</li>
+            <li><strong>Ácido Salicílico + Retinol:</strong> ⚠️ Alternar en noches distintas.</li>
+            <li><strong>Ácido Hialurónico / Ceramidas:</strong> ✅ Combinan con todo.</li>
+          </ul>${avisoApi}
         `);
         return;
       }
 
       if (t.includes('punto') || t.includes('poro') || t.includes('nariz')) {
         await responderConPreciosEnChat(
-          `<p>Para <strong>puntos negros y poros dilatados</strong>, evita tiritas arrancadoras y prioriza <strong>Ácido Salicílico (BHA)</strong> y <strong>Niacinamida</strong>:</p>`,
+          `<p>Para <strong>puntos negros y poros dilatados</strong>, prioriza <strong>Ácido Salicílico (BHA)</strong> y <strong>Niacinamida</strong>:</p>${avisoApi}`,
           ['Ácido Salicílico (BHA)', 'Niacinamida'],
           [
-            { paso: 'Limpiador BHA', nombre: 'CeraVe Limpiador Control Imperfecciones', motivo: 'Contiene ácido salicílico 2% para desobstruir poros.' },
-            { paso: 'Sérum Poros', nombre: 'The Ordinary Niacinamide 10% Zinc', motivo: 'Regula el brillo y afina visualmente los poros.' }
+            { paso: 'Limpiador BHA', nombre: 'CeraVe Limpiador Control Imperfecciones', motivo: 'Ácido salicílico 2% para desobstruir poros.' },
+            { paso: 'Sérum Poros', nombre: 'The Ordinary Niacinamide 10% Zinc', motivo: 'Regula el brillo y afina poros.' }
           ]
         );
         return;
@@ -1362,10 +1437,10 @@ Reglas:
 
       if (t.includes('acne') || t.includes('grano') || t.includes('brote')) {
         await responderConPreciosEnChat(
-          `<p>Para <strong>acné leve y brotes</strong>, lava máximo 2 veces al día y usa fórmulas no comedogénicas con <strong>Ácido Salicílico</strong>:</p>`,
-          ['Ácido Salicílico', 'Niacinamida', 'Zinc PCA'],
+          `<p>Para <strong>acné leve y brotes</strong>, lava máximo 2 veces al día y usa fórmulas no comedogénicas:</p>${avisoApi}`,
+          ['Ácido Salicílico', 'Niacinamida'],
           [
-            { paso: 'Limpiador Purificante', nombre: 'La Roche Posay Effaclar Gel', motivo: 'Limpia el exceso de sebo sin irritar brotes.' },
+            { paso: 'Limpiador Purificante', nombre: 'La Roche Posay Effaclar Gel', motivo: 'Limpia el exceso de sebo sin irritar.' },
             { paso: 'Corrector', nombre: 'La Roche Posay Effaclar Duo', motivo: 'Ayuda a desinflamar granitos y prevenir marcas.' }
           ]
         );
@@ -1374,35 +1449,34 @@ Reglas:
 
       if (t.includes('barat') || t.includes('econom') || t.includes('ahorr') || t.includes('simi')) {
         await responderConPreciosEnChat(
-          `<p>Para cuidar el presupuesto en Chile, enfócate en <strong>3 pasos básicos</strong> (Limpiador + Hidratante + Protector Solar) y compara el precio real entre las 6 cadenas:</p>`,
+          `<p>Para una rutina efectiva cuidando el presupuesto en Chile, enfócate en <strong>Limpiador + Hidratante + Protector Solar</strong>:</p>${avisoApi}`,
           ['Ceramidas', 'Niacinamida', 'FPS 50+'],
           [
-            { paso: 'Limpiador Rendidor', nombre: 'CeraVe Limpiador Espumoso', motivo: 'Formato grande de larga duración con ceramidas.' },
-            { paso: 'Protector Diario', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Toque seco para uso diario.' }
+            { paso: 'Limpiador Rendidor', nombre: 'CeraVe Limpiador Espumoso', motivo: 'Formato grande de larga duración.' },
+            { paso: 'Protector Diario', nombre: 'Eucerin Sun Oil Control FPS 50', motivo: 'Toque seco diario.' }
           ]
         );
         return;
       }
 
-      agregarMensajeChat('ia', `
-        <p>Puedo ayudarte a armar tu <strong>rutina AM/PM</strong>, explicar <strong>cómo combinar ingredientes</strong> o buscar <strong>en qué farmacia chilena está más barato</strong> cualquier producto para acné, puntos negros, brillo o piel seca. ¿Qué te gustaría revisar?</p>
-      `);
+      agregarMensajeChat('ia', `<p>Para responderte libremente sobre cualquier consulta específica, activa la IA conversacional de Gemini.</p>${avisoApi}`);
     }
 
     async function procesarPreguntaUsuario(texto) {
       agregarMensajeChat('usuario', texto);
-      estadoConversacion.historial.push({ role: 'user', text: texto });
 
       if (apiConfig.geminiKey) {
-        const loadingDiv = agregarMensajeChat('ia', `<p class="text-xs text-teal-700 animate-pulse">Pensando respuesta personalizada...</p>`);
+        const loadingDiv = agregarMensajeChat('ia', `<p class="text-xs text-teal-700 animate-pulse">Escribiendo respuesta...</p>`);
         try {
           const { textoLimpio, productosSugeridos } = await consultarGeminiChat(texto);
+          // Guardamos el par user/model SOLO tras respuesta exitosa (evita turnos duplicados)
+          estadoConversacion.historial.push({ role: 'user', text: texto });
           estadoConversacion.historial.push({ role: 'model', text: textoLimpio });
 
           const cuerpoHTML = `<p>${formatearTextoConversacional(textoLimpio)}</p>`;
           if (productosSugeridos.length > 0) {
             loadingDiv.querySelector('.chat-bubble-body').innerHTML = `${cuerpoHTML}<p class="text-xs text-teal-700 animate-pulse pt-1">Comparando precios reales en farmacias de Chile...</p>`;
-            const recs = productosSugeridos.map(p => ({ paso: 'Recomendado', nombre: p, motivo: 'Comparado en vivo en farmacias chilenas.' }));
+            const recs = productosSugeridos.map(p => ({ paso: 'Comparado en Chile', nombre: p, motivo: 'Precios vigentes consultados en vivo.' }));
             const resultados = await Promise.all(recs.map(async (rec) => ({ rec, res: await obtenerComparacionPreciosEnVivo(rec.nombre) })));
             const cards = resultados.map(({ rec, res }) => renderizarCardPrecioChat(rec, res)).join('');
             loadingDiv.querySelector('.chat-bubble-body').innerHTML = `${cuerpoHTML}<div class="space-y-2.5 pt-2">${cards}</div>`;
@@ -1413,12 +1487,15 @@ Reglas:
           document.getElementById('chatMensajes').scrollTop = document.getElementById('chatMensajes').scrollHeight;
           return;
         } catch (err) {
-          console.warn('Gemini Chat fallback:', err.message);
+          console.warn('Gemini Chat error:', err.message);
+          actualizarBadgeChat(`Error API`);
           loadingDiv.remove();
+          await responderMotorLocal(texto, err.message);
+          return;
         }
       }
 
-      await responderMotorLocal(texto);
+      await responderMotorLocal(texto, '');
     }
 
     function manejarEnvioChat(e) {
@@ -1440,7 +1517,7 @@ Reglas:
         <div class="flex gap-3">
           <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
           <div class="chat-bubble-body bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[92%]">
-            Conversación reiniciada. Sube tu foto en el escáner o pregúntame cualquier duda sobre tu piel.
+            Conversación reiniciada. Sube tu foto en el escáner o pregúntame cualquier duda sobre tu piel o los productos que ya usas.
           </div>
         </div>
       `;
