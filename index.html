@@ -1,1310 +1,1055 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DermAI — Escáner Facial de Acné, Puntos Negros y Comparador en Farmacias de Chile</title>
-  <!-- Tailwind CSS -->
+  <title>DermAI — Diagnóstico Dermatológico Preventivo y Buscador INCI Chile</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Plus Jakarta Sans', 'sans-serif'],
-          },
-          colors: {
-            cream: '#FAF9F6',
-            sage: {
-              50: '#F2F7F4',
-              100: '#E1EDE6',
-              200: '#C3DCCE',
-              500: '#3B7A5E',
-              600: '#2E624B',
-              700: '#244E3C',
-            },
-            navy: {
-              800: '#16243D',
-              900: '#0F1A2E',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #FAF9F6;
-      color: #0F1A2E;
-      font-family: 'Inter', sans-serif;
-    }
-    h1, h2, h3, .font-display {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-    @keyframes gentleScan {
-      0%, 100% { top: 14%; opacity: 0.35; }
-      50% { top: 84%; opacity: 0.95; }
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .chat-scroll::-webkit-scrollbar { width: 6px; }
+    .chat-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
     .scan-line {
-      position: absolute;
-      left: 12%;
-      right: 12%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #3B7A5E, #10B981, #3B7A5E, transparent);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.85);
-      animation: gentleScan 2.8s ease-in-out infinite;
-      pointer-events: none;
+      position: absolute; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, #14b8a6, transparent);
+      box-shadow: 0 0 12px #14b8a6;
+      animation: scanMove 2.2s linear infinite;
     }
-    .chat-scroll::-webkit-scrollbar {
-      width: 6px;
-    }
-    .chat-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    .chat-scroll::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 9999px;
-    }
-    .product-img-container {
-      background: radial-gradient(circle at center, #FFFFFF 0%, #F1F5F9 100%);
+    @keyframes scanMove {
+      0% { top: 8%; opacity: 0.2; }
+      50% { top: 88%; opacity: 1; }
+      100% { top: 8%; opacity: 0.2; }
     }
   </style>
 </head>
-<body class="antialiased selection:bg-sage-500 selection:text-white">
+<body class="bg-slate-50 text-slate-800 antialiased">
 
-  <!-- ==================== 1. NAVBAR MINIMALISTA ==================== -->
-  <header class="sticky top-0 z-50 bg-cream/95 backdrop-blur-md border-b border-slate-200/80">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-xl bg-sage-600 flex items-center justify-center text-white shadow-sm group-hover:bg-sage-700 transition">
-          <i class="fa-solid fa-leaf text-sm"></i>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-teal-600 text-white flex items-center justify-center font-extrabold text-lg shadow-sm">D</div>
+        <div>
+          <span class="font-extrabold text-lg tracking-tight text-slate-900">Derm<span class="text-teal-600">AI</span></span>
+          <span class="hidden sm:inline-block ml-2 text-xs font-medium px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">MVP v2.0 · API en Vivo</span>
         </div>
-        <span class="font-display font-extrabold text-xl tracking-tight text-navy-900">
-          Derm<span class="text-sage-600">AI</span>
-        </span>
-      </a>
+      </div>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <a href="#que-detecta" class="hover:text-sage-600 transition">Qué detectamos</a>
-        <a href="#escaner" class="hover:text-sage-600 transition">Escáner Facial IA</a>
-        <a href="#comparador" class="hover:text-sage-600 transition">Comparador de Farmacias</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="#escaner" class="hover:text-teal-600 transition">Escáner Facial</a>
+        <a href="#asistente" class="hover:text-teal-600 transition">Asistente IA</a>
+        <a href="#buscador" class="hover:text-teal-600 transition">Buscador Farmacias</a>
+        <a href="#arquitectura" class="hover:text-teal-600 transition">Arquitectura</a>
       </nav>
 
-      <div class="flex items-center gap-3">
-        <a href="#escaner" onclick="enfocarEscaner()" class="px-4 py-2.5 rounded-full bg-navy-900 hover:bg-sage-600 text-white text-xs sm:text-sm font-semibold shadow-sm transition flex items-center gap-2">
-          <i class="fa-solid fa-camera text-sage-200 text-xs"></i>
-          <span>Escanear mi Rostro</span>
-        </a>
+      <div class="flex items-center gap-2">
+        <button onclick="abrirModalApi()" class="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 transition flex items-center gap-1.5">
+          <span>⚙️</span> Configurar API
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- ==================== 2. HERO SECTION ==================== -->
-  <section class="relative overflow-hidden pt-8 pb-14 lg:pt-14 lg:pb-20">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-        
-        <!-- Texto Principal -->
-        <div class="lg:col-span-7 text-center lg:text-left">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sage-100 text-sage-700 text-xs font-semibold mb-5">
-            <i class="fa-solid fa-wand-magic-sparkles text-sage-600"></i>
-            <span>Detecta acné, puntos negros, poros dilatados, brillo e hidratación</span>
+  <!-- Hero -->
+  <section class="bg-gradient-to-b from-teal-950 via-slate-900 to-slate-900 text-white py-14 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-7 space-y-5">
+        <div class="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 border border-teal-400/30">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          Plataforma HealthTech Agnóstica · Mercado Farmacéutico Chileno
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight tracking-tight">
+          Diagnóstico cutáneo preventivo y búsqueda <span class="text-teal-400">real en tiempo vivo</span>
+        </h1>
+        <p class="text-slate-300 text-base sm:text-lg max-w-2xl">
+          Analiza tu rostro en memoria volátil (acné, puntos negros, brillo en Zona T e hidratación), identifica principios activos bajo nomenclatura <strong>INCI</strong> y consulta productos con fotografías y enlaces directos en las principales cadenas de Chile.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="#escaner" class="px-5 py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-teal-500/20">
+            Iniciar Escáner Facial
+          </a>
+          <a href="#buscador" class="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-semibold text-sm border border-white/15 transition">
+            Buscar Productos en Vivo
+          </a>
+        </div>
+        <div class="pt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-400">
+          <span>✓ Cruz Verde</span>
+          <span>✓ Salcobrand</span>
+          <span>✓ Dr. Simi</span>
+          <span>✓ Farmacias Ahumada</span>
+          <span>✓ Preunic</span>
+          <span>✓ Maicao</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span class="font-semibold text-teal-400 uppercase tracking-wider">Estado del Sistema</span>
+            <span id="badgeFuenteHero" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">APIs Públicas Activas</span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="bg-slate-900/70 p-3.5 rounded-xl border border-slate-700/70">
+              <p class="text-xs text-slate-400">Privacidad Biométrica</p>
+              <p class="font-bold text-white mt-1">100% Local (RAM)</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Cumple Ley N° 19.628</p>
+            </div>
+            <div class="bg-slate-900/70 p-3.5 rounded-xl border border-slate-700/70">
+              <p class="text-xs text-slate-400">Catálogo de Productos</p>
+              <p class="font-bold text-white mt-1">Fetch Dinámico</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Sin precios fijos en código</p>
+            </div>
+            <div class="bg-slate-900/70 p-3.5 rounded-xl border border-slate-700/70">
+              <p class="text-xs text-slate-400">Análisis Facial</p>
+              <p class="font-bold text-white mt-1">4 Indicadores</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Acné, poros, brillo, barrera</p>
+            </div>
+            <div class="bg-slate-900/70 p-3.5 rounded-xl border border-slate-700/70">
+              <p class="text-xs text-slate-400">Estándar Químico</p>
+              <p class="font-bold text-white mt-1">Modelo INCI</p>
+              <p class="text-[11px] text-slate-400 mt-0.5">Recomendación imparcial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Escáner Facial + Chatbot -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-12 space-y-14">
+
+    <section id="escaner" class="grid lg:grid-cols-12 gap-8 items-start">
+      <!-- Panel Izquierdo: Escáner Real -->
+      <div class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">1. Escáner Facial Biométrico (Captura Real)</h2>
+            <p class="text-xs text-slate-500">Usa tu cámara o sube una fotografía real de tu rostro. El análisis corre sobre tus píxeles en el navegador.</p>
+          </div>
+          <span id="estadoCamara" class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">En espera</span>
+        </div>
+
+        <div class="p-5 space-y-4">
+          <!-- Visor de cámara / foto capturada -->
+          <div class="relative w-full aspect-[4/3] bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
+            <video id="videoCamara" autoplay playsinline muted class="hidden w-full h-full object-cover transform scale-x-[-1]"></video>
+            <canvas id="canvasCaptura" class="hidden w-full h-full object-cover"></canvas>
+
+            <!-- Guía ovalada cuando la cámara está activa -->
+            <div id="guiaFacial" class="hidden pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div class="w-48 h-64 sm:w-56 sm:h-72 border-2 border-dashed border-teal-400/80 rounded-[50%] shadow-[0_0_0_9999px_rgba(2,6,23,0.45)]"></div>
+              <span class="absolute bottom-3 text-[11px] font-medium text-teal-200 bg-slate-900/80 px-3 py-1 rounded-full">Ubica tu rostro dentro del óvalo con buena luz</span>
+            </div>
+
+            <!-- Línea animada durante escaneo -->
+            <div id="lineaEscaneo" class="hidden scan-line"></div>
+
+            <!-- Estado inicial -->
+            <div id="placeholderVisor" class="text-center px-6 space-y-2">
+              <div class="w-14 h-14 mx-auto rounded-full bg-slate-800 text-teal-400 flex items-center justify-center text-2xl">📷</div>
+              <p class="text-sm font-semibold text-white">Sin imagen capturada</p>
+              <p class="text-xs text-slate-400 max-w-xs mx-auto">Activa tu cámara web o sube una foto de tu cara para evaluar acné, puntos negros, brillo en Zona T e hidratación.</p>
+            </div>
           </div>
 
-          <h1 class="text-3xl sm:text-5xl font-extrabold text-navy-900 tracking-tight leading-[1.13]">
-            Analiza tu piel en segundos y encuentra tu rutina al <span class="text-sage-600">precio más bajo en Chile</span>
-          </h1>
+          <!-- Botones de control -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <button id="btnActivarCamara" onclick="activarCamara()" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition">
+              Activar Cámara
+            </button>
+            <button id="btnCapturar" onclick="capturarYAnalizar()" disabled class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white text-sm font-semibold transition">
+              Capturar y Analizar
+            </button>
+            <label class="cursor-pointer px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold text-center transition">
+              Subir Foto Real
+              <input type="file" id="inputFoto" accept="image/*" class="hidden" onchange="cargarFotoReal(event)" />
+            </label>
+          </div>
 
-          <p class="mt-5 text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-            Escanea tu rostro con cámara o foto para detectar <strong>granitos de acné, puntos negros en la nariz, exceso de brillo en la Zona T o deshidratación</strong>, y compara precios reales en <strong>Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao</strong>.
+          <p class="text-[11px] text-slate-500 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">
+            🔒 <strong>Privacidad garantizada:</strong> La captura se analiza localmente mediante visión computacional en el canvas del navegador y se descarta al recargar. Ninguna imagen biométrica se envía ni guarda en servidores externos.
           </p>
 
-          <div class="mt-7 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5">
-            <a href="#escaner" onclick="enfocarEscaner()" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-sage-600 hover:bg-sage-700 text-white font-semibold text-sm sm:text-base shadow-lg shadow-sage-600/20 transition flex items-center justify-center gap-2.5">
-              <i class="fa-solid fa-camera"></i>
-              <span>Iniciar Escáner Facial</span>
-            </a>
-            <a href="#comparador" class="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white hover:bg-slate-50 text-navy-900 border border-slate-200 font-semibold text-sm sm:text-base transition flex items-center justify-center gap-2">
-              <span>Ver Catálogo de Farmacias</span>
-              <i class="fa-solid fa-arrow-down text-xs text-slate-400"></i>
-            </a>
-          </div>
+          <!-- Panel de Resultados del Escáner -->
+          <div id="panelResultados" class="hidden space-y-4 pt-2 border-t border-slate-100">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-bold text-slate-900">Resultado del Análisis Cutáneo</h3>
+              <span id="calidadCaptura" class="text-[11px] font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200"></span>
+            </div>
 
-          <!-- Sellos de farmacias chilenas -->
-          <div class="mt-8 pt-6 border-t border-slate-200/70">
-            <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-3">Comparamos precios con enlaces directos en todas estas tiendas:</p>
-            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2">
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-emerald-800 shadow-2xs">Cruz Verde</span>
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-sky-800 shadow-2xs">Salcobrand</span>
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-blue-700 shadow-2xs">Dr. Simi</span>
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-red-700 shadow-2xs">Farmacias Ahumada</span>
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-pink-700 shadow-2xs">Preunic</span>
-              <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-bold text-purple-800 shadow-2xs">Maicao</span>
+            <div class="grid grid-cols-2 gap-3" id="gridMetricas">
+              <!-- Se rellena dinámicamente con los 4 indicadores -->
+            </div>
+
+            <div id="resumenClinico" class="p-3.5 rounded-xl bg-teal-50/70 border border-teal-200 text-xs text-slate-700 leading-relaxed"></div>
+
+            <div class="flex flex-wrap gap-2 items-center" id="chipsActivos">
+              <!-- Principios activos INCI recomendados -->
             </div>
           </div>
         </div>
-
-        <!-- Tarjeta Derecha: Vista previa de diagnóstico completo con Acné y Puntos Negros -->
-        <div class="lg:col-span-5">
-          <div class="bg-white rounded-3xl p-6 shadow-xl shadow-slate-200/70 border border-slate-100">
-            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
-              <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-2xl bg-sage-50 flex items-center justify-center text-sage-600">
-                  <i class="fa-solid fa-magnifying-glass-chart text-lg"></i>
-                </div>
-                <div>
-                  <span class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">Diagnóstico Multi-Zona</span>
-                  <strong class="text-sm font-bold text-navy-900">Evaluación Dermatológica Preventiva</strong>
-                </div>
-              </div>
-              <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                4 indicadores
-              </span>
-            </div>
-
-            <!-- Indicadores detectados en el rostro -->
-            <div class="grid grid-cols-2 gap-2.5 mb-5">
-              <div class="p-3 rounded-2xl bg-rose-50/70 border border-rose-200/60">
-                <div class="flex items-center justify-between text-xs font-bold text-rose-800 mb-1">
-                  <span><i class="fa-solid fa-circle-dot mr-1"></i>Acné / Granitos</span>
-                  <span>Leve</span>
-                </div>
-                <p class="text-[11px] text-slate-600">Brotes puntuales en mentón y pómulos.</p>
-              </div>
-
-              <div class="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/60">
-                <div class="flex items-center justify-between text-xs font-bold text-amber-900 mb-1">
-                  <span><i class="fa-solid fa-braille mr-1"></i>Puntos Negros</span>
-                  <span>Moderado</span>
-                </div>
-                <p class="text-[11px] text-slate-600">Comedones visibles en nariz y frente.</p>
-              </div>
-
-              <div class="p-3 rounded-2xl bg-sky-50/70 border border-sky-200/60">
-                <div class="flex items-center justify-between text-xs font-bold text-sky-900 mb-1">
-                  <span><i class="fa-solid fa-droplet mr-1"></i>Hidratación</span>
-                  <span>Óptima</span>
-                </div>
-                <p class="text-[11px] text-slate-600">Mejillas (Zona U) sin descamación.</p>
-              </div>
-
-              <div class="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/60">
-                <div class="flex items-center justify-between text-xs font-bold text-emerald-900 mb-1">
-                  <span><i class="fa-solid fa-sun mr-1"></i>Brillo Zona T</span>
-                  <span>Moderado</span>
-                </div>
-                <p class="text-[11px] text-slate-600">Mayor actividad sebácea en frente y nariz.</p>
-              </div>
-            </div>
-
-            <!-- Ejemplo de Producto Real con Foto y Link Directo -->
-            <div class="p-3.5 rounded-2xl bg-cream border border-slate-200/80 flex items-center gap-3.5">
-              <img src="https://images.openbeautyfacts.org/images/products/333/787/241/1991/front_fr.116.400.jpg" 
-                   onerror="this.onerror=null;this.src=generarFotoProductoRealista('effaclar_duo');" 
-                   alt="La Roche-Posay Effaclar Duo+M" 
-                   class="w-16 h-16 rounded-xl object-contain bg-white p-1 border border-slate-200 shrink-0" />
-              <div class="flex-1 min-w-0">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800">Anti-Acné y Puntos Negros</span>
-                <h3 class="text-xs font-bold text-navy-900 truncate mt-1">La Roche-Posay Effaclar Duo+M 40ml</h3>
-                <p class="text-[11px] text-slate-500">Más barato en <strong class="text-navy-900">Dr. Simi ($16.990)</strong></p>
-              </div>
-              <a href="https://www.drsimi.cl/effaclar?_q=effaclar&map=ft" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-navy-900 hover:bg-sage-600 text-white text-xs font-semibold shrink-0 transition">
-                Ver ↗
-              </a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== 3. QUÉ DETECTA NUESTRO ESCÁNER FACIAL ==================== -->
-  <section id="que-detecta" class="py-12 bg-white border-y border-slate-200/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-2xl mx-auto mb-8">
-        <span class="text-xs font-bold uppercase tracking-wider text-sage-600">Diagnóstico facial completo</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 mt-1">No solo medimos el brillo: analizamos todo tu rostro</h2>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div class="bg-cream rounded-2xl p-5 border border-slate-200/60">
-          <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center mb-3">
-            <i class="fa-solid fa-viruses"></i>
+      <!-- Panel Derecho: Asistente Conversacional IA con Fotos y Links Reales -->
+      <div id="asistente" class="lg:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-[700px]">
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">2. Asistente DermAI + Buscador en Vivo</h2>
+            <p class="text-xs text-slate-500">Pregunta por acné, puntos negros, poros, hidratación o principios activos INCI.</p>
           </div>
-          <h3 class="font-bold text-navy-900 text-sm">Acné y Granitos Activos</h3>
-          <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Detectamos zonas con enrojecimiento e inflamación localizada para sugerir activos como Ácido Salicílico o Niacinamida.</p>
+          <button onclick="reiniciarChat()" class="text-xs font-medium text-slate-500 hover:text-slate-800 px-2.5 py-1 rounded-lg border border-slate-200">Limpiar</button>
         </div>
 
-        <div class="bg-cream rounded-2xl p-5 border border-slate-200/60">
-          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center mb-3">
-            <i class="fa-solid fa-braille"></i>
+        <!-- Mensajes -->
+        <div id="chatMensajes" class="flex-1 overflow-y-auto p-5 space-y-4 chat-scroll bg-slate-50/60">
+          <div class="flex gap-3">
+            <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
+            <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[90%] space-y-2">
+              <p>Hola, soy el asistente de <strong>DermAI</strong>. Cuando captures o subas tu foto en el escáner, recibirás aquí tu diagnóstico de <strong>acné, puntos negros, brillo en Zona T e hidratación</strong> junto con productos consultados en tiempo real desde API.</p>
+              <p class="text-xs text-slate-500">También puedes escribirme directamente una duda o usar los accesos rápidos de abajo.</p>
+            </div>
           </div>
-          <h3 class="font-bold text-navy-900 text-sm">Puntos Negros y Poros</h3>
-          <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Identificamos comedones abiertos (poros obstruidos que se oxidan en nariz y mentón) y recomendamos limpiadores queratolíticos.</p>
         </div>
 
-        <div class="bg-cream rounded-2xl p-5 border border-slate-200/60">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-3">
-            <i class="fa-solid fa-sun"></i>
-          </div>
-          <h3 class="font-bold text-navy-900 text-sm">Brillo Sebáceo en Zona T</h3>
-          <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Evaluamos el exceso de sebo en frente, nariz y mentón para equilibrar tu piel sin provocar efecto rebote.</p>
+        <!-- Sugerencias rápidas -->
+        <div class="px-4 py-2 border-t border-slate-100 bg-white flex gap-2 overflow-x-auto">
+          <button onclick="enviarConsultaRapida('Tengo puntos negros en la nariz y poros dilatados')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Puntos negros y poros</button>
+          <button onclick="enviarConsultaRapida('Tengo acné leve y brotes en la frente')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Acné y brotes</button>
+          <button onclick="enviarConsultaRapida('Mi cara brilla mucho en la Zona T')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Brillo Zona T</button>
+          <button onclick="enviarConsultaRapida('Necesito un bloqueador solar toque seco')" class="shrink-0 text-xs px-3 py-1.5 rounded-full bg-slate-100 hover:bg-teal-50 hover:text-teal-700 text-slate-700 transition">Bloqueador toque seco</button>
         </div>
 
-        <div class="bg-cream rounded-2xl p-5 border border-slate-200/60">
-          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center mb-3">
-            <i class="fa-solid fa-droplet"></i>
-          </div>
-          <h3 class="font-bold text-navy-900 text-sm">Barrera, Manchas y Resequedad</h3>
-          <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">Analizamos la hidratación de tus mejillas (Zona U), sensibilidad o marcas post-acné para reparar tu barrera cutánea.</p>
-        </div>
+        <!-- Input del chat -->
+        <form onsubmit="manejarEnvioChat(event)" class="p-4 border-t border-slate-200 bg-white flex gap-2">
+          <input id="inputChat" type="text" placeholder="Ej: ¿Qué recomiendas para puntos negros y acné?" class="flex-1 px-4 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
+          <button type="submit" class="px-4 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold transition">Enviar</button>
+        </form>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ==================== 4. ESCÁNER FACIAL Y ASISTENTE DERMAI ==================== -->
-  <section id="escaner" class="py-14 lg:py-18 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-2xl mx-auto mb-8">
-      <span class="text-xs font-bold uppercase tracking-wider text-sage-600">Análisis interactivo con fotos reales y links directos</span>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 mt-1">Escáner Facial y Asistente DermAI</h2>
-      <p class="text-sm text-slate-600 mt-1.5">
-        Usa tu cámara web, sube una selfie o simula distintos casos reales (acné, puntos negros o piel seca) para ver los productos recomendados con foto y link directo.
-      </p>
-    </div>
-
-    <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/80 border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-      
-      <!-- LADO IZQUIERDO: VISOR DE CÁMARA + SIMULADORES DE CASOS (5 COLUMNAS) -->
-      <div class="lg:col-span-5 bg-navy-900 text-white p-6 flex flex-col justify-between">
+    <!-- Sección 3: Buscador y Comparador Real de Farmacias en Vivo -->
+    <section id="buscador" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-xs font-semibold uppercase tracking-wider text-sage-200">Escáner Biométrico</span>
-            <span id="cameraStatusPill" class="text-[11px] px-2.5 py-1 rounded-full bg-white/10 text-slate-300">
-              Listo para escanear
-            </span>
-          </div>
-
-          <!-- Visor de cámara -->
-          <div class="relative w-full aspect-[4/5] max-h-[340px] mx-auto rounded-2xl overflow-hidden bg-navy-800 border border-white/15 flex items-center justify-center">
-            <video id="videoStream" autoplay playsinline muted class="hidden w-full h-full object-cover transform -scale-x-100"></video>
-
-            <div id="cameraPlaceholder" class="text-center p-6">
-              <div class="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-3 text-sage-200">
-                <i class="fa-solid fa-camera text-xl"></i>
-              </div>
-              <p class="text-sm font-semibold text-white">Escanea tu rostro en vivo</p>
-              <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                Detectaremos acné activo, puntos negros en nariz, poros dilatados, brillo en Zona T e hidratación.
-              </p>
-            </div>
-
-            <!-- Guía ovalada -->
-            <div id="faceGuideOverlay" class="hidden absolute inset-0 pointer-events-none flex items-center justify-center">
-              <div class="w-44 h-60 rounded-[50%] border-2 border-dashed border-sage-200/80 shadow-[0_0_0_9999px_rgba(15,26,46,0.45)] flex items-end justify-center pb-3">
-                <span class="text-[10px] font-medium bg-navy-900/85 text-white px-2.5 py-1 rounded-full">
-                  Ubica tu frente, nariz y mejillas aquí
-                </span>
-              </div>
-              <div class="scan-line"></div>
-            </div>
-          </div>
+          <span class="text-xs font-bold uppercase tracking-wider text-teal-600">Consulta Dinámica sin Datos Fijos</span>
+          <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Buscador de Productos Reales y Enlaces a Farmacias de Chile</h2>
+          <p class="text-sm text-slate-500 mt-1">Consulta en tiempo real fotografías oficiales y enlaces de compra en <strong>Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao</strong>.</p>
         </div>
-
-        <!-- Controles de Cámara y Simuladores de Diagnóstico -->
-        <div class="mt-5 space-y-2.5">
-          <button id="btnStartCam" onclick="iniciarCamara()" class="w-full py-3 px-4 rounded-xl bg-sage-600 hover:bg-sage-500 text-white font-semibold text-sm transition flex items-center justify-center gap-2 shadow-md">
-            <i class="fa-solid fa-video"></i>
-            <span>Activar mi Cámara</span>
-          </button>
-
-          <button id="btnTakePhoto" onclick="tomarFotoYAnalizar()" class="hidden w-full py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-navy-900 font-bold text-sm transition flex items-center justify-center gap-2 shadow-md">
-            <i class="fa-solid fa-camera-retro"></i>
-            <span>Capturar y Diagnosticar Rostro</span>
-          </button>
-
-          <label class="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 text-xs font-medium text-center cursor-pointer transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-upload"></i>
-            <span>Subir una foto de mi galería</span>
-            <input type="file" id="uploadPhotoInput" accept="image/*" class="hidden" onchange="analizarFotoSubida(event)" />
-          </label>
-
-          <!-- Selector rápido de perfiles para probar distintos diagnósticos -->
-          <div class="pt-3 border-t border-white/10">
-            <p class="text-[11px] text-slate-300 font-medium mb-2">¿Sin cámara a mano? Prueba un diagnóstico de ejemplo:</p>
-            <div class="grid grid-cols-1 gap-1.5">
-              <button onclick="ejecutarSimulacionPerfil('acne_puntos_negros')" class="py-2 px-3 rounded-xl bg-white/10 hover:bg-sage-600/80 text-left text-xs text-white transition flex items-center justify-between">
-                <span><i class="fa-solid fa-circle-dot text-rose-400 mr-1.5"></i>Simular: <strong>Acné leve y Puntos Negros</strong></span>
-                <i class="fa-solid fa-chevron-right text-[10px] opacity-70"></i>
-              </button>
-              <button onclick="ejecutarSimulacionPerfil('poros_brillo_zonat')" class="py-2 px-3 rounded-xl bg-white/10 hover:bg-sage-600/80 text-left text-xs text-white transition flex items-center justify-between">
-                <span><i class="fa-solid fa-sun text-amber-300 mr-1.5"></i>Simular: <strong>Puntos Negros y Brillo Zona T</strong></span>
-                <i class="fa-solid fa-chevron-right text-[10px] opacity-70"></i>
-              </button>
-              <button onclick="ejecutarSimulacionPerfil('deshidratada_sensible')" class="py-2 px-3 rounded-xl bg-white/10 hover:bg-sage-600/80 text-left text-xs text-white transition flex items-center justify-between">
-                <span><i class="fa-solid fa-droplet text-sky-300 mr-1.5"></i>Simular: <strong>Piel Seca, Tirante y Rojeces</strong></span>
-                <i class="fa-solid fa-chevron-right text-[10px] opacity-70"></i>
-              </button>
-            </div>
-          </div>
+        <div id="indicadorApiActiva" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 border border-slate-200">
+          Esperando consulta...
         </div>
       </div>
 
-      <!-- LADO DERECHO: ASISTENTE DERMAI CON TARJETAS VISUALES Y LINKS DIRECTOS (7 COLUMNAS) -->
-      <div class="lg:col-span-7 flex flex-col h-[660px] bg-white">
-        <!-- Cabecera del chat -->
-        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-cream/60">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center font-bold">
-              <i class="fa-solid fa-user-doctor"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-bold text-navy-900 text-sm">Asistente Dermatológico DermAI</h3>
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-              </div>
-              <p class="text-xs text-slate-500">Analiza acné, puntos negros, poros, Zona T y compara precios en Chile</p>
-            </div>
-          </div>
+      <!-- Barra de búsqueda -->
+      <form onsubmit="manejarBusquedaManual(event)" class="flex flex-col sm:flex-row gap-3">
+        <input id="inputBusquedaManual" type="text" value="La Roche Posay Effaclar" placeholder="Busca por marca, producto o principio activo (ej: CeraVe Limpiador, Niacinamida, Eucerin Oil Control)..." class="flex-1 px-4 py-3 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-teal-500" required />
+        <button type="submit" class="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold transition">
+          Buscar en Vivo
+        </button>
+      </form>
 
-          <button onclick="reiniciarConversacion()" class="text-xs text-slate-500 hover:text-navy-900 px-3 py-1.5 rounded-lg hover:bg-slate-100 transition">
-            Limpiar chat
-          </button>
-        </div>
-
-        <!-- Historial de mensajes -->
-        <div id="chatBox" class="flex-1 p-5 sm:p-6 overflow-y-auto space-y-4 chat-scroll">
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 mt-0.5 text-xs">
-              <i class="fa-solid fa-leaf"></i>
-            </div>
-            <div class="bg-cream border border-slate-200/70 rounded-2xl rounded-tl-sm px-4 py-3.5 text-sm text-slate-700 max-w-[92%] leading-relaxed">
-              <p class="font-semibold text-navy-900 mb-1">¡Hola! Soy tu especialista virtual DermAI 👋</p>
-              <p>Activa tu cámara, sube tu foto o elige uno de los botones de simulación a la izquierda. Evaluaré en detalle si presentas <strong>granitos de acné, puntos negros en la nariz, poros dilatados, brillo en la Zona T o resequedad</strong>, y te mostraré fotos reales de los productos con link directo a <strong>Cruz Verde, Salcobrand, Dr. Simi, Ahumada, Preunic y Maicao</strong>.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sugerencias rápidas dinámicas + Input -->
-        <div class="p-4 border-t border-slate-100 bg-cream/40">
-          <div id="quickChipsContainer" class="flex flex-wrap gap-1.5 mb-2.5">
-            <button onclick="hacerPreguntaRapida('Tengo puntos negros en la nariz y granitos de acné, ¿qué me recomiendas?')" class="text-xs px-3 py-1.5 rounded-full bg-white hover:bg-sage-50 text-slate-700 hover:text-sage-700 border border-slate-200 transition font-medium">
-              ¿Cómo quitar puntos negros y acné?
-            </button>
-            <button onclick="hacerPreguntaRapida('¿Dónde está exactamente la Zona T y por qué salen puntos negros y brillo ahí?')" class="text-xs px-3 py-1.5 rounded-full bg-white hover:bg-sage-50 text-slate-700 hover:text-sage-700 border border-slate-200 transition font-medium">
-              ¿Qué es la Zona T y por qué brilla?
-            </button>
-            <button onclick="hacerPreguntaRapida('¿En qué orden debo aplicar mi rutina facial?')" class="text-xs px-3 py-1.5 rounded-full bg-white hover:bg-sage-50 text-slate-700 hover:text-sage-700 border border-slate-200 transition font-medium">
-              Orden de la rutina
-            </button>
-          </div>
-
-          <form onsubmit="enviarMensajeUsuario(event)" class="flex items-center gap-2">
-            <input type="text" id="userChatInput" placeholder="Pregúntame por acné, puntos negros, Zona T, marcas o precios en farmacias..." class="flex-1 bg-white border border-slate-200 focus:border-sage-500 rounded-full px-4 py-2.5 text-sm text-navy-900 placeholder-slate-400 outline-none transition" />
-            <button type="submit" class="w-10 h-10 rounded-full bg-navy-900 hover:bg-sage-600 text-white flex items-center justify-center transition shrink-0">
-              <i class="fa-solid fa-paper-plane text-xs"></i>
-            </button>
-          </form>
-        </div>
+      <!-- Accesos directos rápidos por principio activo -->
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span class="text-slate-500 py-1 font-medium">Búsquedas rápidas INCI:</span>
+        <button onclick="ejecutarBusquedaCatalogo('La Roche Posay Effaclar gel')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Ácido Salicílico (Effaclar)</button>
+        <button onclick="ejecutarBusquedaCatalogo('CeraVe limpiador espumoso')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Ceramidas (CeraVe)</button>
+        <button onclick="ejecutarBusquedaCatalogo('The Ordinary Niacinamida 10')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Niacinamida 10%</button>
+        <button onclick="ejecutarBusquedaCatalogo('Eucerin Sun Oil Control FPS 50')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Protector Oil Control</button>
+        <button onclick="ejecutarBusquedaCatalogo('Neutrogena Hydro Boost gel')" class="px-3 py-1 rounded-full bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 font-medium">Ácido Hialurónico</button>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ==================== 5. COMPARADOR EN TODAS LAS FARMACIAS Y TIENDAS ==================== -->
-  <section id="comparador" class="py-16 bg-white border-t border-slate-200/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-sage-600">Catálogo multimarca imparcial en Chile</span>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-navy-900 mt-1">Comparador de Precios en Farmacias y Retail</h2>
-          <p class="text-sm text-slate-600 mt-1">Fotos originales y enlaces directos a Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao.</p>
-        </div>
-
-        <!-- Buscador y Filtros por Condición Facial -->
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <div class="relative">
-            <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-            <input type="text" id="searchInput" oninput="renderizarCatalogo()" placeholder="Buscar producto, acné, puntos negros, Dr. Simi..." class="w-full sm:w-64 pl-9 pr-4 py-2 rounded-full bg-cream border border-slate-200 focus:border-sage-500 text-xs sm:text-sm outline-none" />
-          </div>
-
-          <div class="flex flex-wrap gap-1.5" id="filterButtons">
-            <button onclick="seleccionarFiltro('Todo')" data-filter="Todo" class="filter-btn px-3.5 py-2 rounded-full bg-navy-900 text-white text-xs font-semibold transition">
-              Todos
-            </button>
-            <button onclick="seleccionarFiltro('Acné y Puntos Negros')" data-filter="Acné y Puntos Negros" class="filter-btn px-3.5 py-2 rounded-full bg-cream hover:bg-sage-50 text-slate-600 border border-slate-200 text-xs font-semibold transition">
-              Acné y Puntos Negros
-            </button>
-            <button onclick="seleccionarFiltro('Control de Brillo y Poros')" data-filter="Control de Brillo y Poros" class="filter-btn px-3.5 py-2 rounded-full bg-cream hover:bg-sage-50 text-slate-600 border border-slate-200 text-xs font-semibold transition">
-              Control de Brillo y Poros
-            </button>
-            <button onclick="seleccionarFiltro('Hidratación y Piel Sensible')" data-filter="Hidratación y Piel Sensible" class="filter-btn px-3.5 py-2 rounded-full bg-cream hover:bg-sage-50 text-slate-600 border border-slate-200 text-xs font-semibold transition">
-              Hidratación y Piel Sensible
-            </button>
-          </div>
-        </div>
+      <!-- Barra de búsqueda directa en las 6 farmacias para el término actual -->
+      <div id="barraFarmaciasDirectas" class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+        <p class="text-xs font-semibold text-slate-600">Abrir búsqueda en tiempo real para <span id="terminoActualSpan" class="text-slate-900 font-bold">"La Roche Posay Effaclar"</span> directamente en cada farmacia:</p>
+        <div id="linksFarmaciasTop" class="flex flex-wrap gap-2"></div>
       </div>
 
-      <!-- Grid de Productos -->
-      <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </div>
-  </section>
+      <!-- Grid de resultados reales desde la API -->
+      <div id="gridProductosApi" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Se llena dinámicamente vía fetch() -->
+      </div>
+    </section>
 
-  <!-- ==================== 6. FOOTER ==================== -->
-  <footer class="bg-navy-900 text-slate-300 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-white/10">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-sage-600 flex items-center justify-center text-white">
-            <i class="fa-solid fa-leaf text-xs"></i>
-          </div>
-          <span class="font-display font-extrabold text-lg text-white">Derm<span class="text-sage-200">AI</span></span>
+    <!-- Sección 4: Resumen de Arquitectura Desacoplada -->
+    <section id="arquitectura" class="bg-slate-900 text-white rounded-2xl p-6 sm:p-8">
+      <div class="max-w-3xl">
+        <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Arquitectura del MVP (Hito 2)</span>
+        <h2 class="text-2xl font-extrabold mt-1">Ecosistema Agnóstico Desacoplado</h2>
+        <p class="text-sm text-slate-300 mt-2">
+          El frontend web consume servicios REST mediante <code class="text-teal-300">fetch()</code>. Cuando el servidor local <strong>FastAPI + PostgreSQL (INCI)</strong> está activo, sirve el catálogo indexado por el scraper; en despliegue estático (GitHub Pages), conmuta automáticamente a APIs públicas en vivo sin datos estáticos inventados.
+        </p>
+      </div>
+      <div class="grid sm:grid-cols-4 gap-4 mt-6 text-xs">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-1">
+          <p class="font-bold text-teal-400">1. Captura y Visión</p>
+          <p class="text-slate-300">HTML5 Canvas / OpenCV. Evaluación de luminancia, eritema (acné) y contraste nasal (puntos negros) en RAM.</p>
         </div>
-
-        <div class="flex items-center gap-2 text-xs sm:text-sm text-sage-200 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/10">
-          <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-          <span><strong>Privacidad garantizada:</strong> Tu fotografía se procesa al instante en tu dispositivo y nunca se almacena en servidores externos.</span>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-1">
+          <p class="font-bold text-teal-400">2. Motor INCI</p>
+          <p class="text-slate-300">Mapeo imparcial entre condición cutánea y principios activos (Ácido Salicílico, Niacinamida, Ceramidas).</p>
+        </div>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-1">
+          <p class="font-bold text-teal-400">3. Integración API</p>
+          <p class="text-slate-300">Prioridad: FastAPI → Serper Shopping (opcional) → API Mercado Libre Chile (MLC) → Open Beauty Facts.</p>
+        </div>
+        <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 space-y-1">
+          <p class="font-bold text-teal-400">4. Enlaces Retail Chile</p>
+          <p class="text-slate-300">Redirección directa sin sesgo comercial hacia Cruz Verde, Salcobrand, Dr. Simi, Ahumada, Preunic y Maicao.</p>
         </div>
       </div>
+    </section>
+  </main>
 
-      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-        <p>© 2026 DermAI Chile · Comparador imparcial en Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao.</p>
-        <p class="text-center sm:text-right">DermAI entrega orientación dermocosmética preventiva y no reemplaza el diagnóstico médico de un dermatólogo.</p>
-      </div>
-    </div>
+  <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
+    DermAI — Proyecto de Título Ingeniería en Computación e Informática · Universidad Andrés Bello (2026) · Diagnóstico orientativo no sustitutivo de consulta médica dermatológica.
   </footer>
 
-  <canvas id="analysisCanvas" class="hidden"></canvas>
+  <!-- Modal Configuración de API -->
+  <div id="modalApi" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-bold text-slate-900">Configuración de APIs en Tiempo Real</h3>
+        <button onclick="cerrarModalApi()" class="text-slate-400 hover:text-slate-700 font-bold text-lg">✕</button>
+      </div>
+      <p class="text-xs text-slate-600">
+        Por defecto, DermAI consulta automáticamente APIs públicas reales (Mercado Libre Chile y Open Beauty Facts) y genera enlaces directos a las 6 farmacias chilenas. Aquí puedes conectar tu propio backend <strong>FastAPI</strong> o una API Key gratuita de <strong>Serper.dev (Google Shopping Chile)</strong>.
+      </p>
 
-  <!-- ==================== LÓGICA JAVASCRIPT ==================== -->
+      <div class="space-y-3 text-sm">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Endpoint Backend FastAPI (Opcional)</label>
+          <input id="cfgFastApi" type="url" placeholder="http://localhost:8000/api/v1/productos/buscar" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
+          <p class="text-[11px] text-slate-400 mt-1">Se llamará como: <code>?q=termino</code> esperando JSON <code>{ items: [{ title, price, image, url, store }] }</code></p>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Serper.dev API Key para Google Shopping Chile (Opcional)</label>
+          <input id="cfgSerperKey" type="password" placeholder="Pega tu X-API-KEY de serper.dev (trae precios en vivo de Cruz Verde, Salcobrand, etc.)" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs" />
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button onclick="cerrarModalApi()" class="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700">Cancelar</button>
+        <button onclick="guardarConfigApi()" class="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold">Guardar y Probar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Renderizador de respaldo de alta definición (en caso de que un bloqueador de anuncios bloquee el servidor externo de fotos)
-    function generarFotoProductoRealista(clave) {
-      const modelos = {
-        effaclar_duo: { marca: "LA ROCHE-POSAY", titulo: "EFFACLAR DUO+M", sub: "CORRECTOR ANTI-IMPERFECCIONES", banda: "#0284C7", cuerpo: "#FFFFFF", texto: "#0F172A", forma: "tubo" },
-        cerave_gel: { marca: "CeraVe", titulo: "GEL LIMPIADOR ESPUMOSO", sub: "PIEL NORMAL A GRASA · 236ml", banda: "#14B8A6", cuerpo: "#FFFFFF", texto: "#1E3A8A", forma: "pump" },
-        ordinary_niac: { marca: "The Ordinary.", titulo: "Niacinamide 10% + Zinc 1%", sub: "High-Strength Vitamin & Mineral Formula", banda: "#1E293B", cuerpo: "#F8FAFC", texto: "#0F172A", forma: "gotero" },
-        effaclar_gel: { marca: "LA ROCHE-POSAY", titulo: "EFFACLAR GEL", sub: "MICRO-EXFOLIANTE ÁCIDO SALICÍLICO 2%", banda: "#0369A1", cuerpo: "#E0F2FE", texto: "#0F172A", forma: "pump" },
-        hydro_boost: { marca: "Neutrogena", titulo: "Hydro Boost", sub: "WATER GEL · ÁCIDO HIALURÓNICO 50g", banda: "#0284C7", cuerpo: "#38BDF8", texto: "#FFFFFF", forma: "pote" },
-        eucerin_oil: { marca: "Eucerin", titulo: "OIL CONTROL FPS 50+", sub: "SUN GEL-CREAM TOQUE SECO", banda: "#EA580C", cuerpo: "#FFFBEB", texto: "#0F172A", forma: "pump" }
-      };
-      const m = modelos[clave] || modelos.effaclar_duo;
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320">
-        <defs>
-          <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#FFFFFF"/>
-            <stop offset="100%" stop-color="#F1F5F9"/>
-          </linearGradient>
-          <filter id="sh" x="-15%" y="-10%" width="130%" height="130%">
-            <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.12"/>
-          </filter>
-        </defs>
-        <rect width="320" height="320" fill="url(#bg)"/>
-        <g filter="url(#sh)">
-          ${m.forma === 'tubo' ? `
-            <path d="M105 42 H215 L202 232 H118 Z" fill="${m.cuerpo}" stroke="#CBD5E1" stroke-width="2"/>
-            <rect x="130" y="232" width="60" height="36" rx="4" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
-            <rect x="112" y="82" width="96" height="24" fill="${m.banda}"/>
-          ` : m.forma === 'gotero' ? `
-            <rect x="142" y="28" width="36" height="34" rx="12" fill="#1E293B"/>
-            <rect x="134" y="58" width="52" height="18" rx="4" fill="#E2E8F0" stroke="#94A3B8"/>
-            <rect x="106" y="76" width="108" height="190" rx="22" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="2"/>
-            <rect x="112" y="108" width="96" height="132" rx="6" fill="#FFFFFF" stroke="#E2E8F0"/>
-            <rect x="112" y="108" width="96" height="18" fill="${m.banda}"/>
-          ` : m.forma === 'pote' ? `
-            <rect x="76" y="104" width="168" height="34" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
-            <rect x="82" y="138" width="156" height="118" rx="28" fill="${m.cuerpo}" stroke="#38BDF8" stroke-width="2"/>
-            <rect x="98" y="160" width="124" height="74" rx="12" fill="#FFFFFF"/>
-          ` : `
-            <path d="M136 28 H186 L194 42 H136 Z" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2"/>
-            <rect x="148" y="42" width="24" height="22" fill="#E2E8F0"/>
-            <rect x="98" y="64" width="124" height="204" rx="24" fill="${m.cuerpo}" stroke="#CBD5E1" stroke-width="2"/>
-            <rect x="108" y="96" width="104" height="146" rx="10" fill="#FFFFFF" stroke="#E2E8F0"/>
-            <rect x="108" y="96" width="104" height="28" rx="6" fill="${m.banda}"/>
-          `}
-        </g>
-        <text x="160" y="148" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#475569" text-anchor="middle">${m.marca}</text>
-        <text x="160" y="172" font-family="Arial, sans-serif" font-size="13" font-weight="bold" fill="#0F172A" text-anchor="middle">${m.titulo}</text>
-        <text x="160" y="192" font-family="Arial, sans-serif" font-size="9" fill="#64748B" text-anchor="middle">${m.sub}</text>
-      </svg>`;
-      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-    }
-
-    // Catálogo de productos dermatológicos reales con fotos de los envases originales y precios en las 6 cadenas de Chile
-    const PRODUCTOS_CHILE = [
+    // =========================================================
+    // 1. CONFIGURACIÓN DE FARMACIAS EN CHILE (ENLACES DIRECTOS REALES)
+    // =========================================================
+    const FARMACIAS_CHILE = [
       {
-        id: 1,
-        nombre: "Effaclar Duo+M Tratamiento Corrector Anti-Acné y Puntos Negros",
-        marca: "La Roche-Posay",
-        formato: "40 ml",
-        activoPrincipal: "Ácido Salicílico + Niacinamida + Phylobioma",
-        categoria: "Acné y Puntos Negros",
-        etiquetasProblema: ["Elimina granitos de acné", "Desobstruye puntos negros", "Antimarcas"],
-        beneficio: "Reduce visiblemente granitos inflamados, puntos negros persistentes en nariz/frente y marcas post-acné desde las primeras horas.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/333/787/241/1991/front_fr.116.400.jpg",
-        fallbackKey: "effaclar_duo",
-        precios: [
-          { farmacia: "Dr. Simi", valor: 16990, url: "https://www.drsimi.cl/effaclar?_q=effaclar&map=ft" },
-          { farmacia: "Preunic", valor: 17990, url: "https://preunic.cl/search?q=effaclar+duo" },
-          { farmacia: "Farmacias Ahumada", valor: 18490, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=effaclar+duo" },
-          { farmacia: "Salcobrand", valor: 19490, url: "https://salcobrand.cl/search_result?query=effaclar+duo" },
-          { farmacia: "Maicao", valor: 19990, url: "https://www.maicao.cl/search?q=effaclar+duo" },
-          { farmacia: "Cruz Verde", valor: 21490, url: "https://www.cruzverde.cl/search?q=effaclar+duo" }
-        ]
+        nombre: "Cruz Verde",
+        color: "bg-emerald-600 hover:bg-emerald-700 text-white",
+        badge: "bg-emerald-50 text-emerald-700 border-emerald-200",
+        buildUrl: (q) => `https://www.cruzverde.cl/search?q=${encodeURIComponent(q)}`
       },
       {
-        id: 2,
-        nombre: "Effaclar Gel Purificante Micro-Exfoliante (Puntos Negros y Acné)",
-        marca: "La Roche-Posay",
-        formato: "400 ml",
-        activoPrincipal: "Ácido Salicílico 2% + LHA + Zinc",
-        categoria: "Acné y Puntos Negros",
-        etiquetasProblema: ["Limpieza de poros profundos", "Quita puntos negros", "Regula sebo"],
-        beneficio: "Limpiador diario con Ácido Salicílico al 2% que disuelve el sebo oxidado dentro de los poros (puntos negros) y previene brotes de acné.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/333/787/570/8265/front_fr.17.400.jpg",
-        fallbackKey: "effaclar_gel",
-        precios: [
-          { farmacia: "Preunic", valor: 16490, url: "https://preunic.cl/search?q=effaclar+gel" },
-          { farmacia: "Farmacias Ahumada", valor: 17290, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=effaclar+gel" },
-          { farmacia: "Dr. Simi", valor: 17990, url: "https://www.drsimi.cl/effaclar?_q=effaclar&map=ft" },
-          { farmacia: "Salcobrand", valor: 18490, url: "https://salcobrand.cl/search_result?query=effaclar+gel" },
-          { farmacia: "Maicao", valor: 19290, url: "https://www.maicao.cl/search?q=effaclar+gel" },
-          { farmacia: "Cruz Verde", valor: 21990, url: "https://www.cruzverde.cl/search?q=effaclar+gel" }
-        ]
+        nombre: "Salcobrand",
+        color: "bg-blue-600 hover:bg-blue-700 text-white",
+        badge: "bg-blue-50 text-blue-700 border-blue-200",
+        buildUrl: (q) => `https://salcobrand.cl/search_result?query=${encodeURIComponent(q)}`
       },
       {
-        id: 3,
-        nombre: "Sérum Niacinamida 10% + Zinc 1% Control de Poros y Brillo",
-        marca: "The Ordinary",
-        formato: "30 ml",
-        activoPrincipal: "Niacinamida 10% + Zinc PCA 1%",
-        categoria: "Control de Brillo y Poros",
-        etiquetasProblema: ["Poros dilatados", "Brillo Zona T", "Textura irregular"],
-        beneficio: "Fórmula concentrada que regula la producción de sebo en la Zona T, minimiza la apariencia de poros abiertos y calma rojeces de acné.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/076/991/519/0298/front_en.69.400.jpg",
-        fallbackKey: "ordinary_niac",
-        precios: [
-          { farmacia: "Dr. Simi", valor: 8990, url: "https://www.drsimi.cl/niacinamida?_q=niacinamida&map=ft" },
-          { farmacia: "Cruz Verde", valor: 9990, url: "https://www.cruzverde.cl/search?q=niacinamida" },
-          { farmacia: "Maicao", valor: 10990, url: "https://www.maicao.cl/search?q=niacinamida" },
-          { farmacia: "Salcobrand", valor: 12490, url: "https://salcobrand.cl/search_result?query=niacinamida" },
-          { farmacia: "Farmacias Ahumada", valor: 12990, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=niacinamida" },
-          { farmacia: "Preunic", valor: 13990, url: "https://preunic.cl/search?q=niacinamida" }
-        ]
+        nombre: "Dr. Simi",
+        color: "bg-sky-600 hover:bg-sky-700 text-white",
+        badge: "bg-sky-50 text-sky-700 border-sky-200",
+        buildUrl: (q) => `https://www.drsimi.cl/${encodeURIComponent(q)}?_q=${encodeURIComponent(q)}&map=ft`
       },
       {
-        id: 4,
-        nombre: "Gel Limpiador Espumoso Piel Normal a Grasa",
-        marca: "CeraVe",
-        formato: "236 ml",
-        activoPrincipal: "3 Ceramidas Esenciales + Niacinamida",
-        categoria: "Control de Brillo y Poros",
-        etiquetasProblema: ["Limpieza Zona T", "Sin efecto rebote", "No comedogénico"],
-        beneficio: "Elimina el exceso de grasa, suciedad e impurezas sin resecar las mejillas ni alterar la barrera protectora natural del rostro.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/333/787/559/7197/front_fr.95.400.jpg",
-        fallbackKey: "cerave_gel",
-        precios: [
-          { farmacia: "Salcobrand", valor: 11990, url: "https://salcobrand.cl/search_result?query=cerave+limpiador+espumoso" },
-          { farmacia: "Dr. Simi", valor: 12290, url: "https://www.drsimi.cl/cerave?_q=cerave&map=ft" },
-          { farmacia: "Preunic", valor: 12990, url: "https://preunic.cl/search?q=cerave+limpiador" },
-          { farmacia: "Maicao", valor: 13490, url: "https://www.maicao.cl/search?q=cerave+limpiador" },
-          { farmacia: "Farmacias Ahumada", valor: 14290, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=cerave+limpiador" },
-          { farmacia: "Cruz Verde", valor: 14990, url: "https://www.cruzverde.cl/search?q=cerave+limpiador" }
-        ]
+        nombre: "Ahumada",
+        color: "bg-red-600 hover:bg-red-700 text-white",
+        badge: "bg-red-50 text-red-700 border-red-200",
+        buildUrl: (q) => `https://www.farmaciasahumada.cl/search?q=${encodeURIComponent(q)}`
       },
       {
-        id: 5,
-        nombre: "Hydro Boost Water Gel Hidratante Oil-Free",
-        marca: "Neutrogena",
-        formato: "50 g",
-        activoPrincipal: "Ácido Hialurónico Purificado + Glicerina",
-        categoria: "Hidratación y Piel Sensible",
-        etiquetasProblema: ["Piel deshidratada", "Libre de aceites", "No tapa poros"],
-        beneficio: "Gel acuoso ultra ligero que recarga la hidratación en mejillas tirantes sin aportar grasa ni obstruir los poros de la Zona T.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/357/466/128/8017/front_fr.49.400.jpg",
-        fallbackKey: "hydro_boost",
-        precios: [
-          { farmacia: "Maicao", valor: 11990, url: "https://www.maicao.cl/search?q=hydro+boost" },
-          { farmacia: "Preunic", valor: 12990, url: "https://preunic.cl/search?q=hydro+boost" },
-          { farmacia: "Dr. Simi", valor: 13490, url: "https://www.drsimi.cl/neutrogena?_q=neutrogena&map=ft" },
-          { farmacia: "Cruz Verde", valor: 14490, url: "https://www.cruzverde.cl/search?q=hydro+boost" },
-          { farmacia: "Farmacias Ahumada", valor: 15290, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=hydro+boost" },
-          { farmacia: "Salcobrand", valor: 16990, url: "https://salcobrand.cl/search_result?query=hydro+boost" }
-        ]
+        nombre: "Preunic",
+        color: "bg-pink-600 hover:bg-pink-700 text-white",
+        badge: "bg-pink-50 text-pink-700 border-pink-200",
+        buildUrl: (q) => `https://preunic.cl/search?q=${encodeURIComponent(q)}`
       },
       {
-        id: 6,
-        nombre: "Protector Solar Facial Oil Control Toque Seco FPS 50+",
-        marca: "Eucerin",
-        formato: "50 ml",
-        activoPrincipal: "L-Carnitina + Micropigmentos Matificantes",
-        categoria: "Control de Brillo y Poros",
-        etiquetasProblema: ["Efecto mate 8h", "Anti-marcas de acné", "Piel grasa"],
-        beneficio: "Protector solar de acabado ultra mate que previene que los granitos de acné dejen manchas oscuras por el sol y controla el brillo.",
-        imagenUrl: "https://images.openbeautyfacts.org/images/products/400/580/011/9606/front_fr.36.400.jpg",
-        fallbackKey: "eucerin_oil",
-        precios: [
-          { farmacia: "Cruz Verde", valor: 15990, url: "https://www.cruzverde.cl/search?q=eucerin+oil+control" },
-          { farmacia: "Dr. Simi", valor: 16290, url: "https://www.drsimi.cl/eucerin?_q=eucerin&map=ft" },
-          { farmacia: "Farmacias Ahumada", valor: 16790, url: "https://www.farmaciasahumada.cl/catalogsearch/result/?q=eucerin+oil+control" },
-          { farmacia: "Maicao", valor: 17490, url: "https://www.maicao.cl/search?q=eucerin+oil+control" },
-          { farmacia: "Salcobrand", valor: 18490, url: "https://salcobrand.cl/search_result?query=eucerin+oil+control" },
-          { farmacia: "Preunic", valor: 19290, url: "https://preunic.cl/search?q=eucerin+oil+control" }
-        ]
+        nombre: "Maicao",
+        color: "bg-purple-600 hover:bg-purple-700 text-white",
+        badge: "bg-purple-50 text-purple-700 border-purple-200",
+        buildUrl: (q) => `https://www.maicao.cl/search?q=${encodeURIComponent(q)}`
       }
     ];
 
-    // Perfiles de diagnóstico detallado para mostrar al usuario (acné, puntos negros, poros, brillo e hidratación)
-    const PERFILES_DIAGNOSTICO = {
-      acne_puntos_negros: {
-        titulo: "Piel Mixta con Tendencia a Acné Leve y Puntos Negros",
-        resumen: "Detectamos <strong>comedones abiertos (puntos negros)</strong> concentrados en el puente y aletas de la nariz, <strong>brotes inflamatorios leves (granitos de acné)</strong> en la zona del mentón y pómulos, además de brillo moderado en la Zona T.",
-        metricas: [
-          { nombre: "Acné / Granitos", estado: "Leve a Moderado (Mentón y pómulos)", color: "bg-rose-100 text-rose-800 border-rose-200" },
-          { nombre: "Puntos Negros y Poros", estado: "Visibles en nariz y frente", color: "bg-amber-100 text-amber-900 border-amber-200" },
-          { nombre: "Brillo en Zona T", estado: "Moderado (Mayor actividad sebácea)", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-          { nombre: "Hidratación Mejillas", estado: "Equilibrada (Sin descamación)", color: "bg-sky-100 text-sky-800 border-sky-200" }
-        ],
-        consejoClave: "Para eliminar los <strong>puntos negros</strong> y secar los <strong>granitos de acné</strong> sin irritar tu piel, necesitas <strong>Ácido Salicílico (BHA)</strong> que penetra dentro del poro obstruido, junto con <strong>Niacinamida</strong> para desinflamar.",
-        idsRecomendados: [1, 2, 3]
-      },
-      poros_brillo_zonat: {
-        titulo: "Poros Dilatados, Puntos Negros en Nariz y Brillo en Zona T",
-        resumen: "Tu rostro presenta <strong>poros dilatados y puntos negros oxidados en la nariz</strong> acompañados de <strong>brillo sebáceo en la Zona T</strong> (frente y nariz), mientras que tus mejillas (Zona U) se mantienen sin brotes activos.",
-        metricas: [
-          { nombre: "Acné / Granitos", estado: "Sin brotes inflamatorios activos", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-          { nombre: "Puntos Negros y Poros", estado: "Moderados en aletas nasales", color: "bg-amber-100 text-amber-900 border-amber-200" },
-          { nombre: "Brillo en Zona T", estado: "Alto en frente y puente nasal", color: "bg-amber-100 text-amber-900 border-amber-200" },
-          { nombre: "Hidratación Mejillas", estado: "Normal", color: "bg-sky-100 text-sky-800 border-sky-200" }
-        ],
-        consejoClave: "Te recomendamos una limpieza espumosa con <strong>Ceramidas</strong>, un sérum de <strong>Niacinamida 10% + Zinc</strong> para afinar poros y controlar el sebo, y protector solar de <strong>toque seco</strong>.",
-        idsRecomendados: [3, 4, 6]
-      },
-      deshidratada_sensible: {
-        titulo: "Piel Deshidratada con Sensibilidad y Poros Finos",
-        resumen: "Observamos signos de <strong>falta de agua y ligera tirantez en las mejillas (Zona U)</strong> con leves rojeces reactivas, baja presencia de puntos negros y escaso brillo sebáceo.",
-        metricas: [
-          { nombre: "Acné / Granitos", estado: "Ausente (Leve rojez por sensibilidad)", color: "bg-sky-100 text-sky-800 border-sky-200" },
-          { nombre: "Puntos Negros y Poros", estado: "Bajos / Poros cerrados", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-          { nombre: "Brillo en Zona T", estado: "Bajo", color: "bg-emerald-100 text-emerald-800 border-emerald-200" },
-          { nombre: "Hidratación Mejillas", estado: "Baja (Requiere Ácido Hialurónico)", color: "bg-rose-100 text-rose-800 border-rose-200" }
-        ],
-        consejoClave: "Evita exfoliantes fuertes. Prioriza recargar agua con <strong>Ácido Hialurónico en gel</strong> y reparar tu barrera cutánea con <strong>Ceramidas</strong>.",
-        idsRecomendados: [5, 4, 3]
-      }
+    // Estado de configuración API (guardado en localStorage)
+    const apiConfig = {
+      fastApiUrl: localStorage.getItem('dermai_fastapi_url') || '',
+      serperKey: localStorage.getItem('dermai_serper_key') || ''
     };
 
-    let filtroActual = 'Todo';
-    let streamCamara = null;
-    let historialChat = [];
-    let ultimoDiagnosticoUsuario = null;
-
-    function formatearPesos(monto) {
-      return '$' + monto.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    function abrirModalApi() {
+      document.getElementById('cfgFastApi').value = apiConfig.fastApiUrl;
+      document.getElementById('cfgSerperKey').value = apiConfig.serperKey;
+      document.getElementById('modalApi').classList.remove('hidden');
     }
 
-    function actualizarSugerenciasRapidas(sugerencias) {
-      const container = document.getElementById('quickChipsContainer');
-      if (!container || !sugerencias || sugerencias.length === 0) return;
-
-      container.innerHTML = sugerencias.map(texto => {
-        const escapado = texto.replace(/'/g, "\\'");
-        return `
-          <button onclick="hacerPreguntaRapida('${escapado}')" class="text-xs px-3 py-1.5 rounded-full bg-white hover:bg-sage-50 text-slate-700 hover:text-sage-700 border border-slate-200 transition font-medium">
-            ${texto}
-          </button>
-        `;
-      }).join('');
+    function cerrarModalApi() {
+      document.getElementById('modalApi').classList.add('hidden');
     }
 
-    function mostrarIndicadorEscritura() {
-      const chatBox = document.getElementById('chatBox');
-      const id = 'typing-' + Date.now();
-      const div = document.createElement('div');
-      div.id = id;
-      div.className = "flex items-start gap-3";
-      div.innerHTML = `
-        <div class="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 mt-0.5 text-xs">
-          <i class="fa-solid fa-leaf"></i>
-        </div>
-        <div class="bg-cream border border-slate-200/70 rounded-2xl rounded-tl-sm px-4 py-3 text-xs text-slate-500 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-sage-500 animate-bounce"></span>
-          <span class="w-1.5 h-1.5 rounded-full bg-sage-500 animate-bounce" style="animation-delay: 0.15s"></span>
-          <span class="w-1.5 h-1.5 rounded-full bg-sage-500 animate-bounce" style="animation-delay: 0.3s"></span>
+    function guardarConfigApi() {
+      apiConfig.fastApiUrl = document.getElementById('cfgFastApi').value.trim();
+      apiConfig.serperKey = document.getElementById('cfgSerperKey').value.trim();
+      localStorage.setItem('dermai_fastapi_url', apiConfig.fastApiUrl);
+      localStorage.setItem('dermai_serper_key', apiConfig.serperKey);
+      cerrarModalApi();
+      const q = document.getElementById('inputBusquedaManual').value.trim() || 'La Roche Posay Effaclar';
+      ejecutarBusquedaCatalogo(q);
+    }
+
+    // =========================================================
+    // 2. MOTOR DE BÚSQUEDA EN VIVO VIA APIS REALES (CERO PRECIOS FIJOS)
+    // =========================================================
+    async function fetchConTimeout(url, options = {}, timeoutMs = 4500) {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeoutMs);
+      try {
+        const res = await fetch(url, { ...options, signal: controller.signal });
+        clearTimeout(id);
+        return res;
+      } catch (err) {
+        clearTimeout(id);
+        throw err;
+      }
+    }
+
+    async function buscarProductosEnVivo(query) {
+      // 1) Prioridad 1: Backend propio FastAPI (si está configurado)
+      if (apiConfig.fastApiUrl) {
+        try {
+          const url = `${apiConfig.fastApiUrl}${apiConfig.fastApiUrl.includes('?') ? '&' : '?'}q=${encodeURIComponent(query)}`;
+          const res = await fetchConTimeout(url, {}, 3000);
+          if (res.ok) {
+            const data = await res.json();
+            const lista = data.items || data.results || data;
+            if (Array.isArray(lista) && lista.length > 0) {
+              return {
+                fuente: 'Backend FastAPI (PostgreSQL INCI)',
+                items: lista.slice(0, 6).map(p => ({
+                  title: p.title || p.nombre,
+                  brand: p.brand || p.marca || '',
+                  priceCLP: p.price || p.precio || null,
+                  image: p.image || p.imagen || '',
+                  url: p.url || p.link || FARMACIAS_CHILE[0].buildUrl(p.title || query),
+                  store: p.store || p.farmacia || 'FastAPI',
+                  inci: p.inci || ''
+                }))
+              };
+            }
+          }
+        } catch (e) {
+          console.warn('FastAPI no disponible, pasando a APIs públicas:', e.message);
+        }
+      }
+
+      // 2) Prioridad 2: Serper.dev Google Shopping Chile (si el usuario ingresó su API key)
+      if (apiConfig.serperKey) {
+        try {
+          const res = await fetchConTimeout('https://google.serper.dev/shopping', {
+            method: 'POST',
+            headers: {
+              'X-API-KEY': apiConfig.serperKey,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ q: `${query} farmacia chile`, gl: 'cl', hl: 'es', num: 6 })
+          }, 5000);
+          if (res.ok) {
+            const data = await res.json();
+            if (data.shopping && data.shopping.length > 0) {
+              return {
+                fuente: 'Google Shopping Chile (Serper API en vivo)',
+                items: data.shopping.slice(0, 6).map(p => ({
+                  title: p.title,
+                  brand: p.source || '',
+                  priceText: p.price || null,
+                  image: p.imageUrl || '',
+                  url: p.link,
+                  store: p.source || 'Tienda Chile',
+                  inci: ''
+                }))
+              };
+            }
+          }
+        } catch (e) {
+          console.warn('Serper API error:', e.message);
+        }
+      }
+
+      // 3) Prioridad 3: API Pública Mercado Libre Chile (MLC) — Fotos reales + Precios CLP reales
+      try {
+        const mlUrl = `https://api.mercadolibre.com/sites/MLC/search?q=${encodeURIComponent(query)}&limit=6`;
+        const res = await fetchConTimeout(mlUrl, {}, 4500);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            return {
+              fuente: 'API Pública Mercado Libre Chile (Precios y Fotos en Vivo)',
+              items: data.results.slice(0, 6).map(item => ({
+                title: item.title,
+                brand: item.official_store_name || (item.seller?.nickname ? `Tienda: ${item.seller.nickname}` : 'Mercado Libre Chile'),
+                priceCLP: typeof item.price === 'number' ? item.price : null,
+                image: (item.thumbnail || '').replace(/^http:\/\//i, 'https://').replace('-I.jpg', '-O.jpg'),
+                url: item.permalink,
+                store: item.official_store_name || 'Mercado Libre CL',
+                inci: ''
+              }))
+            };
+          }
+        }
+      } catch (e) {
+        console.warn('API Mercado Libre no accesible desde este origen, usando Open Beauty Facts:', e.message);
+      }
+
+      // 4) Prioridad 4: Open Beauty Facts API (Sin CORS, Sin API Key) — Fotos reales de envases + Ingredientes INCI reales
+      try {
+        const obfUrl = `https://world.openbeautyfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=12&fields=product_name,brands,image_front_url,image_url,ingredients_text,code`;
+        const res = await fetchConTimeout(obfUrl, {}, 6500);
+        if (res.ok) {
+          const data = await res.json();
+          const filtrados = (data.products || []).filter(p => (p.product_name || p.brands) && (p.image_front_url || p.image_url));
+          if (filtrados.length > 0) {
+            return {
+              fuente: 'Open Beauty Facts API (Fotos Reales + INCI) + Links Directos Farmacias Chile',
+              items: filtrados.slice(0, 6).map(p => {
+                const nombreCompleto = [p.brands, p.product_name].filter(Boolean).join(' — ').slice(0, 90);
+                return {
+                  title: nombreCompleto,
+                  brand: p.brands || 'Cosmética Dermatológica',
+                  priceCLP: null, // Nunca inventamos un precio
+                  image: p.image_front_url || p.image_url,
+                  url: FARMACIAS_CHILE[0].buildUrl(nombreCompleto),
+                  store: 'Consultar precio en vivo',
+                  inci: p.ingredients_text ? p.ingredients_text.slice(0, 140) : ''
+                };
+              })
+            };
+          }
+        }
+      } catch (e) {
+        console.warn('Open Beauty Facts falló:', e.message);
+      }
+
+      // 5) Fallback limpio sin datos inventados: enlaces directos a las 6 farmacias
+      return {
+        fuente: 'Enlace Directo en Vivo a Farmacias Chile',
+        items: []
+      };
+    }
+
+    function formatearCLP(valor) {
+      if (typeof valor !== 'number' || isNaN(valor)) return null;
+      return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }).format(valor);
+    }
+
+    function renderizarLinksFarmacias(termino) {
+      document.getElementById('terminoActualSpan').textContent = `"${termino}"`;
+      const cont = document.getElementById('linksFarmaciasTop');
+      cont.innerHTML = FARMACIAS_CHILE.map(f => `
+        <a href="${f.buildUrl(termino)}" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition shadow-sm ${f.color}">
+          <span>${f.nombre}</span>
+          <span>↗</span>
+        </a>
+      `).join('');
+    }
+
+    function construirTarjetaProductoHTML(item, queryFallback) {
+      const precioStr = item.priceText || formatearCLP(item.priceCLP);
+      const terminoFarmacia = item.title || queryFallback;
+      const botonesFarmacias = FARMACIAS_CHILE.map(f => `
+        <a href="${f.buildUrl(terminoFarmacia)}" target="_blank" rel="noopener noreferrer"
+           class="text-[11px] font-semibold px-2 py-1 rounded border transition hover:opacity-80 ${f.badge}">
+          ${f.nombre} ↗
+        </a>
+      `).join('');
+
+      return `
+        <article class="bg-white rounded-2xl border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
+          <div>
+            <div class="h-48 bg-white border-b border-slate-100 flex items-center justify-center p-4 relative">
+              ${item.image ? `
+                <img src="${item.image}" alt="${terminoFarmacia.replace(/"/g, '&quot;')}"
+                     loading="lazy"
+                     onerror="this.parentElement.innerHTML='<div class=\\'text-xs text-slate-400 text-center px-4\\'>Imagen oficial disponible en el enlace de la farmacia</div>'"
+                     class="max-h-40 max-w-full object-contain" />
+              ` : `<div class="text-xs text-slate-400 text-center px-4">Ver imagen oficial en la farmacia</div>`}
+              <span class="absolute top-2.5 right-2.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-900/80 text-white">
+                ${item.store}
+              </span>
+            </div>
+            <div class="p-4 space-y-2">
+              <p class="text-[11px] font-semibold uppercase tracking-wide text-teal-600 truncate">${item.brand || 'Dermatología'}</p>
+              <h3 class="text-sm font-bold text-slate-900 line-clamp-2 leading-snug">${item.title}</h3>
+              ${item.inci ? `<p class="text-[11px] text-slate-500 line-clamp-2"><strong class="text-slate-700">INCI:</strong> ${item.inci}</p>` : ''}
+              <div class="pt-1">
+                ${precioStr
+                  ? `<p class="text-lg font-extrabold text-slate-900">${precioStr} <span class="text-[11px] font-normal text-slate-500">precio en vivo</span></p>`
+                  : `<p class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-2 py-1 inline-block">Precio dinámico: consultar en farmacia</p>`
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 pt-0 space-y-2.5">
+            ${item.url && !item.url.includes('cruzverde.cl/search') ? `
+              <a href="${item.url}" target="_blank" rel="noopener noreferrer"
+                 class="block w-full text-center py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+                Ver producto en ${item.store} ↗
+              </a>
+            ` : ''}
+            <div>
+              <p class="text-[10px] font-semibold text-slate-400 uppercase mb-1.5">Comparar precio en vivo en Chile:</p>
+              <div class="flex flex-wrap gap-1.5">
+                ${botonesFarmacias}
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    async function ejecutarBusquedaCatalogo(termino) {
+      document.getElementById('inputBusquedaManual').value = termino;
+      renderizarLinksFarmacias(termino);
+
+      const grid = document.getElementById('gridProductosApi');
+      const indicador = document.getElementById('indicadorApiActiva');
+      indicador.textContent = 'Consultando API en tiempo real...';
+      grid.innerHTML = `
+        <div class="col-span-full py-12 text-center space-y-2">
+          <div class="w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p class="text-sm font-medium text-slate-600">Buscando fotografías reales y precios vigentes para <strong>"${termino}"</strong>...</p>
         </div>
       `;
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
-      return id;
-    }
 
-    function ocultarIndicadorEscritura(id) {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    }
+      const resultado = await buscarProductosEnVivo(termino);
+      indicador.textContent = `Fuente: ${resultado.fuente}`;
+      document.getElementById('badgeFuenteHero').textContent = resultado.fuente.split('(')[0].trim();
 
-    function seleccionarFiltro(categoria) {
-      filtroActual = categoria;
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        if (btn.dataset.filter === categoria) {
-          btn.className = "filter-btn px-3.5 py-2 rounded-full bg-navy-900 text-white text-xs font-semibold transition";
-        } else {
-          btn.className = "filter-btn px-3.5 py-2 rounded-full bg-cream hover:bg-sage-50 text-slate-600 border border-slate-200 text-xs font-semibold transition";
-        }
-      });
-      renderizarCatalogo();
-    }
-
-    // Renderizar catálogo principal con fotos reales de los productos y links a todas las farmacias
-    function renderizarCatalogo() {
-      const grid = document.getElementById('productsGrid');
-      const busqueda = document.getElementById('searchInput').value.toLowerCase().trim();
-
-      const filtrados = PRODUCTOS_CHILE.filter(prod => {
-        const coincideCategoria = filtroActual === 'Todo' || prod.categoria === filtroActual;
-        const coincideTexto =
-          prod.nombre.toLowerCase().includes(busqueda) ||
-          prod.marca.toLowerCase().includes(busqueda) ||
-          prod.activoPrincipal.toLowerCase().includes(busqueda) ||
-          prod.beneficio.toLowerCase().includes(busqueda) ||
-          prod.etiquetasProblema.some(e => e.toLowerCase().includes(busqueda)) ||
-          prod.precios.some(p => p.farmacia.toLowerCase().includes(busqueda));
-        return coincideCategoria && coincideTexto;
-      });
-
-      if (filtrados.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full text-center py-12 text-slate-500">
-            <p class="font-semibold text-navy-900">No encontramos productos con ese criterio</p>
-            <p class="text-sm mt-1">Intenta buscar "acné", "puntos negros", "Dr. Simi" o selecciona "Todos".</p>
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = filtrados.map(prod => {
-        const ordenados = [...prod.precios].sort((a, b) => a.valor - b.valor);
-        const mejorOpcion = ordenados[0];
-        const opcionMasCara = ordenados[ordenados.length - 1];
-        const ahorro = opcionMasCara.valor - mejorOpcion.valor;
-
-        return `
-          <div class="bg-cream rounded-3xl p-6 border border-slate-200/80 flex flex-col justify-between hover:shadow-xl hover:shadow-slate-200/70 transition">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-3">
-                <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-sage-100 text-sage-700">
-                  ${prod.categoria}
-                </span>
-                <span class="text-xs font-bold text-emerald-800 bg-emerald-100/80 px-2.5 py-1 rounded-full border border-emerald-200">
-                  Ahorras ${formatearPesos(ahorro)}
-                </span>
-              </div>
-
-              <!-- Fotografía Real del Producto -->
-              <div class="product-img-container rounded-2xl p-4 mb-4 border border-slate-200/70 flex items-center justify-center h-48 relative overflow-hidden">
-                <img src="${prod.imagenUrl}" 
-                     onerror="this.onerror=null;this.src=generarFotoProductoRealista('${prod.fallbackKey}');" 
-                     alt="${prod.marca} - ${prod.nombre}" 
-                     class="max-h-40 w-auto object-contain transition duration-300 hover:scale-105" />
-              </div>
-
-              <!-- Etiquetas de qué problema resuelve (acné, puntos negros, etc.) -->
-              <div class="flex flex-wrap gap-1 mb-2.5">
-                ${prod.etiquetasProblema.map(tag => `
-                  <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-600">
-                    ✓ ${tag}
-                  </span>
-                `).join('')}
-              </div>
-
-              <p class="text-xs font-bold text-slate-400 uppercase tracking-wide">${prod.marca} · ${prod.formato}</p>
-              <h3 class="text-base font-extrabold text-navy-900 mt-0.5 leading-snug">${prod.nombre}</h3>
-              <p class="text-xs font-semibold text-sage-700 mt-1">Ingredientes: ${prod.activoPrincipal}</p>
-              <p class="text-xs text-slate-600 mt-2 leading-relaxed">${prod.beneficio}</p>
-            </div>
-
-            <div class="mt-5 pt-4 border-t border-slate-200/70">
-              <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Precios hoy en farmacias de Chile:</p>
-              <div class="space-y-1.5 mb-4">
-                ${ordenados.map((item, index) => `
-                  <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs transition ${index === 0 ? 'bg-white border-2 border-sage-500 shadow-xs' : 'bg-white/60 hover:bg-white text-slate-600 border border-slate-200/60'}">
-                    <span class="${index === 0 ? 'text-navy-900 font-bold' : 'font-medium'}">
-                      ${item.farmacia}
-                      ${index === 0 ? '<span class="ml-1.5 text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">Más barato</span>' : ''}
-                    </span>
-                    <span class="font-bold flex items-center gap-1.5 ${index === 0 ? 'text-sage-700 text-sm' : ''}">
-                      ${formatearPesos(item.valor)}
-                      <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-60"></i>
-                    </span>
-                  </a>
-                `).join('')}
-              </div>
-
-              <a href="${mejorOpcion.url}" target="_blank" rel="noopener noreferrer" class="w-full py-3 px-4 rounded-xl bg-navy-900 hover:bg-sage-600 text-white text-xs font-bold transition flex items-center justify-center gap-2 shadow-sm">
-                <span>Comprar directo en ${mejorOpcion.farmacia} (${formatearPesos(mejorOpcion.valor)})</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-              </a>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function agregarBurbujaChat(contenidoHTML, esUsuario = false) {
-      const chatBox = document.getElementById('chatBox');
-      const div = document.createElement('div');
-
-      if (esUsuario) {
-        div.className = "flex items-start justify-end gap-3";
-        div.innerHTML = `
-          <div class="bg-navy-900 text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm max-w-[85%] shadow-xs">
-            ${contenidoHTML}
-          </div>
-        `;
+      if (resultado.items.length > 0) {
+        grid.innerHTML = resultado.items.map(item => construirTarjetaProductoHTML(item, termino)).join('');
       } else {
-        div.className = "flex items-start gap-3";
-        div.innerHTML = `
-          <div class="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center shrink-0 mt-0.5 text-xs">
-            <i class="fa-solid fa-leaf"></i>
-          </div>
-          <div class="bg-cream border border-slate-200/80 rounded-2xl rounded-tl-sm px-4 py-3.5 text-sm text-slate-700 max-w-[94%] leading-relaxed">
-            ${contenidoHTML}
+        grid.innerHTML = `
+          <div class="col-span-full bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center space-y-3">
+            <p class="text-sm font-bold text-slate-800">No se obtuvieron resultados directos de la API pública para "${termino}".</p>
+            <p class="text-xs text-slate-500">Para evitar mostrar precios falsos, utiliza los enlaces directos de arriba para abrir el stock y precio vigente en cada farmacia chilena.</p>
           </div>
         `;
       }
-
-      chatBox.appendChild(div);
-      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function enfocarEscaner() {
-      setTimeout(() => iniciarCamara(), 350);
+    function manejarBusquedaManual(e) {
+      e.preventDefault();
+      const q = document.getElementById('inputBusquedaManual').value.trim();
+      if (q) ejecutarBusquedaCatalogo(q);
     }
 
-    async function iniciarCamara() {
-      const video = document.getElementById('videoStream');
-      const placeholder = document.getElementById('cameraPlaceholder');
-      const guide = document.getElementById('faceGuideOverlay');
-      const btnStart = document.getElementById('btnStartCam');
-      const btnPhoto = document.getElementById('btnTakePhoto');
-      const statusPill = document.getElementById('cameraStatusPill');
+    // =========================================================
+    // 3. ESCÁNER FACIAL REAL (WEBCAM / FOTO SUBIDA + ANÁLISIS PIXELAR)
+    // =========================================================
+    let streamActivo = null;
+
+    async function activarCamara() {
+      const video = document.getElementById('videoCamara');
+      const canvas = document.getElementById('canvasCaptura');
+      const placeholder = document.getElementById('placeholderVisor');
+      const guia = document.getElementById('guiaFacial');
+      const estado = document.getElementById('estadoCamara');
 
       try {
-        streamCamara = await navigator.mediaDevices.getUserMedia({
+        if (streamActivo) {
+          streamActivo.getTracks().forEach(t => t.stop());
+        }
+        streamActivo = await navigator.mediaDevices.getUserMedia({
           video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
           audio: false
         });
-        video.srcObject = streamCamara;
+        video.srcObject = streamActivo;
         video.classList.remove('hidden');
+        canvas.classList.add('hidden');
         placeholder.classList.add('hidden');
-        guide.classList.remove('hidden');
-        btnStart.classList.add('hidden');
-        btnPhoto.classList.remove('hidden');
-
-        statusPill.textContent = "Cámara activa";
-        statusPill.className = "text-[11px] px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-medium";
-      } catch (error) {
-        agregarBurbujaChat("No detectamos acceso a tu cámara web. Puedes usar cualquiera de los <strong>3 botones de simulación</strong> de la izquierda o subir una fotografía de tu galería.", false);
+        guia.classList.remove('hidden');
+        document.getElementById('btnCapturar').disabled = false;
+        estado.textContent = 'Cámara activa';
+        estado.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200';
+      } catch (err) {
+        estado.textContent = 'Permiso denegado';
+        estado.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200';
+        alert('No se pudo acceder a la cámara (puede estar en uso por OBS o bloqueada). Puedes usar el botón "Subir Foto Real" para analizar una imagen de tu rostro.');
       }
     }
 
-    function detenerCamara() {
-      if (streamCamara) {
-        streamCamara.getTracks().forEach(t => t.stop());
-        streamCamara = null;
-      }
-      document.getElementById('videoStream').classList.add('hidden');
-      document.getElementById('cameraPlaceholder').classList.remove('hidden');
-      document.getElementById('faceGuideOverlay').classList.add('hidden');
-      document.getElementById('btnStartCam').classList.remove('hidden');
-      document.getElementById('btnTakePhoto').classList.add('hidden');
+    function capturarYAnalizar() {
+      const video = document.getElementById('videoCamara');
+      const canvas = document.getElementById('canvasCaptura');
+      if (!video.videoWidth) return;
 
-      const statusPill = document.getElementById('cameraStatusPill');
-      statusPill.textContent = "Listo para escanear";
-      statusPill.className = "text-[11px] px-2.5 py-1 rounded-full bg-white/10 text-slate-300";
-    }
-
-    // Analizar la imagen capturada midiendo iluminación, nitidez, rojez (acné) y contraste de poros (puntos negros)
-    function analizarImagenCompleta(canvas) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
       const ctx = canvas.getContext('2d');
-      const w = canvas.width;
-      const h = canvas.height;
-      const data = ctx.getImageData(0, 0, w, h).data;
+      // Espejar para coincidir con el visor
+      ctx.save();
+      ctx.scale(-1, 1);
+      ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+      ctx.restore();
 
-      const gris = new Float32Array(w * h);
-      let sumaLuz = 0;
-      let pixelesRojizos = 0;
-
-      for (let i = 0, p = 0; i < data.length; i += 4, p++) {
-        const r = data[i], g = data[i + 1], b = data[i + 2];
-        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
-        gris[p] = lum;
-        sumaLuz += lum;
-        if (r > g * 1.28 && r > b * 1.28 && lum > 50 && lum < 210) {
-          pixelesRojizos++;
-        }
+      // Detener cámara para mostrar la foto real congelada
+      if (streamActivo) {
+        streamActivo.getTracks().forEach(t => t.stop());
+        streamActivo = null;
       }
+      video.classList.add('hidden');
+      document.getElementById('guiaFacial').classList.add('hidden');
+      canvas.classList.remove('hidden');
+      document.getElementById('btnCapturar').disabled = true;
 
-      const luzPromedio = sumaLuz / (w * h);
-      let sumaBordes = 0;
-      let sumaCuadrados = 0;
-      let muestras = 0;
-
-      for (let y = 1; y < h - 1; y += 2) {
-        for (let x = 1; x < w - 1; x += 2) {
-          const idx = y * w + x;
-          const borde = gris[idx - w] + gris[idx - 1] - 4 * gris[idx] + gris[idx + 1] + gris[idx + w];
-          sumaBordes += borde;
-          sumaCuadrados += borde * borde;
-          muestras++;
-        }
-      }
-
-      const media = sumaBordes / muestras;
-      const nitidez = (sumaCuadrados / muestras) - (media * media);
-      const ratioRojez = pixelesRojizos / (w * h);
-
-      return {
-        esValida: nitidez >= 70 && luzPromedio >= 38 && luzPromedio <= 235,
-        perfilDetectado: ratioRojez > 0.12 ? 'acne_puntos_negros' : 'acne_puntos_negros'
-      };
+      ejecutarAnalisisSobreCanvas(canvas);
     }
 
-    function tomarFotoYAnalizar() {
-      const video = document.getElementById('videoStream');
-      const canvas = document.getElementById('analysisCanvas');
+    function cargarFotoReal(event) {
+      const file = event.target.files[0];
+      if (!file) return;
 
-      canvas.width = video.videoWidth || 640;
-      canvas.height = video.videoHeight || 480;
-      canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      const miniatura = canvas.toDataURL('image/jpeg', 0.85);
-      detenerCamara();
-
-      agregarBurbujaChat(`
-        <div class="flex items-center gap-3">
-          <img src="${miniatura}" alt="Captura facial" class="w-12 h-12 rounded-xl object-cover border border-white/20" />
-          <span class="text-xs">Analizando acné, puntos negros, poros y Zona T...</span>
-        </div>
-      `, true);
-
-      const resultado = analizarImagenCompleta(canvas);
-      setTimeout(() => {
-        if (!resultado.esValida) {
-          agregarBurbujaChat(`
-            <p class="font-semibold text-navy-900 mb-1">¡Ups! La imagen se ve muy oscura o desenfocada 🌤️</p>
-            <p>Para poder detectar con precisión si tienes <strong>puntos negros en la nariz o pequeños granitos de acné</strong>, acércate a una fuente de luz frontal e inténtalo de nuevo (o presiona uno de los botones de simulación a la izquierda).</p>
-          `, false);
-        } else {
-          desplegarInformeDiagnosticoEnChat('acne_puntos_negros');
-        }
-      }, 500);
-    }
-
-    function analizarFotoSubida(event) {
-      const archivo = event.target.files[0];
-      if (!archivo) return;
+      if (streamActivo) {
+        streamActivo.getTracks().forEach(t => t.stop());
+        streamActivo = null;
+      }
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = (e) => {
         const img = new Image();
-        img.onload = function() {
-          const canvas = document.getElementById('analysisCanvas');
-          canvas.width = 480;
-          canvas.height = Math.round((img.height / img.width) * 480) || 480;
-          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        img.onload = () => {
+          const canvas = document.getElementById('canvasCaptura');
+          const maxW = 640;
+          const scale = Math.min(1, maxW / img.width);
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-          agregarBurbujaChat(`
-            <div class="flex items-center gap-3">
-              <img src="${e.target.result}" alt="Foto subida" class="w-12 h-12 rounded-xl object-cover border border-white/20" />
-              <span class="text-xs">Escaneando acné, puntos negros, poros e hidratación...</span>
-            </div>
-          `, true);
+          document.getElementById('videoCamara').classList.add('hidden');
+          document.getElementById('placeholderVisor').classList.add('hidden');
+          document.getElementById('guiaFacial').classList.add('hidden');
+          canvas.classList.remove('hidden');
+          document.getElementById('btnCapturar').disabled = true;
 
-          setTimeout(() => desplegarInformeDiagnosticoEnChat('acne_puntos_negros'), 500);
+          ejecutarAnalisisSobreCanvas(canvas);
         };
         img.src = e.target.result;
       };
-      reader.readAsDataURL(archivo);
+      reader.readAsDataURL(file);
     }
 
-    function ejecutarSimulacionPerfil(clavePerfil) {
-      detenerCamara();
-      const nombres = {
-        acne_puntos_negros: "Evaluar caso: Piel con acné leve y puntos negros en nariz",
-        poros_brillo_zonat: "Evaluar caso: Puntos negros, poros dilatados y brillo en Zona T",
-        deshidratada_sensible: "Evaluar caso: Piel deshidratada, sensible y tirante"
-      };
-      agregarBurbujaChat(nombres[clavePerfil] || "Analizar rostro", true);
-      setTimeout(() => desplegarInformeDiagnosticoEnChat(clavePerfil), 400);
-    }
+    async function ejecutarAnalisisSobreCanvas(canvas) {
+      const linea = document.getElementById('lineaEscaneo');
+      const estado = document.getElementById('estadoCamara');
+      linea.classList.remove('hidden');
+      estado.textContent = 'Analizando píxeles...';
+      estado.className = 'text-[11px] font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200';
 
-    // Despliega el diagnóstico completo (Acné, Puntos Negros, Brillo, Hidratación) + Tarjetas con Foto Real y Link Directo
-    function desplegarInformeDiagnosticoEnChat(clavePerfil) {
-      const diag = PERFILES_DIAGNOSTICO[clavePerfil] || PERFILES_DIAGNOSTICO.acne_puntos_negros;
-      ultimoDiagnosticoUsuario = diag;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const w = canvas.width;
+      const h = canvas.height;
 
-      const productosSugeridos = diag.idsRecomendados.map(id => PRODUCTOS_CHILE.find(p => p.id === id)).filter(Boolean);
+      // Extraer ROI central del rostro (Zona T y Zona U)
+      const roiX = Math.floor(w * 0.28);
+      const roiY = Math.floor(h * 0.18);
+      const roiW = Math.floor(w * 0.44);
+      const roiH = Math.floor(h * 0.62);
+      const imgData = ctx.getImageData(roiX, roiY, roiW, roiH).data;
 
-      const metricasHTML = diag.metricas.map(m => `
-        <div class="px-3 py-2 rounded-xl border text-xs ${m.color}">
-          <span class="font-bold block">${m.nombre}</span>
-          <span class="text-[11px] opacity-90">${m.estado}</span>
+      let totalPixels = 0;
+      let sumaLum = 0;
+      let pixelesBrillo = 0;
+      let pixelesRojos = 0;
+      let sumaContrastePoros = 0;
+      let pixelesSecos = 0;
+
+      for (let i = 0; i < imgData.length; i += 16) { // muestreo rápido cada 4 píxeles
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+        sumaLum += lum;
+        totalPixels++;
+
+        // Brillo especular (sebo en Zona T)
+        if (lum > 195 && Math.abs(r - g) < 28) pixelesBrillo++;
+
+        // Índice de eritema / enrojecimiento (posible acné / granitos inflamados)
+        if (r > 125 && (r - g) > 28 && (r - b) > 32) pixelesRojos++;
+
+        // Contraste local oscuro en zona media (poros dilatados / puntos negros)
+        if (i + 16 < imgData.length) {
+          const lumNext = 0.299 * imgData[i + 16] + 0.587 * imgData[i + 17] + 0.114 * imgData[i + 18];
+          const diff = Math.abs(lum - lumNext);
+          if (diff > 14 && lum < 140) sumaContrastePoros++;
+        }
+
+        // Baja saturación y textura mate (tendencia a deshidratación)
+        if (lum > 85 && lum < 165 && Math.abs(r - b) < 18) pixelesSecos++;
+      }
+
+      const lumMedia = Math.round(sumaLum / Math.max(1, totalPixels));
+      const pctBrillo = Math.min(95, Math.max(15, Math.round((pixelesBrillo / totalPixels) * 260) + 18));
+      const pctAcne = Math.min(90, Math.max(12, Math.round((pixelesRojos / totalPixels) * 320) + 14));
+      const pctPuntosNegros = Math.min(92, Math.max(18, Math.round((sumaContrastePoros / totalPixels) * 280) + 20));
+      const pctHidratacion = Math.min(92, Math.max(25, 88 - Math.round((pixelesSecos / totalPixels) * 110)));
+
+      // Dibujar superposición limpia de Zona T y Zona U sobre la foto real capturada
+      ctx.strokeStyle = 'rgba(20, 184, 166, 0.85)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.strokeRect(roiX, roiY, roiW, roiH);
+      // Zona T (frente + nariz)
+      ctx.fillStyle = 'rgba(20, 184, 166, 0.18)';
+      ctx.fillRect(roiX + roiW * 0.15, roiY + roiH * 0.08, roiW * 0.7, roiH * 0.18);
+      ctx.fillRect(roiX + roiW * 0.38, roiY + roiH * 0.26, roiW * 0.24, roiH * 0.38);
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(roiX, roiY - 22, 130, 20);
+      ctx.fillStyle = '#5eead4';
+      ctx.font = 'bold 11px Inter, sans-serif';
+      ctx.fillText('ROI: Zona T / Zona U', roiX + 6, roiY - 8);
+
+      await new Promise(r => setTimeout(r, 900));
+      linea.classList.add('hidden');
+      estado.textContent = 'Análisis completado';
+
+      const calidadTexto = lumMedia < 65 ? 'Luz baja (recomendado iluminar más)' : (lumMedia > 215 ? 'Sobreexpuesta' : `Óptima (Lum: ${lumMedia})`);
+      document.getElementById('calidadCaptura').textContent = `Calidad captura: ${calidadTexto}`;
+
+      const nivel = (val) => val >= 60 ? { txt: 'Alto', cls: 'text-rose-600 bg-rose-50 border-rose-200' } : (val >= 35 ? { txt: 'Moderado', cls: 'text-amber-700 bg-amber-50 border-amber-200' } : { txt: 'Bajo / Controlado', cls: 'text-emerald-700 bg-emerald-50 border-emerald-200' });
+      const nivelHidr = (val) => val < 45 ? { txt: 'Deshidratada', cls: 'text-amber-700 bg-amber-50 border-amber-200' } : { txt: 'Equilibrada', cls: 'text-emerald-700 bg-emerald-50 border-emerald-200' };
+
+      const nAcne = nivel(pctAcne);
+      const nPoros = nivel(pctPuntosNegros);
+      const nBrillo = nivel(pctBrillo);
+      const nHidr = nivelHidr(pctHidratacion);
+
+      document.getElementById('gridMetricas').innerHTML = `
+        <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex justify-between items-center text-xs"><span class="font-semibold text-slate-600">Acné / Brotes</span><span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${nAcne.cls}">${nAcne.txt}</span></div>
+          <p class="text-xl font-extrabold text-slate-900 mt-1">${pctAcne}%</p>
+          <p class="text-[11px] text-slate-500">Enrojecimiento e imperfecciones</p>
         </div>
-      `).join('');
-
-      const tarjetasProductosHTML = productosSugeridos.map(prod => {
-        const ordenados = [...prod.precios].sort((a, b) => a.valor - b.valor);
-        const mejor = ordenados[0];
-        const segundo = ordenados[1];
-        const masCaro = ordenados[ordenados.length - 1];
-        const ahorro = masCaro.valor - mejor.valor;
-
-        return `
-          <div class="bg-white rounded-2xl p-3 border border-slate-200/90 flex flex-col justify-between shadow-xs hover:border-sage-500 transition">
-            <div>
-              <div class="flex items-center justify-between gap-1 mb-2">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
-                  Ahorras ${formatearPesos(ahorro)}
-                </span>
-                <span class="text-[10px] font-bold text-slate-400 uppercase">${prod.marca}</span>
-              </div>
-
-              <!-- Foto Real del Producto dentro del Chat -->
-              <div class="product-img-container rounded-xl p-2 mb-2.5 border border-slate-100 flex items-center justify-center h-28">
-                <img src="${prod.imagenUrl}" 
-                     onerror="this.onerror=null;this.src=generarFotoProductoRealista('${prod.fallbackKey}');" 
-                     alt="${prod.nombre}" 
-                     class="max-h-24 w-auto object-contain" />
-              </div>
-
-              <span class="text-[10px] font-semibold text-sage-700 block mb-0.5">✓ ${prod.etiquetasProblema[0]}</span>
-              <h4 class="font-bold text-navy-900 text-xs leading-snug line-clamp-2">${prod.nombre}</h4>
-            </div>
-
-            <div class="mt-2.5 pt-2 border-t border-slate-100">
-              <div class="flex items-baseline justify-between mb-1">
-                <span class="text-[11px] text-slate-500">En <strong class="text-navy-900">${mejor.farmacia}</strong>:</span>
-                <span class="font-extrabold text-sage-700 text-sm">${formatearPesos(mejor.valor)}</span>
-              </div>
-              <p class="text-[10px] text-slate-400 mb-2">Sigue ${segundo.farmacia} (${formatearPesos(segundo.valor)})</p>
-
-              <!-- Link directo a la farmacia -->
-              <a href="${mejor.url}" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-2.5 rounded-xl bg-navy-900 hover:bg-sage-600 text-white text-[11px] font-bold transition flex items-center justify-center gap-1.5 shadow-2xs">
-                <span>Comprar en ${mejor.farmacia}</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-              </a>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      const respuestaHTML = `
-        <div class="space-y-3">
-          <div>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-sage-600 block">Resultado del Escáner Facial</span>
-            <h4 class="font-extrabold text-navy-900 text-base">${diag.titulo}</h4>
-            <p class="text-xs sm:text-sm text-slate-700 mt-1">${diag.resumen}</p>
-          </div>
-
-          <!-- Resumen visual de los 4 parámetros de la cara -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            ${metricasHTML}
-          </div>
-
-          <p class="text-xs bg-white p-3 rounded-xl border border-slate-200/80 text-slate-700">
-            💡 <strong>Recomendación dermatológica:</strong> ${diag.consejoClave}
-          </p>
-
-          <div>
-            <p class="text-xs font-bold text-navy-900 mb-2">Productos originales recomendados con enlace directo al mejor precio:</p>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              ${tarjetasProductosHTML}
-            </div>
-          </div>
+        <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex justify-between items-center text-xs"><span class="font-semibold text-slate-600">Puntos Negros / Poros</span><span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${nPoros.cls}">${nPoros.txt}</span></div>
+          <p class="text-xl font-extrabold text-slate-900 mt-1">${pctPuntosNegros}%</p>
+          <p class="text-[11px] text-slate-500">Comedones en nariz y Zona T</p>
         </div>
-      `;
-
-      agregarBurbujaChat(respuestaHTML, false);
-      historialChat.push({
-        role: "model",
-        parts: [{ text: `Diagnóstico realizado: ${diag.titulo}. ${diag.resumen.replace(/<[^>]*>/g, '')}` }]
-      });
-
-      actualizarSugerenciasRapidas([
-        "¿Por qué salen puntos negros en la nariz?",
-        "¿Cómo actúa el Ácido Salicílico en el acné?",
-        "¿Dónde está la Zona T y por qué brilla?"
-      ]);
-    }
-
-    function hacerPreguntaRapida(pregunta) {
-      document.getElementById('userChatInput').value = pregunta;
-      enviarMensajeUsuario(new Event('submit'));
-    }
-
-    // Genera mini tarjeta con foto real y link directo cuando el usuario pregunta en el chat
-    function renderizarMiniTarjetaChat(idProducto) {
-      const prod = PRODUCTOS_CHILE.find(p => p.id === idProducto);
-      if (!prod) return '';
-      const ordenados = [...prod.precios].sort((a, b) => a.valor - b.valor);
-      const mejor = ordenados[0];
-      return `
-        <div class="mt-2.5 p-3 rounded-2xl bg-white border border-slate-200 flex items-center gap-3 shadow-2xs">
-          <img src="${prod.imagenUrl}" 
-               onerror="this.onerror=null;this.src=generarFotoProductoRealista('${prod.fallbackKey}');" 
-               alt="${prod.nombre}" 
-               class="w-14 h-14 object-contain rounded-lg bg-cream p-1 border border-slate-100 shrink-0" />
-          <div class="flex-1 min-w-0">
-            <p class="text-[10px] font-bold text-sage-600 uppercase">${prod.marca}</p>
-            <h5 class="text-xs font-bold text-navy-900 truncate">${prod.nombre}</h5>
-            <p class="text-[11px] text-slate-500">Mejor precio: <strong class="text-sage-700">${formatearPesos(mejor.valor)} en ${mejor.farmacia}</strong></p>
-          </div>
-          <a href="${mejor.url}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-navy-900 hover:bg-sage-600 text-white text-xs font-bold shrink-0 transition">
-            Ir a ${mejor.farmacia} ↗
-          </a>
+        <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex justify-between items-center text-xs"><span class="font-semibold text-slate-600">Brillo / Sebo Zona T</span><span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${nBrillo.cls}">${nBrillo.txt}</span></div>
+          <p class="text-xl font-extrabold text-slate-900 mt-1">${pctBrillo}%</p>
+          <p class="text-[11px] text-slate-500">Luminancia especular frente/nariz</p>
+        </div>
+        <div class="p-3 rounded-xl border border-slate-200 bg-slate-50">
+          <div class="flex justify-between items-center text-xs"><span class="font-semibold text-slate-600">Hidratación Zona U</span><span class="px-1.5 py-0.5 rounded border text-[10px] font-bold ${nHidr.cls}">${nHidr.txt}</span></div>
+          <p class="text-xl font-extrabold text-slate-900 mt-1">${pctHidratacion}%</p>
+          <p class="text-[11px] text-slate-500">Barrera cutánea en mejillas</p>
         </div>
       `;
+
+      // Determinar hallazgo principal y búsqueda INCI real
+      let activos = ['Niacinamida', 'Protector Solar Oil Control'];
+      let queryRecomendada = 'La Roche Posay Effaclar gel';
+      let diagnosticoTexto = '';
+
+      if (pctAcne >= pctPuntosNegros && pctAcne >= 35) {
+        activos = ['Ácido Salicílico 2% (BHA)', 'Niacinamida', 'Zinc PCA'];
+        queryRecomendada = 'La Roche Posay Effaclar Duo';
+        diagnosticoTexto = `Se detectaron signos de <strong>acné leve / enrojecimiento (${pctAcne}%)</strong> acompañados de <strong>puntos negros en la zona nasal (${pctPuntosNegros}%)</strong> y brillo en la Zona T (${pctBrillo}%). Se priorizan activos seboreguladores y queratolíticos no comedogénicos.`;
+      } else if (pctPuntosNegros >= 35) {
+        activos = ['Ácido Salicílico (BHA)', 'Niacinamida 10%', 'Limpiador Espumoso'];
+        queryRecomendada = 'CeraVe limpiador control imperfecciones';
+        diagnosticoTexto = `El análisis muestra predominancia de <strong>poros dilatados / puntos negros (${pctPuntosNegros}%)</strong> y brillo en la Zona T (${pctBrillo}%), con hidratación en mejillas de ${pctHidratacion}%. Se recomiendan limpiadores con BHA para desobstruir poros sin dañar la barrera.`;
+      } else if (pctHidratacion < 50) {
+        activos = ['Ácido Hialurónico', 'Ceramidas 1, 3 y 6-II', 'Pantenol'];
+        queryRecomendada = 'Neutrogena Hydro Boost gel';
+        diagnosticoTexto = `Tu piel presenta tendencia a la <strong>deshidratación en Zona U (${pctHidratacion}%)</strong> con acné y puntos negros en rango bajo. Se priorizan humectantes ligeros y ceramidas reparadoras.`;
+      } else {
+        activos = ['Ceramidas', 'Niacinamida', 'FPS 50+ Toque Seco'];
+        queryRecomendada = 'Eucerin Sun Oil Control FPS 50';
+        diagnosticoTexto = `Perfil cutáneo <strong>mixto equilibrado</strong> (acné ${pctAcne}%, puntos negros ${pctPuntosNegros}%, hidratación ${pctHidratacion}%). Se sugiere una rutina preventiva de limpieza suave y fotoprotección diaria.`;
+      }
+
+      document.getElementById('resumenClinico').innerHTML = diagnosticoTexto;
+      document.getElementById('chipsActivos').innerHTML = `<span class="text-[11px] font-bold text-slate-500">Activos INCI sugeridos:</span>` +
+        activos.map(a => `<span class="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-teal-100 text-teal-800">${a}</span>`).join('');
+
+      document.getElementById('panelResultados').classList.remove('hidden');
+
+      // Enviar diagnóstico + consulta REAL a API directo al Chat y al Buscador
+      agregarMensajeChat('usuario', 'He realizado el escáner facial con mi foto real. ¿Qué análisis y productos me recomiendas?');
+      await responderConProductosReales(diagnosticoTexto, queryRecomendada, activos);
+      ejecutarBusquedaCatalogo(queryRecomendada);
     }
 
-    // Motor conversacional inteligente sobre Acné, Puntos Negros, Zona T, Poros y Farmacias Chilenas
-    function generarRespuestaExpertaLocal(textoUsuario) {
-      const q = textoUsuario.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    // =========================================================
+    // 4. ASISTENTE CONVERSACIONAL IA (CON FOTOS Y LINKS REALES EN CHAT)
+    // =========================================================
+    function agregarMensajeChat(remitente, htmlContenido) {
+      const cont = document.getElementById('chatMensajes');
+      const div = document.createElement('div');
+      if (remitente === 'usuario') {
+        div.className = 'flex justify-end';
+        div.innerHTML = `<div class="bg-slate-900 text-white rounded-2xl rounded-tr-none px-4 py-3 text-sm max-w-[85%] shadow-sm">${htmlContenido}</div>`;
+      } else {
+        div.className = 'flex gap-3';
+        div.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[92%] space-y-3">${htmlContenido}</div>
+        `;
+      }
+      cont.appendChild(div);
+      cont.scrollTop = cont.scrollHeight;
+      return div;
+    }
 
-      // 1. Consultas sobre Acné, Granitos, Espinillas o Puntos Negros
-      if (q.includes('acne') || q.includes('granito') || q.includes('espinilla') || q.includes('punto negro') || q.includes('puntos negros') || q.includes('comedon') || q.includes('salicilico')) {
-        seleccionarFiltro('Acné y Puntos Negros');
-        actualizarSugerenciasRapidas([
-          "¿Por qué no debo apretar los puntos negros?",
-          "¿Dónde está la Zona T y por qué brilla?",
-          "¿Puedo usar Niacinamida y Ácido Salicílico juntos?"
-        ]);
-        return `
-          <p class="font-semibold text-navy-900 mb-1.5">¿Por qué salen los puntos negros y el acné, y cómo eliminarlos?</p>
-          <p class="mb-2">Los <strong>puntos negros (comedones abiertos)</strong> aparecen cuando el exceso de sebo y células muertas tapona el poro; al quedar expuesto al aire, ese tapón se oxida con el oxígeno y toma color oscuro (¡no es suciedad!). En cambio, los <strong>granitos de acné</strong> ocurren cuando ese poro obstruido se inflama.</p>
-          <p class="mb-2">El ingrediente estrella es el <strong>Ácido Salicílico al 2% (BHA)</strong>, porque es liposoluble: entra directamente al poro, disuelve el tapón de grasa de los puntos negros y desinflama los granitos. Aquí tienes las mejores opciones con foto y link directo:</p>
-          ${renderizarMiniTarjetaChat(1)}
-          ${renderizarMiniTarjetaChat(2)}
+    async function responderConProductosReales(explicacionHTML, queryApi, activosInci = []) {
+      const loadingDiv = agregarMensajeChat('ia', `<p class="text-xs text-slate-500 animate-pulse">Consultando catálogo dermatológico en tiempo real para <strong>"${queryApi}"</strong>...</p>`);
+
+      const resultado = await buscarProductosEnVivo(queryApi);
+      const topItems = resultado.items.slice(0, 2);
+
+      let cardsHTML = '';
+      if (topItems.length > 0) {
+        cardsHTML = `
+          <div class="space-y-2.5 pt-1">
+            <p class="text-[11px] font-semibold text-slate-500">Productos obtenidos en vivo (${resultado.fuente}):</p>
+            ${topItems.map(item => {
+              const precio = item.priceText || formatearCLP(item.priceCLP);
+              return `
+                <div class="flex gap-3 p-2.5 rounded-xl border border-slate-200 bg-slate-50 items-center">
+                  <div class="w-16 h-16 bg-white rounded-lg border border-slate-200 flex items-center justify-center p-1 shrink-0">
+                    ${item.image
+                      ? `<img src="${item.image}" alt="${item.title.replace(/"/g, '&quot;')}" class="max-h-14 max-w-full object-contain" />`
+                      : `<span class="text-[10px] text-slate-400 text-center">Ver foto</span>`}
+                  </div>
+                  <div class="min-w-0 flex-1 space-y-1">
+                    <p class="text-xs font-bold text-slate-900 line-clamp-2">${item.title}</p>
+                    <p class="text-xs font-extrabold text-teal-700">${precio ? `${precio} (${item.store})` : 'Consultar precio vigente en farmacia'}</p>
+                    <div class="flex flex-wrap gap-1 pt-0.5">
+                      ${FARMACIAS_CHILE.map(f => `
+                        <a href="${f.buildUrl(item.title)}" target="_blank" rel="noopener noreferrer"
+                           class="text-[10px] font-semibold px-1.5 py-0.5 rounded border ${f.badge} hover:opacity-80">
+                          ${f.nombre} ↗
+                        </a>
+                      `).join('')}
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else {
+        cardsHTML = `
+          <div class="pt-1 space-y-1.5">
+            <p class="text-xs font-semibold text-slate-600">Busca en tiempo real <strong>${queryApi}</strong> en las farmacias de Chile:</p>
+            <div class="flex flex-wrap gap-1.5">
+              ${FARMACIAS_CHILE.map(f => `
+                <a href="${f.buildUrl(queryApi)}" target="_blank" rel="noopener noreferrer"
+                   class="text-[11px] font-semibold px-2 py-1 rounded border ${f.badge}">
+                  ${f.nombre} ↗
+                </a>
+              `).join('')}
+            </div>
+          </div>
         `;
       }
 
-      // 2. Consultas sobre qué pasa si se aprietan los granitos o puntos negros
-      if (q.includes('apretar') || q.includes('exprimir') || q.includes('marca') || q.includes('mancha')) {
-        actualizarSugerenciasRapidas([
-          "¿Qué protector solar no deja la cara brillante?",
-          "¿Cómo quitar puntos negros con Ácido Salicílico?",
-          "Ver precios en Dr. Simi y Cruz Verde"
-        ]);
-        return `
-          <p class="font-semibold text-navy-900 mb-1.5">Evita apretar los granitos o puntos negros</p>
-          <p class="mb-2">Al presionar un punto negro o espinilla con las uñas, rompes las paredes internas del poro, empujas bacterias hacia capas más profundas y generas una <strong>mancha oscura post-inflamatoria</strong> que tarda meses en irse.</p>
-          <p class="mb-1">Para tratar las marcas y evitar que el sol las oscurezca, usa siempre un protector solar matificante toque seco como este:</p>
-          ${renderizarMiniTarjetaChat(6)}
-        `;
-      }
+      const inciBadge = activosInci.length
+        ? `<p class="text-xs text-teal-800 bg-teal-50 border border-teal-100 rounded-lg px-2.5 py-1.5"><strong>Principios activos INCI:</strong> ${activosInci.join(' · ')}</p>`
+        : '';
 
-      // 3. Explicación de la Zona T y por qué se concentra ahí el brillo y los puntos negros
-      if (q.includes('zona t') || q.includes('donde esta') || q.includes('ubicacion') || (q.includes('por que') && (q.includes('brill') || q.includes('sebo') || q.includes('gras')))) {
-        seleccionarFiltro('Control de Brillo y Poros');
-        actualizarSugerenciasRapidas([
-          "¿Qué diferencia tiene con la Zona U (mejillas)?",
-          "¿Cómo quitar los puntos negros de la nariz?",
-          "¿Debo lavar mi cara más veces al día?"
-        ]);
-        return `
-          <p class="font-semibold text-navy-900 mb-1.5">¿Dónde está la Zona T y por qué salen brillo y puntos negros ahí?</p>
-          <p class="mb-2">La <strong>Zona T</strong> forma una letra "T" en tu cara: cubre la <strong>frente</strong> (línea horizontal) y baja por toda la <strong>nariz hasta el mentón</strong> (línea vertical).</p>
-          <p class="mb-2">En esta zona tienes hasta el doble de <strong>glándulas sebáceas</strong> que en las mejillas. Por eso es el lugar donde más se nota el brillo durante el día y donde los poros de las aletas de la nariz acumulan sebo oxidado formando <strong>puntos negros</strong>. Para regularla sin resecar, la mejor alternativa calidad-precio en Chile es esta:</p>
-          ${renderizarMiniTarjetaChat(3)}
-        `;
-      }
-
-      // 4. Diferencia con Zona U / Mejillas o piel seca
-      if (q.includes('zona u') || q.includes('mejilla') || q.includes('seca') || q.includes('tirante') || q.includes('hialuronico')) {
-        seleccionarFiltro('Hidratación y Piel Sensible');
-        actualizarSugerenciasRapidas([
-          "¿En qué orden aplico mi rutina?",
-          "¿Cómo tratar puntos negros y mejillas secas a la vez?",
-          "Ver precios en Maicao y Salcobrand"
-        ]);
-        return `
-          <p class="font-semibold text-navy-900 mb-1.5">Cuidado de la Zona U (Mejillas) e Hidratación sin grasa</p>
-          <p class="mb-2">La <strong>Zona U</strong> comprende tus mejillas, pómulos y contorno mandibular. Tiene muchas menos glándulas de grasa que la nariz, por lo que suele deshidratarse o ponerse tirante si usas productos muy agresivos.</p>
-          <p class="mb-1">Te sugiero hidratar con texturas en <strong>gel acuoso con Ácido Hialurónico</strong> que hidratan a fondo sin sacar granitos ni brillo:</p>
-          ${renderizarMiniTarjetaChat(5)}
-        `;
-      }
-
-      // 5. Orden de aplicación o combinación de activos
-      if (q.includes('orden') || q.includes('paso') || q.includes('juntos') || q.includes('combinar') || q.includes('rutina')) {
-        actualizarSugerenciasRapidas([
-          "Tengo puntos negros y acné, ¿qué uso?",
-          "¿Dónde está la Zona T?",
-          "¿Dónde está más barato CeraVe hoy?"
-        ]);
-        return `
-          <p class="font-semibold text-navy-900 mb-1.5">Orden exacto para aplicar tu rutina (Mañana y Noche):</p>
-          <ol class="list-decimal pl-5 space-y-1 text-slate-700 mb-2">
-            <li><strong>Limpiador en gel:</strong> (Ej. CeraVe Espumoso o Effaclar Gel) sobre rostro húmedo por 40 segundos, insistiendo en nariz y mentón.</li>
-            <li><strong>Sérum o Tratamiento focalizado:</strong> Niacinamida 10% por la mañana para el brillo, y corrector con Ácido Salicílico (Effaclar Duo+M) por la noche sobre granitos y puntos negros.</li>
-            <li><strong>Hidratante ligero en gel:</strong> Para mantener la barrera sana.</li>
-            <li><strong>Protector Solar Toque Seco (de día):</strong> Fundamental para que las marcas de acné no se manchen con el sol.</li>
-          </ol>
-          ${renderizarMiniTarjetaChat(4)}
-        `;
-      }
-
-      // 6. Respuesta general con productos destacados y precios en todas las farmacias
-      return `
-        <p class="mb-2">Puedo ayudarte a tratar <strong>granitos de acné, puntos negros en la nariz, poros dilatados, brillo en la Zona T o deshidratación en las mejillas</strong>, comparando precios en <strong>Cruz Verde, Salcobrand, Dr. Simi, Farmacias Ahumada, Preunic y Maicao</strong>.</p>
-        <p class="text-xs text-slate-600 mb-2">Aquí tienes dos de los productos más buscados en Chile con su enlace directo más económico:</p>
-        ${renderizarMiniTarjetaChat(1)}
-        ${renderizarMiniTarjetaChat(3)}
+      loadingDiv.querySelector('.bg-white').innerHTML = `
+        <p>${explicacionHTML}</p>
+        ${inciBadge}
+        ${cardsHTML}
       `;
+      document.getElementById('chatMensajes').scrollTop = document.getElementById('chatMensajes').scrollHeight;
     }
 
-    async function enviarMensajeUsuario(event) {
-      event.preventDefault();
-      const input = document.getElementById('userChatInput');
-      const texto = input.value.trim();
-      if (!texto) return;
+    async function procesarPreguntaUsuario(texto) {
+      agregarMensajeChat('usuario', texto);
+      const t = texto.toLowerCase();
 
-      agregarBurbujaChat(texto, true);
-      historialChat.push({ role: "user", parts: [{ text: texto }] });
+      if (t.includes('punto') || t.includes('poro') || t.includes('nariz')) {
+        await responderConProductosReales(
+          'Para <strong>puntos negros y poros dilatados</strong>, lo más efectivo bajo evidencia dermatológica es un limpiador o sérum con <strong>Ácido Salicílico (BHA)</strong>, ya que es liposoluble y penetra dentro del poro para disolver el sebo oxidado.',
+          'CeraVe limpiador acido salicilico',
+          ['Salicylic Acid (BHA)', 'Niacinamide', 'Ceramides']
+        );
+      } else if (t.includes('acn') || t.includes('grano') || t.includes('brote') || t.includes('espinilla')) {
+        await responderConProductosReales(
+          'Para <strong>acné leve y brotes inflamatorios</strong>, busca tratamientos correctores no comedogénicos con <strong>Ácido Salicílico, LHA o Niacinamida</strong>, evitando exfoliantes físicos agresivos que empeoran la inflamación.',
+          'La Roche Posay Effaclar Duo',
+          ['Salicylic Acid', 'Niacinamide', 'Zinc PCA']
+        );
+      } else if (t.includes('brill') || t.includes('grasa') || t.includes('sebo') || t.includes('zona t')) {
+        await responderConProductosReales(
+          'Para controlar el <strong>exceso de brillo y sebo en la Zona T</strong> sin resecar tus mejillas, la <strong>Niacinamida al 5%–10%</strong> y los geles limpiadores espumosos sin jabón equilibran la producción sebácea.',
+          'The Ordinary Niacinamida 10',
+          ['Niacinamide', 'Zinc PCA']
+        );
+      } else if (t.includes('solar') || t.includes('bloqueador') || t.includes('sol')) {
+        await responderConProductosReales(
+          'Un <strong>protector solar FPS 50+ toque seco (Oil Control)</strong> es indispensable, especialmente si usas ácidos exfoliantes, para prevenir marcas post-acné sin dejar residuo graso.',
+          'Eucerin Sun Oil Control FPS 50',
+          ['L-Carnitine', 'Licochalcone A', 'Filtros UVA/UVB']
+        );
+      } else if (t.includes('seca') || t.includes('hidrat') || t.includes('tirante')) {
+        await responderConProductosReales(
+          'Para mejorar la <strong>hidratación de la barrera cutánea</strong> sin obstruir poros, opta por gel-cremas con <strong>Ácido Hialurónico y Ceramidas</strong> aplicados sobre la piel ligeramente húmeda.',
+          'Neutrogena Hydro Boost gel',
+          ['Hyaluronic Acid', 'Glycerin', 'Ceramides']
+        );
+      } else {
+        await responderConProductosReales(
+          `Consulté en vivo opciones dermatológicas relacionadas con <strong>"${texto}"</strong> para que compares disponibilidad y precio real en farmacias de Chile:`,
+          texto,
+          ['Búsqueda abierta en API']
+        );
+      }
+    }
+
+    function manejarEnvioChat(e) {
+      e.preventDefault();
+      const input = document.getElementById('inputChat');
+      const txt = input.value.trim();
+      if (!txt) return;
       input.value = '';
-
-      const typingId = mostrarIndicadorEscritura();
-      await new Promise(r => setTimeout(r, 380));
-      const respuestaHTML = generarRespuestaExpertaLocal(texto);
-      ocultarIndicadorEscritura(typingId);
-
-      agregarBurbujaChat(respuestaHTML, false);
+      procesarPreguntaUsuario(txt);
     }
 
-    function reiniciarConversacion() {
-      detenerCamara();
-      historialChat = [];
-      ultimoDiagnosticoUsuario = null;
-      const chatBox = document.getElementById('chatBox');
-      chatBox.innerHTML = '';
-      agregarBurbujaChat("Chat reiniciado. Activa tu cámara a la izquierda, elige uno de los <strong>3 casos de simulación</strong> (acné, puntos negros o piel seca) o escríbeme tu consulta.", false);
-      actualizarSugerenciasRapidas([
-        "Tengo puntos negros en la nariz y granitos de acné, ¿qué me recomiendas?",
-        "¿Dónde está exactamente la Zona T y por qué salen puntos negros y brillo ahí?",
-        "¿En qué orden debo aplicar mi rutina facial?"
-      ]);
+    function enviarConsultaRapida(texto) {
+      procesarPreguntaUsuario(texto);
     }
 
-    window.addEventListener('DOMContentLoaded', renderizarCatalogo);
+    function reiniciarChat() {
+      document.getElementById('chatMensajes').innerHTML = `
+        <div class="flex gap-3">
+          <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-xs font-bold shrink-0">IA</div>
+          <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-none p-4 text-sm text-slate-700 shadow-sm max-w-[90%]">
+            Chat reiniciado. Activa el escáner con tu cámara o sube una foto real para diagnosticar tu rostro y buscar productos en vivo.
+          </div>
+        </div>
+      `;
+    }
+
+    // Carga inicial en vivo al abrir la página
+    window.addEventListener('DOMContentLoaded', () => {
+      ejecutarBusquedaCatalogo('La Roche Posay Effaclar');
+    });
   </script>
 </body>
 </html>
